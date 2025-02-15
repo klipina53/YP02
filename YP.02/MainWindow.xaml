@@ -1,0 +1,72 @@
+﻿<Window x:Class="YP._02.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:YP._02"
+        mc:Ignorable="d"
+        Title="Электронный журнал" Height="450" Width="800" MinHeight="450" MinWidth="800"  Background="#FF090A1E" >
+    <Viewbox>
+        <Grid HorizontalAlignment="Center" Width="800" Height="434" VerticalAlignment="Bottom">
+            <Grid.Background>
+                <ImageBrush ImageSource="C:\Users\student-a502\Documents\YP.02\YP.02\Images\fon.jpg" Stretch="UniformToFill"/>
+            </Grid.Background>
+            <Image Margin="0,0,0,82" Source="/Images/image.png" Stretch="Fill" HorizontalAlignment="Center" Width="360" Height="270" VerticalAlignment="Bottom" />
+            <Image Margin="0,0,0,312" Source="/Images/WELCOME.png" Stretch="Fill" HorizontalAlignment="Center" Width="200" Height="23" VerticalAlignment="Bottom"/>
+            <Line X1="0" Y1="100" X2="285" Y2="100" Stroke="White" StrokeThickness="2" Margin="0,0,0,290" VerticalAlignment="Bottom" Height="112" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Center" Width="284">
+                <Line.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform AngleY="0.056"/>
+                        <RotateTransform/>
+                        <TranslateTransform Y="0.166"/>
+                    </TransformGroup>
+                </Line.RenderTransform>
+            </Line>
+            <TextBox x:Name="usernameTextBox"
+                     Background="#73DEDCDC"
+                     FontFamily="Microsoft YaHei"
+                     VerticalContentAlignment="Center"
+                     HorizontalAlignment="Right"
+                     Height="27"
+                     Margin="0,0,258,249"
+                     VerticalAlignment="Bottom"
+                     Width="239"
+                     Foreground="White"
+                     BorderBrush="{x:Null}"
+                     Text="Username"
+                     GotFocus="UsernameTextBox_GotFocus"
+                     LostFocus="UsernameTextBox_LostFocus" />
+            <TextBlock x:Name="placeholderText"
+                        Text="*********"
+                        FontFamily="Microsoft YaHei"
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Left"
+                        Margin="307,0,0,0" 
+                        Foreground="LightGray"
+                        IsHitTestVisible="False"
+                        Visibility="Visible"
+                        Width="239"/>
+            <PasswordBox x:Name="password"
+                         Background="#73DEDCDC"
+                         FontFamily="Microsoft YaHei"
+                         VerticalContentAlignment="Center"
+                         HorizontalAlignment="Right"
+                         Height="28"
+                         Margin="0,0,258,204"
+                         VerticalAlignment="Bottom"
+                         Width="239"
+                         Foreground="White"
+                         BorderBrush="{x:Null}"
+                         PasswordChar="*"       
+                         GotFocus="Password_GotFocus"
+                         PasswordChanged="Password_PasswordChanged"/>
+            <Image Margin="0,0,498,207" Source="/Images/zamok.png" Stretch="Fill" HorizontalAlignment="Right" Width="28" Height="23" VerticalAlignment="Bottom"/>
+            <Button Click="Entrance" Foreground="White" HorizontalAlignment="Right" Height="27" Margin="0,0,258,157" VerticalAlignment="Bottom" Width="239" Background="#80ED4649" BorderBrush="{x:Null}" />
+            <Image Margin="0,0,336,163" Source="/Images/LOGIN.png" Stretch="Fill" HorizontalAlignment="Right" Width="84" Height="15" VerticalAlignment="Bottom"/>
+            <Image Margin="0,0,498,249" Source="/Images/icons.png" Stretch="Fill" HorizontalAlignment="Right" Width="28" Height="27" VerticalAlignment="Bottom" />
+            <CheckBox Content="Remember me" HorizontalAlignment="Right" Margin="0,0,419,118" VerticalAlignment="Bottom" Width="107" Foreground="White" FontFamily="Microsoft YaHei" BorderBrush="{x:Null}"/>
+        </Grid>
+    </Viewbox>
+
+</Window>
