@@ -11,7 +11,83 @@
         <ImageBrush ImageSource="C:\Users\student-a502\Documents\YP.02\YP.02\Images\fon.jpg" Stretch="UniformToFill"/>
     </Page.Background>
     <Grid>
-   
+        <Label Content="Выход" Foreground="White" Margin="700,6,42,414" FontSize="16"/>
+        <Button  Width="100" Height="30" Margin="679,10,21,410" BorderBrush="{x:Null}" Opacity="0.36" Background="White" Click="Button_Click_1">
+            <Button.Style>
+                <Style TargetType="Button">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="Button">
+                                <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="10">
+                                    <!-- Добавляем CornerRadius -->
+                                    <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Button.Style>
+        </Button>
+        <Button Content="Дисциплина" HorizontalAlignment="Left" Height="96" Margin="26,54,0,0" VerticalAlignment="Top" Width="145" Click="Button_Click" Foreground="White" BorderBrush="{x:Null}">
+            <Button.Background>
+                <ImageBrush ImageSource="/image 9 (1).png"/>
+            </Button.Background>
+        </Button>
+        <Button Content="Группы" HorizontalAlignment="Left" Height="96" Margin="236,54,0,0" VerticalAlignment="Top" Foreground="White" Width="145" Click="Button_Click" BorderBrush="{x:Null}">
+            <Button.Background>
+                <ImageBrush ImageSource="/image 9 (1).png"/>
+            </Button.Background>
+        </Button>
+        <Button Content=" Количество&#xD;&#xA;проведённых&#xD;&#xA;     занятий" HorizontalContentAlignment="Center"  Height="96" Margin="438,54,218,0" VerticalAlignment="Top" Foreground="White" Click="Button_Click" VerticalContentAlignment="Center" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" UseLayoutRounding="False" BorderThickness="1,1,1,1" IsDefault="True" FontSize="14" BorderBrush="{x:Null}">
+            <Button.Background>
+                <ImageBrush ImageSource="/image 9 (1).png"/>
+            </Button.Background>
+        </Button>
+        <Button Content=" Количество&#xD;&#xA;проведённых&#xD;&#xA;     часов" Foreground="White" Height="96" Margin="625,54,0,0" VerticalAlignment="Top" Click="Button_Click" HorizontalAlignment="Left" Width="140" BorderBrush="{x:Null}">
+            <Button.Background>
+                <ImageBrush ImageSource="/image 9 (1).png"/>
+            </Button.Background>
+        </Button>
+        <Button Content="Студенты" Foreground="White" Height="96" Margin="35,208,620,0" VerticalAlignment="Top" Click="Button_Click" BorderBrush="{x:Null}">
+            <Button.Background>
+                <ImageBrush ImageSource="/image 9 (1).png"/>
+            </Button.Background>
+        </Button>
+        <Button Content="    Программа&#xD;&#xA;    дисциплины" HorizontalAlignment="Left" Foreground="White" Height="96" Margin="236,208,0,0" VerticalAlignment="Top" Width="146" Click="Button_Click" BorderBrush="{x:Null}">
+            <Button.Background>
+                <ImageBrush ImageSource="/image 9 (1).png"/>
+            </Button.Background>
+        </Button>
+        <Button Content="     Нагрузка&#xD;&#xA;преподавателя" Foreground="White" Height="96" Margin="438,208,218,0" VerticalAlignment="Top" Click="Button_Click" BorderBrush="{x:Null}">
+            <Button.Background>
+                <ImageBrush ImageSource="/image 9 (1).png"/>
+            </Button.Background>
+        </Button>
+        <Button Content="Консультации" Foreground="White" Height="96" Margin="625,208,35,0" VerticalAlignment="Top" Click="Button_Click" BorderBrush="{x:Null}">
+            <Button.Background>
+                <ImageBrush ImageSource="/image 9 (1).png"/>
+            </Button.Background>
+        </Button>
+        <Button Content="Пропуски занятий" HorizontalAlignment="Left" Foreground="White" Height="96" Margin="125,329,0,0" VerticalAlignment="Top" Width="145" Click="Button_Click" BorderBrush="{x:Null}">
+            <Button.Background>
+                <ImageBrush ImageSource="/image 9 (1).png"/>
+            </Button.Background>
+        </Button>
+        <Button Content="Преподаватели" HorizontalAlignment="Center" Foreground="White" Height="96" Margin="0,329,0,0" VerticalAlignment="Top" Width="144" Click="Button_Click" BorderBrush="{x:Null}">
+            <Button.Background>
+                <ImageBrush ImageSource="/image 9 (1).png"/>
+            </Button.Background>
+        </Button>
+        <Button Content="Оценки" HorizontalAlignment="Left" Foreground="White" Height="96" Margin="532,329,0,0" VerticalAlignment="Top" Width="144" Click="Button_Click" BorderBrush="{x:Null}">
+            <Button.Background>
+                <ImageBrush ImageSource="/image 9 (1).png"/>
+            </Button.Background>
+        </Button>
+
 
     </Grid>
 </Page> 
