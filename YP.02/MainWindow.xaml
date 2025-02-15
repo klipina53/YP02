@@ -8,9 +8,12 @@
         Title="Электронный журнал" Height="450" Width="800" MinHeight="450" MinWidth="800"  Background="#FF090A1E" >
     <Viewbox>
         <Grid HorizontalAlignment="Center" Width="800" Height="434" VerticalAlignment="Bottom">
-            <Grid.Background>
-                <ImageBrush ImageSource="C:\Users\student-a502\Documents\YP.02\YP.02\Images\fon.jpg" Stretch="UniformToFill"/>
-            </Grid.Background>
+
+            <Frame Name="mainFrame" NavigationUIVisibility="Hidden">
+                <Frame.Background>
+                    <ImageBrush ImageSource="\Images\fon.jpg" Stretch="UniformToFill"/>
+                </Frame.Background>
+            </Frame>
             <Image Margin="0,0,0,82" Source="/Images/image.png" Stretch="Fill" HorizontalAlignment="Center" Width="360" Height="270" VerticalAlignment="Bottom" />
             <Image Margin="0,0,0,312" Source="/Images/WELCOME.png" Stretch="Fill" HorizontalAlignment="Center" Width="200" Height="23" VerticalAlignment="Bottom"/>
             <Line X1="0" Y1="100" X2="285" Y2="100" Stroke="White" StrokeThickness="2" Margin="0,0,0,290" VerticalAlignment="Bottom" Height="112" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Center" Width="284">

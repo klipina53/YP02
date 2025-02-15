@@ -5,14 +5,13 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:YP._02"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
       Title="HomePage">
     <Page.Background>
-        <ImageBrush ImageSource="C:\Users\student-a502\Documents\YP.02\YP.02\Images\fon.jpg" Stretch="UniformToFill"/>
+        <ImageBrush ImageSource="\Images\fon.jpg" Stretch="UniformToFill"/>
     </Page.Background>
-    <Grid>
-        <Label Content="Выход" Foreground="White" Margin="700,6,42,414" FontSize="16"/>
-        <Button  Width="100" Height="30" Margin="679,10,21,410" BorderBrush="{x:Null}" Opacity="0.36" Background="White" Click="Button_Click_1">
+    <Viewbox>
+        <Grid>
+        <Button Content="Выход"  Width="100" Height="30" Margin="679,10,21,410" BorderBrush="{x:Null}" Opacity="0.36" Background="White" Click="Exit" Foreground="#FF0D34C8">
             <Button.Style>
                 <Style TargetType="Button">
                     <Setter Property="Template">
@@ -32,7 +31,8 @@
                 </Style>
             </Button.Style>
         </Button>
-        <Button Content="Дисциплина" HorizontalAlignment="Left" Height="96" Margin="26,54,0,0" VerticalAlignment="Top" Width="145" Click="Button_Click" Foreground="White" BorderBrush="{x:Null}">
+
+            <Button Content="Дисциплина" HorizontalAlignment="Left" Height="96" Margin="26,54,0,0" VerticalAlignment="Top" Width="145" Click="Button_Click" Foreground="White" BorderBrush="{x:Null}">
             <Button.Background>
                 <ImageBrush ImageSource="/image 9 (1).png"/>
             </Button.Background>
@@ -42,7 +42,7 @@
                 <ImageBrush ImageSource="/image 9 (1).png"/>
             </Button.Background>
         </Button>
-        <Button Content=" Количество&#xD;&#xA;проведённых&#xD;&#xA;     занятий" HorizontalContentAlignment="Center"  Height="96" Margin="438,54,218,0" VerticalAlignment="Top" Foreground="White" Click="Button_Click" VerticalContentAlignment="Center" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" UseLayoutRounding="False" BorderThickness="1,1,1,1" IsDefault="True" FontSize="14" BorderBrush="{x:Null}">
+        <Button Content=" Количество&#xD;&#xA;проведённых&#xD;&#xA;     занятий" HorizontalContentAlignment="Center"  Height="96" Margin="438,54,218,0" VerticalAlignment="Top" Foreground="White" Click="Button_Click" VerticalContentAlignment="Center" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" UseLayoutRounding="False" BorderThickness="1,1,1,1" FontSize="14" BorderBrush="{x:Null}">
             <Button.Background>
                 <ImageBrush ImageSource="/image 9 (1).png"/>
             </Button.Background>
@@ -90,4 +90,5 @@
 
 
     </Grid>
+    </Viewbox>
 </Page> 

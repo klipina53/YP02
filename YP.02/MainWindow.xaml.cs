@@ -23,15 +23,28 @@ namespace YP._02
         public MainWindow()
         {
             InitializeComponent();
-         
         }
-
-
 
         private void Entrance(object sender, RoutedEventArgs e)
         {
-            
+            // Создаем экземпляр HomePage
+            HomePage homePage = new HomePage();
+            // Создаем Frame для навигации
+            Frame mainFrame = new Frame();
+            mainFrame.Navigate(homePage);
+            // Открываем новое окно с Frame
+            Window homeWindow = new Window
+            {
+                Title = "HomePage",
+                Content = mainFrame,
+                Width = 800,
+                Height = 450,
+            };
+            homeWindow.Show();
+            this.Close(); // Закрываем текущее окно
         }
+    
+
 
         private void Forgot_my_password(object sender, RoutedEventArgs e)
         {
