@@ -18,7 +18,7 @@ namespace YP._02
     /// <summary>
     /// Логика взаимодействия для MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : Page
     {
         public MainWindow()
         {
@@ -27,23 +27,10 @@ namespace YP._02
 
         private void Entrance(object sender, RoutedEventArgs e)
         {
-            // Создаем экземпляр HomePage
-            HomePage homePage = new HomePage();
-            // Создаем Frame для навигации
-            Frame mainFrame = new Frame();
-            mainFrame.Navigate(homePage);
-            // Открываем новое окно с Frame
-            Window homeWindow = new Window
-            {
-                Title = "HomePage",
-                Content = mainFrame,
-                Width = 800,
-                Height = 450,
-            };
-            homeWindow.Show();
-            this.Close(); // Закрываем текущее окно
+            this.NavigationService.Navigate(new Stranici.HomePage());
+
         }
-    
+
 
 
         private void Forgot_my_password(object sender, RoutedEventArgs e)

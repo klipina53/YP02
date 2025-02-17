@@ -1,17 +1,17 @@
-﻿<Window x:Class="YP._02.MainWindow"
+﻿<Page x:Class="YP._02.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:YP._02"
         mc:Ignorable="d"
-        Title="Электронный журнал" Height="450" Width="800" MinHeight="450" MinWidth="800"  Background="#FF090A1E" >
+        Title="Электронный журнал"   Background="#FF090A1E" >
     <Viewbox>
         <Grid HorizontalAlignment="Center" Width="800" Height="434" VerticalAlignment="Bottom">
 
-            <Frame Name="mainFrame" NavigationUIVisibility="Hidden">
+            <Frame Name="mainFrame" NavigationUIVisibility="Hidden" Height="434" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="800">
                 <Frame.Background>
-                    <ImageBrush ImageSource="\Images\fon.jpg" Stretch="UniformToFill"/>
+                    <ImageBrush ImageSource=".\Images\fon.jpg" Stretch="UniformToFill"/>
                 </Frame.Background>
             </Frame>
             <Image Margin="0,0,0,82" Source="/Images/image.png" Stretch="Fill" HorizontalAlignment="Center" Width="360" Height="270" VerticalAlignment="Bottom" />
@@ -72,4 +72,4 @@
         </Grid>
     </Viewbox>
 
-</Window>
+</Page>
