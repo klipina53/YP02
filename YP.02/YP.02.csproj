@@ -55,6 +55,21 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Stranici\Konsultaishin.xaml.cs">
+      <DependentUpon>Konsultaishin.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Stranici\PrepodavatelNagruzka.xaml.cs">
+      <DependentUpon>PrepodavatelNagruzka.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Stranici\ProgramsDsciplin.xaml.cs">
+      <DependentUpon>ProgramsDsciplin.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Stranici\PropuskiZanyatiy.xaml.cs">
+      <DependentUpon>PropuskiZanyatiy.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Stranici\StudentsWindow.xaml.cs">
+      <DependentUpon>StudentsWindow.xaml</DependentUpon>
+    </Compile>
     <Page Include="Stranici\DisciplineWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -81,6 +96,26 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Stranici\Konsultaishin.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Stranici\PrepodavatelNagruzka.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Stranici\ProgramsDsciplin.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Stranici\PropuskiZanyatiy.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Stranici\StudentsWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">

@@ -41,61 +41,31 @@ namespace YP._02.Stranici
 
         }
 
-
-
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void Students(object sender, RoutedEventArgs e)
         {
-
+            this.NavigationService.Navigate(new Stranici.StudentsWindow());
         }
 
-        private void Button_Click1(object sender, RoutedEventArgs e)
-        {
+     
 
+        private void Nagruzka(object sender, RoutedEventArgs e)
+        {
+            this.NavigationService.Navigate(new Stranici.PrepodavatelNagruzka());
         }
 
-        private void Button_Click2(object sender, RoutedEventArgs e)
+        private void Propuski(object sender, RoutedEventArgs e)
         {
-
+            this.NavigationService.Navigate(new Stranici.PropuskiZanyatiy());
         }
 
-        private void Button_Click3(object sender, RoutedEventArgs e)
+        private void Programma_Disciplini(object sender, RoutedEventArgs e)
         {
-
+            this.NavigationService.Navigate(new Stranici.ProgramsDsciplin());
         }
 
-        private void Button_Click4(object sender, RoutedEventArgs e)
+        private void Konsultacii(object sender, RoutedEventArgs e)
         {
-
-        }
-
-        private void Button_Click5(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void Button_Click6(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void Button_Click7(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void Button_Click8(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void Button_Click9(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void Button_Click0(object sender, RoutedEventArgs e)
-        {
-
+            this.NavigationService.Navigate(new Stranici.Konsultaishin());
         }
     }
 }

@@ -11,12 +11,12 @@
 
             <Frame Name="mainFrame" NavigationUIVisibility="Hidden" Height="434" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="800">
                 <Frame.Background>
-                    <ImageBrush ImageSource=".\Images\fon.jpg" Stretch="UniformToFill"/>
+                    <ImageBrush ImageSource="\Images\fon.jpg" Stretch="UniformToFill"/>
                 </Frame.Background>
             </Frame>
             <Image Margin="0,0,0,82" Source="/Images/image.png" Stretch="Fill" HorizontalAlignment="Center" Width="360" Height="270" VerticalAlignment="Bottom" />
             <Image Margin="0,0,0,312" Source="/Images/WELCOME.png" Stretch="Fill" HorizontalAlignment="Center" Width="200" Height="23" VerticalAlignment="Bottom"/>
-            <Line X1="0" Y1="100" X2="285" Y2="100" Stroke="White" StrokeThickness="2" Margin="0,0,0,290" VerticalAlignment="Bottom" Height="112" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Center" Width="284">
+            <Line X1="0" Y1="100" X2="285" Y2="100" Stroke="White" StrokeThickness="2" Margin="0,32,0,0" VerticalAlignment="Top" Height="112" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Center" Width="284">
                 <Line.RenderTransform>
                     <TransformGroup>
                         <ScaleTransform/>
@@ -65,8 +65,8 @@
                          GotFocus="Password_GotFocus"
                          PasswordChanged="Password_PasswordChanged"/>
             <Image Margin="0,0,498,207" Source="/Images/zamok.png" Stretch="Fill" HorizontalAlignment="Right" Width="28" Height="23" VerticalAlignment="Bottom"/>
-            <Button Click="Entrance" Foreground="White" HorizontalAlignment="Right" Height="27" Margin="0,0,258,157" VerticalAlignment="Bottom" Width="239" Background="#80ED4649" BorderBrush="{x:Null}" />
             <Image Margin="0,0,336,163" Source="/Images/LOGIN.png" Stretch="Fill" HorizontalAlignment="Right" Width="84" Height="15" VerticalAlignment="Bottom"/>
+            <Button Click="Entrance" Foreground="White" HorizontalAlignment="Right" Height="27" Margin="0,0,258,157" VerticalAlignment="Bottom" Width="239" Background="#80ED4649" BorderBrush="{x:Null}" />
             <Image Margin="0,0,498,249" Source="/Images/icons.png" Stretch="Fill" HorizontalAlignment="Right" Width="28" Height="27" VerticalAlignment="Bottom" />
             <CheckBox Content="Remember me" HorizontalAlignment="Right" Margin="0,0,419,118" VerticalAlignment="Bottom" Width="107" Foreground="White" FontFamily="Microsoft YaHei" BorderBrush="{x:Null}"/>
         </Grid>
