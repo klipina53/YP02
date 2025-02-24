@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using YP._02.Stranici;
 
 namespace YP._02
 {
@@ -27,11 +28,28 @@ namespace YP._02
 
         private void Entrance(object sender, RoutedEventArgs e)
         {
-            this.NavigationService.Navigate(new Stranici.HomePage());
+            string adminUsername = "admin";
+            string adminPassword = "admin123";
 
+            string teacherUsername = "prepod";
+            string teacherPassword = "prepod123";
+
+            string enteredUsername = usernameTextBox.Text;
+            string enteredPassword = password.Password;
+
+            if (enteredUsername == adminUsername && enteredPassword == adminPassword)
+            {
+                this.NavigationService.Navigate(new HomePageAdministration());
+            }
+            else if (enteredUsername == teacherUsername && enteredPassword == teacherPassword)
+            {
+                this.NavigationService.Navigate(new HomePage());
+            }
+            else
+            {
+                MessageBox.Show("Неправильный логин или пароль!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
-
-
 
         private void Forgot_my_password(object sender, RoutedEventArgs e)
         {

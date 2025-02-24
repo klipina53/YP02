@@ -1,0 +1,76 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
+
+namespace YP._02.Stranici
+{
+    /// <summary>
+    /// Логика взаимодействия для HomePage.xaml
+    /// </summary>
+    public partial class HomePageAdministration : Page
+    {
+        public HomePageAdministration()
+        {
+            InitializeComponent();
+        }
+
+    
+
+        private void Exit(object sender, RoutedEventArgs e)
+        {
+            this.NavigationService.Navigate(new MainWindow());
+
+        }
+
+        private void Discipline(object sender, RoutedEventArgs e)
+
+        {
+
+            this.NavigationService.Navigate(new Stranici.DisciplineWindow());
+
+        }
+
+        private void Students(object sender, RoutedEventArgs e)
+        {
+            this.NavigationService.Navigate(new Stranici.StudentsWindow());
+        }
+
+     
+
+        private void Nagruzka(object sender, RoutedEventArgs e)
+        {
+            this.NavigationService.Navigate(new Stranici.PrepodavatelNagruzka());
+        }
+
+        private void Propuski(object sender, RoutedEventArgs e)
+        {
+            this.NavigationService.Navigate(new Stranici.PropuskiZanyatiy());
+        }
+
+        private void Programma_Disciplini(object sender, RoutedEventArgs e)
+        {
+            this.NavigationService.Navigate(new Stranici.ProgramsDsciplin());
+        }
+
+        private void Konsultacii(object sender, RoutedEventArgs e)
+        {
+            this.NavigationService.Navigate(new Stranici.Konsultaishin());
+        }
+
+        private void Prepods(object sender, RoutedEventArgs e)
+        {
+            this.NavigationService.Navigate(new Stranici.Prepodavateli());
+        }
+    }
+}

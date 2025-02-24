@@ -55,8 +55,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Stranici\HomePageAdministration.xaml.cs">
+      <DependentUpon>HomePageAdministration.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Stranici\Konsultaishin.xaml.cs">
       <DependentUpon>Konsultaishin.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Stranici\Prepodavateli.xaml.cs">
+      <DependentUpon>Prepodavateli.xaml</DependentUpon>
     </Compile>
     <Compile Include="Stranici\PrepodavatelNagruzka.xaml.cs">
       <DependentUpon>PrepodavatelNagruzka.xaml</DependentUpon>
@@ -73,6 +79,10 @@
     <Page Include="Stranici\DisciplineWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Stranici\HomePageAdministration.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Stranici\HomePage.xaml">
       <SubType>Designer</SubType>
@@ -97,6 +107,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Stranici\Konsultaishin.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Stranici\Prepodavateli.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
