@@ -21,11 +21,13 @@ namespace YP._02.Stranici
     public partial class StudentsWindow : Page
     {
         private UserRole currentUserRole;
+        private bool editMode;
 
         public StudentsWindow(UserRole userRole)
         {
             InitializeComponent();
             currentUserRole = userRole;
+            editMode = false;
         }
 
         private void Back(object sender, RoutedEventArgs e)
@@ -73,6 +75,29 @@ namespace YP._02.Stranici
         private void SearchTextBox_KeyDown(object sender, KeyEventArgs e)
         {
 
+        }
+
+        private void ClosePanel_Click(object sender, RoutedEventArgs e)
+        {
+            hiddenPanel.Visibility = Visibility.Hidden;
+        }
+
+       
+
+        private void Add_Click(object sender, RoutedEventArgs e)
+        {
+            editMode = false;
+            hiddenPanelTitle.Content = "Добавление";
+
+            Studentfamiliya.Text = "";
+            Studentname.Text = "";
+            Studentotchestvo.Text = "";
+            StudentdataOtchosleeniya.SelectedDate = DateTime.Today;
+            Studentgroup.Text = "";
+
+            hiddenPanelButton.Content = "Добавить";
+
+            hiddenPanel.Visibility = Visibility.Visible;
         }
     }
 }

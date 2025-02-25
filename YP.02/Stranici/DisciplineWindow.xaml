@@ -129,6 +129,41 @@
                     <ImageBrush ImageSource="..\Images\back.png"/>
                 </Button.Background>
             </Button>
+            <Grid x:Name="hiddenPanel" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Panel.ZIndex="1">
+
+                <Grid Background="White" Panel.ZIndex="2" MinWidth="200" MinHeight="200" VerticalAlignment="Center" HorizontalAlignment="Center" Height="277" Margin="266,107,240,84" Width="327">
+
+                    <StackPanel Margin="10" Orientation="Vertical">
+
+                        <Grid VerticalAlignment="Top" HorizontalAlignment="Stretch">
+
+                            <Label x:Name="hiddenPanelTitle"  Content="Добавление" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                            <Button  Content="X" VerticalAlignment="Center" HorizontalAlignment="Right" Click="ClosePanel_Click" Margin="0,3" Width="21"/>
+
+                        </Grid>
+
+                        <Label  Content="Наименование"/>
+                        <TextBox x:Name="Name"  Height="22"/>
+
+                        <Label  Content="Группа"/>
+                        <TextBox x:Name="Group"  Height="22"/>
+
+                        <Label  Content="Количество занятий"/>
+                        <TextBox x:Name="TotalClasses"  Height="22"/>
+
+                        <Label  Content="Проведенное количество часов"/>
+                        <TextBox x:Name="ConductedHours"  Height="22"/>
+
+
+                        <Button x:Name="hiddenPanelButton" Content="Добавить" Margin="0 10"  Click="add_Click" Height="22"/>
+
+                    </StackPanel>
+
+                </Grid>
+
+                <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="Black" Opacity="0.4"/>
+
+            </Grid>
         </Grid>
     </Viewbox>
 </Page>

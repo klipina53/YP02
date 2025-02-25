@@ -128,6 +128,38 @@
                     <ImageBrush ImageSource="..\Images\back.png"/>
                 </Button.Background>
             </Button>
+            <Grid x:Name="hiddenPanel" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Panel.ZIndex="1" Visibility="Hidden">
+
+                <Grid Background="White" Panel.ZIndex="2" MinWidth="200" MinHeight="200" VerticalAlignment="Center" HorizontalAlignment="Center" Height="229" Margin="266,107,240,132" Width="327">
+
+                    <StackPanel Margin="10" Orientation="Vertical">
+
+                        <Grid VerticalAlignment="Top" HorizontalAlignment="Stretch">
+
+                            <Label x:Name="hiddenPanelTitle"  Content="Добавление" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                            <Button  Content="X" VerticalAlignment="Center" HorizontalAlignment="Right" Click="ClosePanel_Click" Margin="0,3" Width="21"/>
+
+                        </Grid>
+
+                        <Label  Content="Дата проведения консультации для группы"/>
+                        <DatePicker x:Name="DataKonsultacii" />
+
+                        <Label  Content="Присутствие студента, имеющего задолженность"/>
+                        <TextBox x:Name="Prisutsvie"  Height="22"/>
+
+                        <Label  Content="Сданные практические работы"/>
+                        <TextBox x:Name="Sdano"  Height="22"/>
+
+
+                        <Button x:Name="hiddenPanelButton" Content="Добавить" Margin="0 10"  Click="add_Click" Height="22"/>
+
+                    </StackPanel>
+
+                </Grid>
+
+                <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="Black" Opacity="0.4"/>
+
+            </Grid>
         </Grid>
     </Viewbox>
 </Page>

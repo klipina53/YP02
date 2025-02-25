@@ -173,6 +173,51 @@ CornerRadius="10">
                     <ImageBrush ImageSource="..\Images\back.png"/>
                 </Button.Background>
             </Button>
+            <Grid x:Name="hiddenPanel" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Panel.ZIndex="1" Visibility="Hidden">
+
+                <Grid Background="White" Panel.ZIndex="2" MinWidth="300" MinHeight="300" VerticalAlignment="Center" HorizontalAlignment="Center" Height="413" Margin="266,29,253,26" Width="314">
+
+                    <StackPanel Margin="10" Orientation="Vertical">
+
+                        <Grid VerticalAlignment="Top" HorizontalAlignment="Stretch">
+
+                            <Label x:Name="hiddenPanelTitle"  Content="Добавление" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                            <Button  Content="X" VerticalAlignment="Center" HorizontalAlignment="Right" Click="ClosePanel_Click" Margin="0,3" Width="21"/>
+
+                        </Grid>
+
+                        <Label  Content="Дисциплина"/>
+                        <TextBox x:Name="Discipline"  Height="22"/>
+
+                        <Label  Content="Группа"/>
+                        <TextBox x:Name="Group"  Height="22"/>
+
+                        <Label  Content="Количество часов лекций"/>
+                        <TextBox x:Name="lekcii" Height="22"/>
+
+                        <Label  Content="Количество часов для практических занятий"/>
+                        <TextBox x:Name="praktiki" Height="22"/>
+
+                        <Label  Content="Количество часов для консультаций"/>
+                        <TextBox x:Name="konsultacii" Height="22"/>
+
+                        <Label  Content="Количество часов для курсового проекта"/>
+                        <TextBox x:Name="KP" Height="22"/>
+
+                        <Label  Content="Количество часов для экзамена"/>
+                        <TextBox x:Name="ekzamen" Height="22"/>
+
+
+                        <Button x:Name="hiddenPanelButton" Content="Добавить" Margin="0 10"  Click="add_Click"/>
+
+                    </StackPanel>
+
+                </Grid>
+
+                <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="Black" Opacity="0.4"/>
+
+            </Grid>
+
         </Grid>
     </Viewbox>
 </Page>
