@@ -20,9 +20,12 @@ namespace YP._02.Stranici
     /// </summary>
     public partial class DisciplineWindow : Page
     {
-        public DisciplineWindow()
+        private UserRole currentUserRole;
+
+        public DisciplineWindow(UserRole userRole)
         {
             InitializeComponent();
+            currentUserRole = userRole; 
         }
 
         private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -40,9 +43,21 @@ namespace YP._02.Stranici
 
         }
 
+
         private void Back(object sender, RoutedEventArgs e)
         {
-            this.NavigationService.Navigate(new Stranici.HomePage());
+            switch (currentUserRole)
+            {
+                case UserRole.Admin:
+                    this.NavigationService.Navigate(new HomePageAdministration(currentUserRole));
+                    break;
+                case UserRole.Teacher:
+                    this.NavigationService.Navigate(new HomePage(currentUserRole));
+                    break;
+                default:
+                    MessageBox.Show("Неизвестная роль пользователя!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    break;
+            }
         }
 
         private void searchTextBox_GotFocus(object sender, RoutedEventArgs e)

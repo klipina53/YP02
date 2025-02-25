@@ -18,11 +18,14 @@ namespace YP._02.Stranici
     /// <summary>
     /// Логика взаимодействия для HomePage.xaml
     /// </summary>
+    
     public partial class HomePageAdministration : Page
     {
-        public HomePageAdministration()
+        private UserRole currentUserRole;
+        public HomePageAdministration(UserRole userRole)
         {
             InitializeComponent();
+            currentUserRole = userRole;
         }
 
     
@@ -34,43 +37,42 @@ namespace YP._02.Stranici
         }
 
         private void Discipline(object sender, RoutedEventArgs e)
-
         {
-
-            this.NavigationService.Navigate(new Stranici.DisciplineWindow());
-
+            this.NavigationService.Navigate(new DisciplineWindow(currentUserRole));
         }
+
+
 
         private void Students(object sender, RoutedEventArgs e)
         {
-            this.NavigationService.Navigate(new Stranici.StudentsWindow());
+            this.NavigationService.Navigate(new Stranici.StudentsWindow(currentUserRole));
         }
 
      
 
         private void Nagruzka(object sender, RoutedEventArgs e)
         {
-            this.NavigationService.Navigate(new Stranici.PrepodavatelNagruzka());
+            this.NavigationService.Navigate(new Stranici.PrepodavatelNagruzka(currentUserRole));
         }
 
         private void Propuski(object sender, RoutedEventArgs e)
         {
-            this.NavigationService.Navigate(new Stranici.PropuskiZanyatiy());
+            this.NavigationService.Navigate(new Stranici.PropuskiZanyatiy(currentUserRole));
         }
 
         private void Programma_Disciplini(object sender, RoutedEventArgs e)
         {
-            this.NavigationService.Navigate(new Stranici.ProgramsDsciplin());
+            this.NavigationService.Navigate(new Stranici.ProgramsDsciplin(currentUserRole));
         }
 
         private void Konsultacii(object sender, RoutedEventArgs e)
         {
-            this.NavigationService.Navigate(new Stranici.Konsultaishin());
+            this.NavigationService.Navigate(new Stranici.Konsultaishin(currentUserRole));
         }
 
         private void Prepods(object sender, RoutedEventArgs e)
         {
-            this.NavigationService.Navigate(new Stranici.Prepodavateli());
+            this.NavigationService.Navigate(new Stranici.Prepodavateli(currentUserRole));
         }
     }
 }

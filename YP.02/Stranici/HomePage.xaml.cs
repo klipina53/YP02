@@ -20,9 +20,11 @@ namespace YP._02.Stranici
     /// </summary>
     public partial class HomePage : Page
     {
-        public HomePage()
+        private UserRole currentUserRole;
+        public HomePage(UserRole userRole)
         {
             InitializeComponent();
+            currentUserRole = userRole;
         }
 
     
@@ -37,35 +39,35 @@ namespace YP._02.Stranici
 
         {
 
-            this.NavigationService.Navigate(new Stranici.DisciplineWindow());
+            this.NavigationService.Navigate(new Stranici.DisciplineWindow(currentUserRole));
 
         }
 
         private void Students(object sender, RoutedEventArgs e)
         {
-            this.NavigationService.Navigate(new Stranici.StudentsWindow());
+            this.NavigationService.Navigate(new Stranici.StudentsWindow(currentUserRole));
         }
 
      
 
         private void Nagruzka(object sender, RoutedEventArgs e)
         {
-            this.NavigationService.Navigate(new Stranici.PrepodavatelNagruzka());
+            this.NavigationService.Navigate(new Stranici.PrepodavatelNagruzka(currentUserRole));
         }
 
         private void Propuski(object sender, RoutedEventArgs e)
         {
-            this.NavigationService.Navigate(new Stranici.PropuskiZanyatiy());
+            this.NavigationService.Navigate(new Stranici.PropuskiZanyatiy(currentUserRole));
         }
 
         private void Programma_Disciplini(object sender, RoutedEventArgs e)
         {
-            this.NavigationService.Navigate(new Stranici.ProgramsDsciplin());
+            this.NavigationService.Navigate(new Stranici.ProgramsDsciplin(currentUserRole));
         }
 
         private void Konsultacii(object sender, RoutedEventArgs e)
         {
-            this.NavigationService.Navigate(new Stranici.Konsultaishin());
+            this.NavigationService.Navigate(new Stranici.Konsultaishin(currentUserRole));
         }
     }
 }

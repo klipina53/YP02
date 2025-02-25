@@ -20,18 +20,29 @@ namespace YP._02.Stranici
     /// </summary>
     public partial class PrepodavatelNagruzka : Page
     {
-        public PrepodavatelNagruzka()
+        private UserRole currentUserRole;
+
+        public PrepodavatelNagruzka(UserRole userRole)
         {
             InitializeComponent();
+            currentUserRole = userRole;
         }
 
+        private void Back(object sender, RoutedEventArgs e)
+        {
+            switch (currentUserRole)
+            {
+                case UserRole.Admin:
+                    this.NavigationService.Navigate(new HomePageAdministration(currentUserRole));
+                    break;
+                case UserRole.Teacher:
+                    this.NavigationService.Navigate(new HomePage(currentUserRole));
+                    break;
+            }
+        }
         private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
-        }
-        private void Back(object sender, RoutedEventArgs e)
-        {
-            this.NavigationService.Navigate(new Stranici.HomePage());
         }
 
         private void searchTextBox_GotFocus(object sender, RoutedEventArgs e)

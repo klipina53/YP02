@@ -20,13 +20,25 @@ namespace YP._02.Stranici
     /// </summary>
     public partial class PropuskiZanyatiy : Page
     {
-        public PropuskiZanyatiy()
+        private UserRole currentUserRole;
+
+        public PropuskiZanyatiy(UserRole userRole)
         {
             InitializeComponent();
+            currentUserRole = userRole;
         }
+
         private void Back(object sender, RoutedEventArgs e)
         {
-            this.NavigationService.Navigate(new Stranici.HomePage());
+            switch (currentUserRole)
+            {
+                case UserRole.Admin:
+                    this.NavigationService.Navigate(new HomePageAdministration(currentUserRole));
+                    break;
+                case UserRole.Teacher:
+                    this.NavigationService.Navigate(new HomePage(currentUserRole));
+                    break;
+            }
         }
 
         private void searchTextBox_GotFocus(object sender, RoutedEventArgs e)

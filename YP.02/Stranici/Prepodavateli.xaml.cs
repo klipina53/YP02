@@ -20,15 +20,26 @@ namespace YP._02.Stranici
     /// </summary>
     public partial class Prepodavateli : Page
     {
-        public Prepodavateli()
+        private UserRole currentUserRole;
+
+        public Prepodavateli(UserRole userRole)
         {
             InitializeComponent();
-        }
-        private void Back(object sender, RoutedEventArgs e)
-        {
-            this.NavigationService.Navigate(new Stranici.HomePage());
+            currentUserRole = userRole;
         }
 
+        private void Back(object sender, RoutedEventArgs e)
+        {
+            switch (currentUserRole)
+            {
+                case UserRole.Admin:
+                    this.NavigationService.Navigate(new HomePageAdministration(currentUserRole));
+                    break;
+                case UserRole.Teacher:
+                    this.NavigationService.Navigate(new HomePage(currentUserRole));
+                    break;
+            }
+        }
         private void searchTextBox_GotFocus(object sender, RoutedEventArgs e)
         {
             if (searchTextBox.Text == "Поиск...")

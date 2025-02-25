@@ -19,8 +19,16 @@ namespace YP._02
     /// <summary>
     /// Логика взаимодействия для MainWindow.xaml
     /// </summary>
+    public enum UserRole
+    {
+        None,
+        Admin,
+        Teacher
+    }
+
     public partial class MainWindow : Page
     {
+        private UserRole currentUserRole = UserRole.None;
         public MainWindow()
         {
             InitializeComponent();
@@ -28,26 +36,48 @@ namespace YP._02
 
         private void Entrance(object sender, RoutedEventArgs e)
         {
-            string adminUsername = "admin";
-            string adminPassword = "admin123";
-
-            string teacherUsername = "prepod";
-            string teacherPassword = "prepod123";
-
-            string enteredUsername = usernameTextBox.Text;
-            string enteredPassword = password.Password;
-
-            if (enteredUsername == adminUsername && enteredPassword == adminPassword)
+            try
             {
-                this.NavigationService.Navigate(new HomePageAdministration());
-            }
-            else if (enteredUsername == teacherUsername && enteredPassword == teacherPassword)
-            {
-                this.NavigationService.Navigate(new HomePage());
-            }
-            else
-            {
+                string adminUsername = "admin";
+                string adminPassword = "admin123";
+
+                string teacherUsername = "prepod";
+                string teacherPassword = "prepod123";
+
+             
+                string enteredUsername = usernameTextBox.Text.Trim();
+                string enteredPassword = password.Password.Trim();
+
+                if (string.IsNullOrEmpty(enteredUsername) || string.IsNullOrEmpty(enteredPassword))
+                {
+                    MessageBox.Show("Пожалуйста, введите логин и пароль.", "Авторизация", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
+
+               
+                if (enteredUsername == adminUsername && enteredPassword == adminPassword)
+                {
+                    currentUserRole = UserRole.Admin;
+                    MessageBox.Show("Вы успешно вошли как Администратор", "Авторизация", MessageBoxButton.OK, MessageBoxImage.Information);
+                    this.NavigationService.Navigate(new HomePageAdministration(currentUserRole));
+                    return;
+                }
+
+                
+                if (enteredUsername == teacherUsername && enteredPassword == teacherPassword)
+                {
+                    currentUserRole = UserRole.Teacher; 
+                    MessageBox.Show("Вы успешно вошли как Преподаватель", "Авторизация", MessageBoxButton.OK, MessageBoxImage.Information);
+                    this.NavigationService.Navigate(new HomePage(currentUserRole));
+                    return;
+                }
+
+               
                 MessageBox.Show("Неправильный логин или пароль!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Произошла ошибка: {ex.Message}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
