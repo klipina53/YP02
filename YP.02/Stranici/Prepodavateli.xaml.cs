@@ -141,12 +141,12 @@ namespace YP._02.Stranici
 
         private void Delete_Click(object sender, RoutedEventArgs e)
         {
-            var selectedInstructor = resultsListView.SelectedItem as Instructors;
-            if (selectedInstructor != null)
+            _selectedInstructor = resultsListView.SelectedItem as Instructors;
+            if (_selectedInstructor != null)
             {
-                if (MessageBox.Show("Вы уверены, что хотите удалить преподавателя? Это приведет к удалению данных всех смежных данных.", "Подтверждение удаления", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                if (MessageBox.Show("Вы уверены, что хотите удалить преподавателя? Это приведет к удалению всех смежных данных.", "Подтверждение удаления", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                 {
-                    Classes.Connection.Query($"DELETE FROM Instructors WHERE InstructorID = {selectedInstructor.InstructorId}");
+                    Classes.Connection.Query($"DELETE FROM Instructors WHERE InstructorID = {_selectedInstructor.InstructorId}");
                     resultsListView.ItemsSource = LoadInstructors();
                 }
             }
@@ -162,13 +162,21 @@ namespace YP._02.Stranici
             {
                 if (_selectedInstructor == null)
                 {
-                    string insertQuery = $"INSERT INTO Instructors (Lastname, Firstname, Patronymic, Login, PasswordHash) VALUES ('{LastnameTB.Text}', '{FirstnameTB.Text}', '{PatronymicTB.Text}', '{LoginTB.Text}', '{PasswordTB.Text}');";
-                    Classes.Connection.Query(insertQuery);
+                    var query = Classes.Connection.Query($"INSERT INTO Instructors (Lastname, Firstname, Patronymic, Login, PasswordHash) VALUES ('{LastnameTB.Text}', '{FirstnameTB.Text}', '{PatronymicTB.Text}', '{LoginTB.Text}', '{PasswordTB.Text}');");
+                    if (query != null)
+                    {
+                        MessageBox.Show("Успешное добавления данных.", "Успешно", MessageBoxButton.OK, MessageBoxImage.Information);
+                    }
+                    else MessageBox.Show("Ошибка добавления данных.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
                 }
                 else
                 {
-                    string updateQuery = $"UPDATE Instructors SET Lastname = '{LastnameTB.Text}', Firstname = '{FirstnameTB.Text}', Patronymic = '{PatronymicTB.Text}', Login = '{LoginTB.Text}', PasswordHash = '{PasswordTB.Text}' WHERE InstructorID = {_selectedInstructor.InstructorId};";
-                    Classes.Connection.Query(updateQuery);
+                    var query = Classes.Connection.Query($"UPDATE Instructors SET Lastname = '{LastnameTB.Text}', Firstname = '{FirstnameTB.Text}', Patronymic = '{PatronymicTB.Text}', Login = '{LoginTB.Text}', PasswordHash = '{PasswordTB.Text}' WHERE InstructorID = {_selectedInstructor.InstructorId};");
+                    if (query != null)
+                    {
+                        MessageBox.Show("Успешное изменение данных.", "Успешно", MessageBoxButton.OK, MessageBoxImage.Information);
+                    }
+                    else MessageBox.Show("Ошибка изменения данных.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
                 }
                 hiddenPanel.Visibility = Visibility.Hidden;
                 resultsListView.ItemsSource = LoadInstructors();

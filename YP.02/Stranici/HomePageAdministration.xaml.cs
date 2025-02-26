@@ -38,7 +38,7 @@ namespace YP._02.Stranici
 
         private void Discipline(object sender, RoutedEventArgs e)
         {
-            this.NavigationService.Navigate(new DisciplineWindow(currentUserRole));
+            this.NavigationService.Navigate(new DisciplineManage(currentUserRole));
         }
 
 
