@@ -163,7 +163,7 @@
                         <TextBox x:Name="Studentgroup" Height="22"/>
 
 
-                        <Button x:Name="hiddenPanelButton" Content="Добавить" Margin="0 10"  Click="add_Click"/>
+                        <Button x:Name="hiddenPanelButton" Content="Добавить" Margin="0 10"  Click="Add_Click"/>
 
                     </StackPanel>
 

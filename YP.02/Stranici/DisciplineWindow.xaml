@@ -131,7 +131,7 @@
             </Button>
             <Grid x:Name="hiddenPanel" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Panel.ZIndex="1">
 
-                <Grid Background="White" Panel.ZIndex="2" MinWidth="200" MinHeight="200" VerticalAlignment="Center" HorizontalAlignment="Center" Height="277" Margin="266,107,240,84" Width="327">
+                <Grid Visibility="Hidden" Background="White" Panel.ZIndex="2" MinWidth="200" MinHeight="200" VerticalAlignment="Center" HorizontalAlignment="Center" Height="277" Margin="266,107,240,84" Width="327">
 
                     <StackPanel Margin="10" Orientation="Vertical">
 

@@ -28,10 +28,12 @@ namespace YP._02
 
     public partial class MainWindow : Page
     {
+        public static MainWindow init;
         private UserRole currentUserRole = UserRole.None;
         public MainWindow()
         {
             InitializeComponent();
+            init = this;
         }
 
         private void Entrance(object sender, RoutedEventArgs e)

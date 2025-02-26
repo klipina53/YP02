@@ -75,6 +75,15 @@ namespace YP._02.Stranici
 
         }
 
+        private void ClosePanel_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Save_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
 

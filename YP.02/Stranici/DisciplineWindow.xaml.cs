@@ -77,6 +77,15 @@ namespace YP._02.Stranici
                 searchTextBox.Foreground = Brushes.LightGray;
             }
         }
-    
+
+        private void add_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void ClosePanel_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
