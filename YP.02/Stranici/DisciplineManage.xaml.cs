@@ -29,12 +29,20 @@ namespace YP._02.Stranici
 
         private void searchTextBox_GotFocus(object sender, RoutedEventArgs e)
         {
-
+            if (searchTextBox.Text == "Поиск...")
+            {
+                searchTextBox.Text = "";
+                searchTextBox.Foreground = Brushes.White;
+            }
         }
 
         private void searchTextBox_LostFocus(object sender, RoutedEventArgs e)
         {
-
+            if (string.IsNullOrWhiteSpace(searchTextBox.Text))
+            {
+                searchTextBox.Text = "Поиск...";
+                searchTextBox.Foreground = Brushes.LightGray;
+            }
         }
 
         private void SearchTextBox_KeyDown(object sender, KeyEventArgs e)
@@ -73,6 +81,11 @@ namespace YP._02.Stranici
         }
 
         private void ClosePanel_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void DisciplineProgramm_Click(object sender, RoutedEventArgs e)
         {
 
         }
