@@ -35,7 +35,7 @@ namespace YP._02.Stranici
 
         private void searchTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-
+            searchTextBox.Foreground = Brushes.Black;
         }
 
         private void SearchTextBox_KeyDown(object sender, KeyEventArgs e)
@@ -53,9 +53,6 @@ namespace YP._02.Stranici
                     break;
                 case UserRole.Teacher:
                     this.NavigationService.Navigate(new HomePage(currentUserRole));
-                    break;
-                default:
-                    MessageBox.Show("Неизвестная роль пользователя!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                     break;
             }
         }
@@ -85,7 +82,7 @@ namespace YP._02.Stranici
 
         private void ClosePanel_Click(object sender, RoutedEventArgs e)
         {
-
+            hiddenPanel.Visibility = Visibility.Hidden;
         }
     }
 }

@@ -6,6 +6,7 @@
       xmlns:local="clr-namespace:YP._02.Stranici"
       mc:Ignorable="d" 
       Title="HomePage" >
+    
     <Page.Background>
         <ImageBrush ImageSource="..\Images\fon.jpg" Stretch="UniformToFill"/>
     </Page.Background>

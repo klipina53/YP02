@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using YP._02.Classes;
 using YP._02.Stranici;
 
 namespace YP._02
@@ -42,11 +43,6 @@ namespace YP._02
             {
                 string adminUsername = "admin";
                 string adminPassword = "admin123";
-
-                string teacherUsername = "prepod";
-                string teacherPassword = "prepod123";
-
-             
                 string enteredUsername = usernameTextBox.Text.Trim();
                 string enteredPassword = password.Password.Trim();
 
@@ -56,26 +52,28 @@ namespace YP._02
                     return;
                 }
 
-               
                 if (enteredUsername == adminUsername && enteredPassword == adminPassword)
                 {
-                    currentUserRole = UserRole.Admin;
+                    CurrentUser.Role = UserRole.Admin;
+                    CurrentUser.InstructorId = -1;
                     MessageBox.Show("Вы успешно вошли как Администратор", "Авторизация", MessageBoxButton.OK, MessageBoxImage.Information);
-                    this.NavigationService.Navigate(new HomePageAdministration(currentUserRole));
+                    this.NavigationService.Navigate(new HomePageAdministration(CurrentUser.Role));
                     return;
                 }
 
-                
-                if (enteredUsername == teacherUsername && enteredPassword == teacherPassword)
+                var checkAuth = Classes.Connection.Query($"SELECT InstructorID FROM `Instructors` WHERE Login = '{enteredUsername}' AND PasswordHash = '{enteredPassword}';");
+                if (checkAuth != null && checkAuth.HasRows)
                 {
-                    currentUserRole = UserRole.Teacher; 
+                    checkAuth.Read();
+                    CurrentUser.Role = UserRole.Teacher;
+                    CurrentUser.InstructorId = checkAuth.GetInt32(0); 
                     MessageBox.Show("Вы успешно вошли как Преподаватель", "Авторизация", MessageBoxButton.OK, MessageBoxImage.Information);
-                    this.NavigationService.Navigate(new HomePage(currentUserRole));
-                    return;
+                    this.NavigationService.Navigate(new HomePage(CurrentUser.Role));
                 }
-
-               
-                MessageBox.Show("Неправильный логин или пароль!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                else
+                {
+                    MessageBox.Show("Неправильный логин или пароль!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
             catch (Exception ex)
             {

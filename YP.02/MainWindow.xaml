@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="Электронный журнал"  Background="#FF090A1E" >
     <Viewbox>
-        <Grid HorizontalAlignment="Center" Width="800" Height="434" VerticalAlignment="Bottom">
+        <Grid HorizontalAlignment="Center" Width="800" Height="434" VerticalAlignment="Bottom" >
 
             <Frame Name="mainFrame" NavigationUIVisibility="Hidden" JournalOwnership="OwnsJournal" Height="434" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="800">
                 <Frame.Background>

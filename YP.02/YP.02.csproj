@@ -109,7 +109,12 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Classes\Connection.cs" />
+    <Compile Include="Classes\CurrentUser.cs" />
+    <Compile Include="Classes\Disciplines.cs" />
     <Compile Include="Classes\Instructors.cs" />
+    <Compile Include="Stranici\DisciplineManage.xaml.cs">
+      <DependentUpon>DisciplineManage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Stranici\HomePageAdministration.xaml.cs">
       <DependentUpon>HomePageAdministration.xaml</DependentUpon>
     </Compile>
@@ -131,6 +136,10 @@
     <Compile Include="Stranici\StudentsWindow.xaml.cs">
       <DependentUpon>StudentsWindow.xaml</DependentUpon>
     </Compile>
+    <Page Include="Stranici\DisciplineManage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Stranici\DisciplineWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -252,5 +261,6 @@
   <ItemGroup>
     <Resource Include="Images\back.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

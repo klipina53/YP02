@@ -1,4 +1,4 @@
-﻿<Page x:Class="YP._02.Stranici.DisciplineWindow"
+﻿<Page x:Class="YP._02.Stranici.DisciplineManage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -6,7 +6,7 @@
       xmlns:local="clr-namespace:YP._02.Stranici"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="DisciplineWindow">
+      Title="DisciplineManage">
 
     <Page.Resources>
         <Style x:Key="RoundButtonStyle" TargetType="Button">
@@ -15,11 +15,11 @@
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
                         <Border Background="{TemplateBinding Background}"
-                            BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}"
-                            CornerRadius="10">
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        CornerRadius="10">
                             <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                         </Border>
                     </ControlTemplate>
                 </Setter.Value>
@@ -42,43 +42,40 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <Image Source="..\Images\poisk.png" 
-                     Width="20" 
-                     Height="20" 
-                     VerticalAlignment="Center" 
-                     HorizontalAlignment="Left" 
-                     Margin="5,10,0,0"/>
+                 Width="20" 
+                 Height="20" 
+                 VerticalAlignment="Center" 
+                 HorizontalAlignment="Left" 
+                 Margin="5,10,0,0"/>
                 <TextBox x:Name="searchTextBox"
-                     Height="20"
-                          FontFamily="Microsoft YaHei"
-                     Grid.Column="1"
-                     VerticalAlignment="Center"
-                     HorizontalAlignment="Stretch"
-                     Text="Поиск..."
-                     BorderBrush="{x:Null}"
-                     GotFocus="searchTextBox_GotFocus"
-                     LostFocus="searchTextBox_LostFocus"
-                     KeyDown="SearchTextBox_KeyDown" 
-                     TextChanged="searchTextBox_TextChanged"
-                     Opacity="0.73"
-                     Margin="0,10,0,0"/>
+                 Height="20"
+                      FontFamily="Microsoft YaHei"
+                 Grid.Column="1"
+                 VerticalAlignment="Center"
+                 HorizontalAlignment="Stretch"
+                 Text="Поиск..."
+                 BorderBrush="{x:Null}"
+                 GotFocus="searchTextBox_GotFocus"
+                 LostFocus="searchTextBox_LostFocus"
+                 KeyDown="SearchTextBox_KeyDown" 
+                 TextChanged="searchTextBox_TextChanged"
+                 Opacity="0.73"
+                 Margin="0,10,0,0"/>
             </Grid>
             <ListView x:Name="resultsListView" 
-                      Margin="26,89,18,72" 
-                      Opacity="0.611" 
-                      Background="#FFC7C7C7">
+                  Margin="26,89,18,72" 
+                  Opacity="0.611" 
+                  Background="#FFC7C7C7">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Header="№" Width="50" DisplayMemberBinding="{Binding Number}"/>
                         <GridViewColumn Header="Наименование" Width="300" DisplayMemberBinding="{Binding Name}"/>
-                        <GridViewColumn Header="Группа" Width="100" DisplayMemberBinding="{Binding Group}"/>
-                        <GridViewColumn Header="Количество занятий" Width="130" DisplayMemberBinding="{Binding TotalClasses}"/>
-                        <GridViewColumn Header="Проведенное количество часов" Width="200" DisplayMemberBinding="{Binding ConductedHours}"/>
                     </GridView>
                 </ListView.View>
             </ListView>
-            <Button Content="Добавить"  Opacity="0.611" Margin="560,0,0,28" Height="20" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="75" Style="{StaticResource RoundButtonStyle}"/>
-            <Button Content="Удалить"  Opacity="0.611" Margin="740,0,0,28" Height="20" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="75" Style="{StaticResource RoundButtonStyle}"/>
-            <Button Content="Изменить"  Opacity="0.611" HorizontalAlignment="Left" Margin="652,0,0,28" Width="75" Height="20" VerticalAlignment="Bottom" Style="{StaticResource RoundButtonStyle}"/>
+            <Button Content="Добавить"  Opacity="0.611" Margin="560,0,0,28" Height="20" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="75" Style="{StaticResource RoundButtonStyle}" Click="Add_Click"/>
+            <Button Content="Удалить"  Opacity="0.611" Margin="740,0,0,28" Height="20" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="75" Style="{StaticResource RoundButtonStyle}" Click="Delete_Click"/>
+            <Button Content="Изменить"  Opacity="0.611" HorizontalAlignment="Left" Margin="652,0,0,28" Width="75" Height="20" VerticalAlignment="Bottom" Style="{StaticResource RoundButtonStyle}" Click="Update_Click"/>
             <Button  HorizontalAlignment="Left" Margin="36,24,0,0" VerticalAlignment="Top" Width="37" Height="30" BorderBrush="{x:Null}" Click="Back">
                 <Button.Background>
                     <ImageBrush ImageSource="..\Images\back.png"/>
@@ -98,18 +95,9 @@
                         </Grid>
 
                         <Label  Content="Наименование"/>
-                        <TextBox x:Name="Name"  Height="22"/>
+                        <TextBox x:Name="NameTB"  Height="22"/>
 
-                        <Label  Content="Группа"/>
-                        <TextBox x:Name="Group"  Height="22"/>
-
-                        <Label  Content="Количество занятий"/>
-                        <TextBox x:Name="TotalClasses"  Height="22"/>
-
-                        <Label  Content="Проведенное количество часов"/>
-                        <TextBox x:Name="ConductedHours"  Height="22"/>
-
-                        <Button x:Name="hiddenPanelButton" Content="Добавить" Margin="0 10"  Click="add_Click" Height="22"/>
+                        <Button x:Name="hiddenPanelButton" Content="Добавить" Margin="0 10"  Click="Save_Click" Height="22"/>
 
                     </StackPanel>
 
