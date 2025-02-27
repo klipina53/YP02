@@ -111,12 +111,16 @@
     <Compile Include="Classes\Connection.cs" />
     <Compile Include="Classes\CurrentUser.cs" />
     <Compile Include="Classes\Disciplines.cs" />
+    <Compile Include="Classes\Groups.cs" />
     <Compile Include="Classes\Instructors.cs" />
     <Compile Include="Stranici\DisciplineManage.xaml.cs">
       <DependentUpon>DisciplineManage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Stranici\DisciplineProgramManage.xaml.cs">
       <DependentUpon>DisciplineProgramManage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Stranici\GroupsPage.xaml.cs">
+      <DependentUpon>GroupsPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Stranici\HomePageAdministration.xaml.cs">
       <DependentUpon>HomePageAdministration.xaml</DependentUpon>
@@ -145,6 +149,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Stranici\DisciplineWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Stranici\GroupsPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

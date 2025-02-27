@@ -1,6 +1,4 @@
-﻿using MySql.Data.MySqlClient;
-using Org.BouncyCastle.Asn1.X509;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,53 +17,34 @@ using YP._02.Classes;
 namespace YP._02.Stranici
 {
     /// <summary>
-    /// Логика взаимодействия для DisciplineManage.xaml
+    /// Логика взаимодействия для GroupsPage.xaml
     /// </summary>
-    public partial class DisciplineManage : Page
+    public partial class GroupsPage : Page
     {
-        private Disciplines _selectedDiscipline;
         private UserRole currentUserRole;
-        public DisciplineManage(UserRole userRole)
+        private Groups _selectedGroup;
+        public GroupsPage(UserRole userRole)
         {
             InitializeComponent();
-            currentUserRole = userRole;
-            resultsListView.ItemsSource = LoadDiscipline();
+            this.currentUserRole = userRole;
+            resultsListView.ItemsSource = LoadGroups();
         }
-        private List<Disciplines> LoadDiscipline()
+        private List<Groups> LoadGroups()
         {
-            List<Disciplines> disciplines = new List<Disciplines>();
-            string query = "SELECT * FROM `Disciplines`";
+            List<Groups> groups = new List<Groups>();
+            string query = "SELECT * FROM `Groups`";
             using (var reader = Connection.Query(query))
             {
                 while (reader.Read())
                 {
-                    int disciplineId = reader.GetInt32(0);
-                    string name = reader.GetString(1);
-                    int totalHours = CalculateTotalHours(disciplineId);
-
-                    disciplines.Add(new Disciplines
+                    groups.Add(new Groups
                     {
-                        DisciplineId = disciplineId,
-                        Name = name,
-                        TotalHours = totalHours
+                        GroupId = reader.GetInt32(0),
+                        Name = reader.GetString(1)
                     });
                 }
             }
-            return disciplines;
-        }
-
-        private int CalculateTotalHours(int disciplineId)
-        {
-            int totalHours = 0;
-            string query = $"SELECT SUM(Hours) AS TotalHours FROM DisciplinePrograms WHERE DisciplineId = {disciplineId}";
-            using (var reader = Connection.Query(query))
-            {
-                while (reader.Read())
-                {
-                    totalHours += reader.GetInt32(0);
-                }
-            }
-            return totalHours;
+            return groups;
         }
 
         private void searchTextBox_GotFocus(object sender, RoutedEventArgs e)
@@ -92,12 +71,12 @@ namespace YP._02.Stranici
 
             if (string.IsNullOrEmpty(searchText))
             {
-                resultsListView.ItemsSource = LoadDiscipline();
+                resultsListView.ItemsSource = LoadGroups();
             }
             else
             {
-                var filteredDiscipline = LoadDiscipline().Where(i => i.Name.ToLower().Contains(searchText)).ToList();
-                resultsListView.ItemsSource = filteredDiscipline;
+                var filteredGroups = LoadGroups().Where(i => i.Name.ToLower().Contains(searchText));
+                resultsListView.ItemsSource = filteredGroups;
             }
         }
 
@@ -108,7 +87,7 @@ namespace YP._02.Stranici
 
         private void Add_Click(object sender, RoutedEventArgs e)
         {
-            _selectedDiscipline = null;
+            _selectedGroup = null;
             hiddenPanelTitle.Content = "Добавление";
             NameTB.Text = "";
             hiddenPanel.Visibility = Visibility.Visible;
@@ -116,33 +95,46 @@ namespace YP._02.Stranici
 
         private void Delete_Click(object sender, RoutedEventArgs e)
         {
-            _selectedDiscipline = resultsListView.SelectedItem as Disciplines;
-            if (_selectedDiscipline != null)
+            _selectedGroup = resultsListView.SelectedItem as Groups;
+            if (_selectedGroup != null)
             {
-                if (MessageBox.Show("Вы уверены, что хотите удалить дисциплину? Это приведет к удалению всех смежных данных.", "Подтверждение удаления", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                if (MessageBox.Show("Вы уверены, что хотите удалить группу? Это приведет к удалению всех смежных данных.", "Подтверждение удаления", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                 {
-                    Classes.Connection.Query($"DELETE FROM `Disciplines` WHERE `DisciplineID`= {_selectedDiscipline.DisciplineId}");
-                    resultsListView.ItemsSource = LoadDiscipline();
+                    Classes.Connection.Query($"DELETE FROM `Groups` WHERE `GroupID`= {_selectedGroup.GroupId}");
+                    resultsListView.ItemsSource = LoadGroups();
                 }
             }
             else
             {
-                MessageBox.Show("Выберите дисциплину для удаления.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Выберите группу для удаления.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
 
         private void Update_Click(object sender, RoutedEventArgs e)
         {
-            _selectedDiscipline = resultsListView.SelectedItem as Disciplines;
-            if(_selectedDiscipline != null)
+            _selectedGroup = resultsListView.SelectedItem as Groups;
+            if (_selectedGroup != null)
             {
                 hiddenPanelTitle.Content = "Редактирование";
-                NameTB.Text = _selectedDiscipline.Name;
+                NameTB.Text = _selectedGroup.Name;
                 hiddenPanel.Visibility = Visibility.Visible;
             }
             else
             {
-                MessageBox.Show("Выберите группу для редактирования.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Выберите дисциплину для редактирования.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+        }
+
+        private void Students_Click(object sender, RoutedEventArgs e)
+        {
+            _selectedGroup = resultsListView.SelectedItem as Groups;
+            if (_selectedGroup != null)
+            {
+                this.NavigationService.Navigate(new StudentsWindow(currentUserRole, _selectedGroup.GroupId));
+            }
+            else
+            {
+                MessageBox.Show("Выберите группу.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
 
@@ -159,13 +151,18 @@ namespace YP._02.Stranici
             }
         }
 
+        private void ClosePanel_Click(object sender, RoutedEventArgs e)
+        {
+            hiddenPanel.Visibility = Visibility.Hidden;
+        }
+
         private void Save_Click(object sender, RoutedEventArgs e)
         {
             if (!string.IsNullOrWhiteSpace(NameTB.Text))
-            {
-                if (_selectedDiscipline == null)
+            { 
+                if (_selectedGroup == null)
                 {
-                    var query = Classes.Connection.Query($"INSERT INTO `Disciplines`(`Name`) VALUES ('{NameTB.Text}')");
+                    var query = Connection.Query($"INSERT INTO `Groups`(`Name`) VALUES ('{NameTB.Text}')");
                     if (query != null)
                     {
                         MessageBox.Show("Успешное добавления данных.", "Успешно", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -174,7 +171,7 @@ namespace YP._02.Stranici
                 }
                 else
                 {
-                    var query = Connection.Query($"UPDATE `Disciplines` SET `Name`= '{NameTB.Text}' WHERE `DisciplineID`= '{_selectedDiscipline.DisciplineId}'");
+                    var query = Connection.Query($"UPDATE `Groups` SET `Name`= '{NameTB.Text}' WHERE GroupID = {_selectedGroup.GroupId}");
                     if (query != null)
                     {
                         MessageBox.Show("Успешное изменение данных.", "Успешно", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -182,25 +179,7 @@ namespace YP._02.Stranici
                     else MessageBox.Show("Ошибка изменения данных.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
                 }
                 hiddenPanel.Visibility = Visibility.Hidden;
-                resultsListView.ItemsSource = LoadDiscipline();
-            }
-        }
-
-        private void ClosePanel_Click(object sender, RoutedEventArgs e)
-        {
-            hiddenPanel.Visibility = Visibility.Hidden;
-        }
-
-        private void DisciplineProgramm_Click(object sender, RoutedEventArgs e)
-        {
-            _selectedDiscipline = resultsListView.SelectedItem as Disciplines;
-            if (_selectedDiscipline != null)
-            {
-                this.NavigationService.Navigate(new DisciplineProgramManage(currentUserRole, _selectedDiscipline.DisciplineId));
-            }
-            else
-            {
-                MessageBox.Show("Выберите дисциплину.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                resultsListView.ItemsSource = LoadGroups();
             }
         }
     }

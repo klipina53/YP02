@@ -43,7 +43,7 @@ namespace YP._02.Stranici
 
         private void Students(object sender, RoutedEventArgs e)
         {
-            this.NavigationService.Navigate(new Stranici.StudentsWindow(currentUserRole));
+            this.NavigationService.Navigate(new Stranici.GroupsPage(currentUserRole));
         }
 
         private void Nagruzka(object sender, RoutedEventArgs e)

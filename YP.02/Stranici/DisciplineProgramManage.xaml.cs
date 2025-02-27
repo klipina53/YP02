@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -168,11 +169,26 @@ namespace YP._02.Stranici
         }
         private bool ValidateForm()
         {
-            if (string.IsNullOrWhiteSpace(NameTB.Text) || string.IsNullOrWhiteSpace(TypeTB.Text) || string.IsNullOrWhiteSpace(HoursTB.Text))
+            if (string.IsNullOrWhiteSpace(NameTB.Text) ||
+        string.IsNullOrWhiteSpace(TypeTB.Text) ||
+        string.IsNullOrWhiteSpace(HoursTB.Text))
             {
-                MessageBox.Show("Все поля обязательны для заполнения.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Все поля обязательны для заполнения.",
+                                "Ошибка",
+                                MessageBoxButton.OK,
+                                MessageBoxImage.Error);
                 return false;
             }
+
+            if (Regex.IsMatch(HoursTB.Text, @"^\d+$"))
+            {
+                MessageBox.Show("Поле Часы должно содержать только целые числа!",
+                                "Ошибка",
+                                MessageBoxButton.OK,
+                                MessageBoxImage.Error);
+                return false;
+            }
+
             return true;
         }
     }
