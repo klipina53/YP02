@@ -36,19 +36,14 @@ namespace YP._02.Stranici
         }
 
         private void Discipline(object sender, RoutedEventArgs e)
-
         {
-
-            this.NavigationService.Navigate(new Stranici.DisciplineWindow(currentUserRole));
-
+            this.NavigationService.Navigate(new Stranici.DisciplineManage(currentUserRole));
         }
 
         private void Students(object sender, RoutedEventArgs e)
         {
             this.NavigationService.Navigate(new Stranici.StudentsWindow(currentUserRole));
         }
-
-     
 
         private void Nagruzka(object sender, RoutedEventArgs e)
         {
@@ -60,14 +55,14 @@ namespace YP._02.Stranici
             this.NavigationService.Navigate(new Stranici.PropuskiZanyatiy(currentUserRole));
         }
 
-        private void Programma_Disciplini(object sender, RoutedEventArgs e)
-        {
-            this.NavigationService.Navigate(new Stranici.ProgramsDsciplin(currentUserRole));
-        }
-
         private void Konsultacii(object sender, RoutedEventArgs e)
         {
             this.NavigationService.Navigate(new Stranici.Konsultaishin(currentUserRole));
+        }
+
+        private void DiciplineReport(object sender, RoutedEventArgs e)
+        {
+            this.NavigationService.Navigate(new Stranici.DisciplineWindow(currentUserRole));
         }
     }
 }

@@ -68,7 +68,7 @@
               Background="#FFC7C7C7">
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn Header="№" Width="50" DisplayMemberBinding="{Binding DisciplineId}"/>
+                        <GridViewColumn Header="№" Width="50" DisplayMemberBinding="{Binding ProgrammId}"/>
                         <GridViewColumn Header="Наименование" Width="300" DisplayMemberBinding="{Binding Topic}"/>
                         <GridViewColumn Header="Тип" Width="300" DisplayMemberBinding="{Binding Type}"/>
                         <GridViewColumn Header="Количество часов" Width="150" DisplayMemberBinding="{Binding Hours}"/>
@@ -100,7 +100,13 @@
                         <TextBox x:Name="NameTB"  Height="22"/>
 
                         <Label  Content="Тип занятия"/>
-                        <ComboBox x:Name="TypeTB"  Height="22"/>
+                        <ComboBox x:Name="TypeTB"  Height="22">
+                            <ComboBoxItem>Лекция</ComboBoxItem>
+                            <ComboBoxItem>Практика</ComboBoxItem>
+                            <ComboBoxItem>Консультация</ComboBoxItem>
+                            <ComboBoxItem>Курсовой проект</ComboBoxItem>
+                            <ComboBoxItem>Экзамен</ComboBoxItem>
+                        </ComboBox>
 
                         <Label  Content="Количество часов"/>
                         <TextBox x:Name="HoursTB"  Height="22"/>

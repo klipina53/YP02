@@ -33,7 +33,7 @@
                 </Button.Style>
             </Button>
 
-            <Button Content="Дисциплина" HorizontalAlignment="Left" Height="96" Margin="65,106,0,0" VerticalAlignment="Top" Width="145" Click="Discipline" Foreground="White" BorderBrush="{x:Null}">
+            <Button Content="Программа&#xD;&#xA;дисциплины" HorizontalAlignment="Left" Height="96" Margin="65,106,0,0" VerticalAlignment="Top" Width="145" Click="Discipline" Foreground="White" BorderBrush="{x:Null}">
                 <Button.Background>
                     <ImageBrush ImageSource="..\Images\image 9 (1).png"/>
                 </Button.Background>
@@ -43,7 +43,7 @@
                     <ImageBrush ImageSource="..\Images\image 9 (1).png"/>
                 </Button.Background>
             </Button>
-            <Button Content="    Программа&#xD;&#xA;    дисциплины" HorizontalAlignment="Center" Foreground="White" Height="96" Margin="0,260,0,0" VerticalAlignment="Top" Width="146" Click="Programma_Disciplini" BorderBrush="{x:Null}">
+            <Button Content="     Отчетность&#xD;&#xA; по дисциплине" HorizontalAlignment="Center" Foreground="White" Height="96" Margin="0,260,0,0" VerticalAlignment="Top" Width="146" Click="DiciplineReport" BorderBrush="{x:Null}">
                 <Button.Background>
                     <ImageBrush ImageSource="..\Images\image 9 (1).png"/>
                 </Button.Background>

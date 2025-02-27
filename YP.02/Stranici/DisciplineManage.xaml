@@ -69,13 +69,14 @@
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Header="№" Width="50" DisplayMemberBinding="{Binding DisciplineId}"/>
-                        <GridViewColumn Header="Наименование" Width="300" DisplayMemberBinding="{Binding Name}"/>
+                        <GridViewColumn Header="Наименование" Width="500" DisplayMemberBinding="{Binding Name}"/>
+                        <GridViewColumn Header="Всего часов" Width="150" DisplayMemberBinding="{Binding TotalHours}"/>
                     </GridView>
                 </ListView.View>
             </ListView>
-            <Button Content="Добавить"  Opacity="0.611" Margin="560,0,0,28" Height="20" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="75" Style="{StaticResource RoundButtonStyle}" Click="Add_Click"/>
-            <Button Content="Удалить"  Opacity="0.611" Margin="740,0,0,28" Height="20" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="75" Style="{StaticResource RoundButtonStyle}" Click="Delete_Click"/>
-            <Button Content="Изменить"  Opacity="0.611" HorizontalAlignment="Left" Margin="652,0,0,28" Width="75" Height="20" VerticalAlignment="Bottom" Style="{StaticResource RoundButtonStyle}" Click="Update_Click"/>
+            <Button x:Name="btnAd" Content="Добавить"  Opacity="0.611" Margin="560,0,0,28" Height="20" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="75" Style="{StaticResource RoundButtonStyle}" Click="Add_Click"/>
+            <Button x:Name="btnDel" Content="Удалить"  Opacity="0.611" Margin="740,0,0,28" Height="20" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="75" Style="{StaticResource RoundButtonStyle}" Click="Delete_Click"/>
+            <Button x:Name="btnUpd" Content="Изменить"  Opacity="0.611" HorizontalAlignment="Left" Margin="652,0,0,28" Width="75" Height="20" VerticalAlignment="Bottom" Style="{StaticResource RoundButtonStyle}" Click="Update_Click"/>
             <Button Content="Программа"  Opacity="0.611" HorizontalAlignment="Left" Margin="470,0,0,28" Width="75" Height="20" VerticalAlignment="Bottom" Style="{StaticResource RoundButtonStyle}" Click="DisciplineProgramm_Click"/>
             <Button  HorizontalAlignment="Left" Margin="36,24,0,0" VerticalAlignment="Top" Width="37" Height="30" BorderBrush="{x:Null}" Click="Back">
                 <Button.Background>

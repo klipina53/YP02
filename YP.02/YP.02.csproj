@@ -130,9 +130,6 @@
     <Compile Include="Stranici\PrepodavatelNagruzka.xaml.cs">
       <DependentUpon>PrepodavatelNagruzka.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Stranici\ProgramsDsciplin.xaml.cs">
-      <DependentUpon>ProgramsDsciplin.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Stranici\PropuskiZanyatiy.xaml.cs">
       <DependentUpon>PropuskiZanyatiy.xaml</DependentUpon>
     </Compile>
@@ -186,10 +183,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Stranici\PrepodavatelNagruzka.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Stranici\ProgramsDsciplin.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

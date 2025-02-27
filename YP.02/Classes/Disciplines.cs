@@ -11,6 +11,7 @@ namespace YP._02.Classes
     {
         public int DisciplineId { get; set; }
         public string Name { get; set; }
+        public int TotalHours { get; set; }
     }
     public class DisciplinePrograms
     {

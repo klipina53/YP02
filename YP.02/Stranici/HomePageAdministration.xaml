@@ -32,22 +32,17 @@
                 </Button.Style>
             </Button>
 
-            <Button Content="Дисциплина" HorizontalAlignment="Left" Height="96" Margin="50,106,0,0" VerticalAlignment="Top" Width="145" Click="Discipline" Foreground="White" BorderBrush="{x:Null}">
+            <Button Content="Дисциплина" HorizontalAlignment="Left" Height="96" Margin="130,105,0,0" VerticalAlignment="Top" Width="145" Click="Discipline" Foreground="White" BorderBrush="{x:Null}">
                 <Button.Background>
                     <ImageBrush ImageSource="..\Images\image 9 (1).png"/>
                 </Button.Background>
             </Button>
-            <Button Content="Студенты" Foreground="White" Height="96" Margin="144,255,511,0" VerticalAlignment="Top" Click="Students" BorderBrush="{x:Null}">
+            <Button Content="Учебные группы" Foreground="White" Height="96" Margin="0,260,400,0" Width="146" VerticalAlignment="Top" Click="Students" BorderBrush="{x:Null}">
                 <Button.Background>
                     <ImageBrush ImageSource="..\Images\image 9 (1).png"/>
                 </Button.Background>
             </Button>
-            <Button Content="    Программа&#xD;&#xA;    дисциплины" HorizontalAlignment="Center" Foreground="White" Height="96" Margin="0,260,0,0" VerticalAlignment="Top" Width="146" Click="Programma_Disciplini" BorderBrush="{x:Null}">
-                <Button.Background>
-                    <ImageBrush ImageSource="..\Images\image 9 (1).png"/>
-                </Button.Background>
-            </Button>
-            <Button Content="     Нагрузка&#xD;&#xA;преподавателя" Foreground="White" Height="96" Margin="615,106,50,0" VerticalAlignment="Top" Click="Nagruzka" BorderBrush="{x:Null}">
+            <Button Content="     Нагрузка&#xD;&#xA;преподавателя" Foreground="White" Height="96" Margin="0,260,0,0" Width="146" VerticalAlignment="Top" Click="Nagruzka" BorderBrush="{x:Null}">
                 <Button.Background>
                     <ImageBrush ImageSource="..\Images\image 9 (1).png"/>
                 </Button.Background>
@@ -57,12 +52,12 @@
                     <ImageBrush ImageSource="..\Images\image 9 (1).png"/>
                 </Button.Background>
             </Button>
-            <Button Content="Пропуски занятий" HorizontalAlignment="Left" Foreground="White" Height="96" Margin="238,106,0,0" VerticalAlignment="Top" Width="145" Click="Propuski" BorderBrush="{x:Null}">
+            <Button Content="Пропуски занятий" HorizontalAlignment="Left" Foreground="White" Height="96" Margin="330,105,0,0" VerticalAlignment="Top" Width="145" Click="Propuski" BorderBrush="{x:Null}">
                 <Button.Background>
                     <ImageBrush ImageSource="..\Images\image 9 (1).png"/>
                 </Button.Background>
             </Button>
-            <Button Content="Преподаватели" Foreground="White" Height="96" Margin="426,106,230,0" VerticalAlignment="Top" Click="Prepods" BorderBrush="{x:Null}">
+            <Button Content="Преподаватели" Foreground="White" Height="96" Margin="380,105,0,0" Width="145" VerticalAlignment="Top" Click="Prepods" BorderBrush="{x:Null}">
                 <Button.Background>
                     <ImageBrush ImageSource="/Images/image 9 (1).png"/>
                 </Button.Background>
