@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using YP._02.Classes;
+using YP._02.Context;
 
 namespace YP._02.Stranici
 {
@@ -23,28 +24,12 @@ namespace YP._02.Stranici
     {
         private UserRole currentUserRole;
         private Groups _selectedGroup;
+        private GroupsContext _context = new GroupsContext();
         public GroupsPage(UserRole userRole)
         {
             InitializeComponent();
             this.currentUserRole = userRole;
-            resultsListView.ItemsSource = LoadGroups();
-        }
-        private List<Groups> LoadGroups()
-        {
-            List<Groups> groups = new List<Groups>();
-            string query = "SELECT * FROM `Groups`";
-            using (var reader = Connection.Query(query))
-            {
-                while (reader.Read())
-                {
-                    groups.Add(new Groups
-                    {
-                        GroupId = reader.GetInt32(0),
-                        Name = reader.GetString(1)
-                    });
-                }
-            }
-            return groups;
+            resultsListView.ItemsSource = _context.LoadGroups();
         }
 
         private void searchTextBox_GotFocus(object sender, RoutedEventArgs e)
@@ -71,11 +56,11 @@ namespace YP._02.Stranici
 
             if (string.IsNullOrEmpty(searchText))
             {
-                resultsListView.ItemsSource = LoadGroups();
+                resultsListView.ItemsSource = _context.LoadGroups();
             }
             else
             {
-                var filteredGroups = LoadGroups().Where(i => i.Name.ToLower().Contains(searchText));
+                var filteredGroups = _context.LoadGroups().Where(i => i.Name.ToLower().Contains(searchText));
                 resultsListView.ItemsSource = filteredGroups;
             }
         }
@@ -100,8 +85,16 @@ namespace YP._02.Stranici
             {
                 if (MessageBox.Show("Вы уверены, что хотите удалить группу? Это приведет к удалению всех смежных данных.", "Подтверждение удаления", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                 {
-                    Classes.Connection.Query($"DELETE FROM `Groups` WHERE `GroupID`= {_selectedGroup.GroupId}");
-                    resultsListView.ItemsSource = LoadGroups();
+                    bool isDeleted = _context.Delete(_selectedGroup.GroupId);
+                    if (isDeleted)
+                    {
+                        MessageBox.Show("Успешное удаление данных.", "Успешно", MessageBoxButton.OK, MessageBoxImage.Information);
+                        resultsListView.ItemsSource = _context.LoadGroups();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Ошибка при удалении данных.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
                 }
             }
             else
@@ -162,8 +155,12 @@ namespace YP._02.Stranici
             { 
                 if (_selectedGroup == null)
                 {
-                    var query = Connection.Query($"INSERT INTO `Groups`(`Name`) VALUES ('{NameTB.Text}')");
-                    if (query != null)
+                    var newGroups = new Groups
+                    {
+                        Name = NameTB.Text
+                    };
+                    bool isAdded = _context.Add(newGroups);
+                    if (isAdded)
                     {
                         MessageBox.Show("Успешное добавления данных.", "Успешно", MessageBoxButton.OK, MessageBoxImage.Information);
                     }
@@ -171,15 +168,16 @@ namespace YP._02.Stranici
                 }
                 else
                 {
-                    var query = Connection.Query($"UPDATE `Groups` SET `Name`= '{NameTB.Text}' WHERE GroupID = {_selectedGroup.GroupId}");
-                    if (query != null)
+                    _selectedGroup.Name = NameTB.Text;
+                    bool isUpdated = _context.Update(_selectedGroup);
+                    if (isUpdated)
                     {
                         MessageBox.Show("Успешное изменение данных.", "Успешно", MessageBoxButton.OK, MessageBoxImage.Information);
                     }
                     else MessageBox.Show("Ошибка изменения данных.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
                 }
                 hiddenPanel.Visibility = Visibility.Hidden;
-                resultsListView.ItemsSource = LoadGroups();
+                resultsListView.ItemsSource = _context.LoadGroups();
             }
         }
     }

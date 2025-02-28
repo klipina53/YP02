@@ -14,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using YP._02.Classes;
+using YP._02.Context;
 
 namespace YP._02.Stranici
 {
@@ -25,32 +26,14 @@ namespace YP._02.Stranici
         private UserRole currentUserRole;
         private int selectedDisciplineId;
         private DisciplinePrograms _selectedPrograms;
+        private DisciplineProgramContext _context = new DisciplineProgramContext();
+
         public DisciplineProgramManage(UserRole currentUserRole, int selectedDisciplineId)
         {
             InitializeComponent();
             this.currentUserRole = currentUserRole;
             this.selectedDisciplineId = selectedDisciplineId;
-            resultsListView.ItemsSource = LoadDisciplinePrograms();
-        }
-        private List<DisciplinePrograms> LoadDisciplinePrograms()
-        {
-            List<DisciplinePrograms> programs = new List<DisciplinePrograms>();
-            string query = $"SELECT * FROM `DisciplinePrograms` WHERE DisciplineID = {selectedDisciplineId};";
-            using (var reader = Connection.Query(query))
-            {
-                while (reader.Read())
-                {
-                    programs.Add(new DisciplinePrograms
-                    {
-                        ProgrammId = reader.GetInt32(0),
-                        DisciplineId = reader.GetInt32(1),
-                        Topic = reader.GetString(2),
-                        Type = reader.GetString(3),
-                        Hours = reader.GetInt32(4)
-                    });
-                }
-            }
-            return programs;
+            resultsListView.ItemsSource = _context.LoadDisciplinePrograms(selectedDisciplineId);
         }
 
         private void searchTextBox_GotFocus(object sender, RoutedEventArgs e)
@@ -77,11 +60,11 @@ namespace YP._02.Stranici
 
             if (string.IsNullOrEmpty(searchText))
             {
-                resultsListView.ItemsSource = LoadDisciplinePrograms();
+                resultsListView.ItemsSource = _context.LoadDisciplinePrograms(selectedDisciplineId);
             }
             else
             {
-                var filteredPrograms = LoadDisciplinePrograms().Where(i => i.Topic.ToLower().Contains(searchText) || i.Type.ToLower().Contains(searchText)).ToList();
+                var filteredPrograms = _context.LoadDisciplinePrograms(selectedDisciplineId).Where(i => i.Topic.ToLower().Contains(searchText) || i.Type.ToLower().Contains(searchText)).ToList();
                 resultsListView.ItemsSource = filteredPrograms;
             }
         }
@@ -125,8 +108,16 @@ namespace YP._02.Stranici
             {
                 if (MessageBox.Show("Вы уверены, что хотите удалить тему? ", "Подтверждение удаления", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                 {
-                    Classes.Connection.Query($"DELETE FROM `DisciplinePrograms` WHERE `ProgramID`= {_selectedPrograms.ProgrammId}");
-                    resultsListView.ItemsSource = LoadDisciplinePrograms();
+                    bool isDeleted = _context.Delete(_selectedPrograms.ProgrammId);
+                    if (isDeleted)
+                    {
+                        MessageBox.Show("Успешное удаление данных.", "Успешно", MessageBoxButton.OK, MessageBoxImage.Information);
+                        resultsListView.ItemsSource = _context.LoadDisciplinePrograms(selectedDisciplineId);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Ошибка при удалении данных.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
                 }
             }
         }
@@ -147,31 +138,48 @@ namespace YP._02.Stranici
             {
                 if (_selectedPrograms == null)
                 {
-                    var query = Connection.Query($"INSERT INTO `DisciplinePrograms`(`DisciplineID`, `Topic`, `Type`, `Hours`) VALUES ({selectedDisciplineId},'{NameTB.Text}','{TypeTB.Text}', {Convert.ToInt32(HoursTB.Text)})");
-                    if (query != null)
+                    var newProgram = new DisciplinePrograms
                     {
-                        MessageBox.Show("Успешное добавления данных.", "Успешно", MessageBoxButton.OK, MessageBoxImage.Information);
+                        DisciplineId = selectedDisciplineId,
+                        Topic = NameTB.Text,
+                        Type = TypeTB.Text,
+                        Hours = Convert.ToInt32(HoursTB.Text)
+                    };
+                    bool isAdded = _context.Add(newProgram);
+                    if (isAdded)
+                    {
+                        MessageBox.Show("Успешное добавление данных.", "Успешно", MessageBoxButton.OK, MessageBoxImage.Information);
                     }
-                    else MessageBox.Show("Ошибка добавления данных.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    else
+                    {
+                        MessageBox.Show("Ошибка добавления данных.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    }
                 }
                 else
                 {
-                    var query = Connection.Query($"UPDATE `DisciplinePrograms` SET `DisciplineID`= {selectedDisciplineId},`Topic`= '{NameTB.Text}',`Type`= '{TypeTB.Text}',`Hours`= {Convert.ToInt32(HoursTB.Text)} WHERE `ProgramID`= {_selectedPrograms.ProgrammId}");
-                    if (query != null)
+                    _selectedPrograms.Topic = NameTB.Text;
+                    _selectedPrograms.Type = TypeTB.Text;
+                    _selectedPrograms.Hours = Convert.ToInt32(HoursTB.Text);
+                    bool isUpdated = _context.Update(_selectedPrograms);
+                    if (isUpdated)
                     {
                         MessageBox.Show("Успешное изменение данных.", "Успешно", MessageBoxButton.OK, MessageBoxImage.Information);
                     }
-                    else MessageBox.Show("Ошибка изменения данных.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    else
+                    {
+                        MessageBox.Show("Ошибка изменения данных.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    }
                 }
                 hiddenPanel.Visibility = Visibility.Hidden;
-                resultsListView.ItemsSource = LoadDisciplinePrograms();
+                resultsListView.ItemsSource = _context.LoadDisciplinePrograms(selectedDisciplineId);
             }
         }
+
         private bool ValidateForm()
         {
             if (string.IsNullOrWhiteSpace(NameTB.Text) ||
-        string.IsNullOrWhiteSpace(TypeTB.Text) ||
-        string.IsNullOrWhiteSpace(HoursTB.Text))
+                string.IsNullOrWhiteSpace(TypeTB.Text) ||
+                string.IsNullOrWhiteSpace(HoursTB.Text))
             {
                 MessageBox.Show("Все поля обязательны для заполнения.",
                                 "Ошибка",
@@ -180,7 +188,7 @@ namespace YP._02.Stranici
                 return false;
             }
 
-            if (Regex.IsMatch(HoursTB.Text, @"^\d+$"))
+            if (!Regex.IsMatch(HoursTB.Text, @"^\d+$"))
             {
                 MessageBox.Show("Поле Часы должно содержать только целые числа!",
                                 "Ошибка",

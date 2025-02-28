@@ -13,12 +13,5 @@ namespace YP._02.Classes
         public string Name { get; set; }
         public int TotalHours { get; set; }
     }
-    public class DisciplinePrograms
-    {
-        public int ProgrammId { get; set; }
-        public int DisciplineId { get; set; }
-        public string Topic { get; set; }
-        public string Type { get; set; }
-        public int Hours { get; set; }
-    }
+    
 }

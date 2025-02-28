@@ -15,6 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using YP._02.Classes;
+using YP._02.Context;
 
 namespace YP._02.Stranici
 {
@@ -25,47 +26,13 @@ namespace YP._02.Stranici
     {
         private Disciplines _selectedDiscipline;
         private UserRole currentUserRole;
+        private DisciplineContext _context = new DisciplineContext();
+
         public DisciplineManage(UserRole userRole)
         {
             InitializeComponent();
             currentUserRole = userRole;
-            resultsListView.ItemsSource = LoadDiscipline();
-        }
-        private List<Disciplines> LoadDiscipline()
-        {
-            List<Disciplines> disciplines = new List<Disciplines>();
-            string query = "SELECT * FROM `Disciplines`";
-            using (var reader = Connection.Query(query))
-            {
-                while (reader.Read())
-                {
-                    int disciplineId = reader.GetInt32(0);
-                    string name = reader.GetString(1);
-                    int totalHours = CalculateTotalHours(disciplineId);
-
-                    disciplines.Add(new Disciplines
-                    {
-                        DisciplineId = disciplineId,
-                        Name = name,
-                        TotalHours = totalHours
-                    });
-                }
-            }
-            return disciplines;
-        }
-
-        private int CalculateTotalHours(int disciplineId)
-        {
-            int totalHours = 0;
-            string query = $"SELECT SUM(Hours) AS TotalHours FROM DisciplinePrograms WHERE DisciplineId = {disciplineId}";
-            using (var reader = Connection.Query(query))
-            {
-                while (reader.Read())
-                {
-                    totalHours += reader.GetInt32(0);
-                }
-            }
-            return totalHours;
+            resultsListView.ItemsSource = _context.LoadDisciplines();
         }
 
         private void searchTextBox_GotFocus(object sender, RoutedEventArgs e)
@@ -92,11 +59,11 @@ namespace YP._02.Stranici
 
             if (string.IsNullOrEmpty(searchText))
             {
-                resultsListView.ItemsSource = LoadDiscipline();
+                resultsListView.ItemsSource = _context.LoadDisciplines();
             }
             else
             {
-                var filteredDiscipline = LoadDiscipline().Where(i => i.Name.ToLower().Contains(searchText)).ToList();
+                var filteredDiscipline = _context.LoadDisciplines().Where(i => i.Name.ToLower().Contains(searchText)).ToList();
                 resultsListView.ItemsSource = filteredDiscipline;
             }
         }
@@ -121,8 +88,16 @@ namespace YP._02.Stranici
             {
                 if (MessageBox.Show("Вы уверены, что хотите удалить дисциплину? Это приведет к удалению всех смежных данных.", "Подтверждение удаления", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                 {
-                    Classes.Connection.Query($"DELETE FROM `Disciplines` WHERE `DisciplineID`= {_selectedDiscipline.DisciplineId}");
-                    resultsListView.ItemsSource = LoadDiscipline();
+                    bool isDeleted = _context.Delete(_selectedDiscipline.DisciplineId);
+                    if (isDeleted)
+                    {
+                        MessageBox.Show("Успешное удаление данных.", "Успешно", MessageBoxButton.OK, MessageBoxImage.Information);
+                        resultsListView.ItemsSource = _context.LoadDisciplines();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Ошибка при удалении данных.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
                 }
             }
             else
@@ -134,7 +109,7 @@ namespace YP._02.Stranici
         private void Update_Click(object sender, RoutedEventArgs e)
         {
             _selectedDiscipline = resultsListView.SelectedItem as Disciplines;
-            if(_selectedDiscipline != null)
+            if (_selectedDiscipline != null)
             {
                 hiddenPanelTitle.Content = "Редактирование";
                 NameTB.Text = _selectedDiscipline.Name;
@@ -142,7 +117,7 @@ namespace YP._02.Stranici
             }
             else
             {
-                MessageBox.Show("Выберите группу для редактирования.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Выберите дисциплину для редактирования.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
 
@@ -165,42 +140,39 @@ namespace YP._02.Stranici
             {
                 if (_selectedDiscipline == null)
                 {
-                    var query = Classes.Connection.Query($"INSERT INTO `Disciplines`(`Name`) VALUES ('{NameTB.Text}')");
-                    if (query != null)
+                    var newDiscipline = new Disciplines
                     {
-                        MessageBox.Show("Успешное добавления данных.", "Успешно", MessageBoxButton.OK, MessageBoxImage.Information);
+                        Name = NameTB.Text
+                    };
+                    bool isAdded = _context.Add(newDiscipline);
+                    if (isAdded)
+                    {
+                        MessageBox.Show("Успешное добавление данных.", "Успешно", MessageBoxButton.OK, MessageBoxImage.Information);
                     }
-                    else MessageBox.Show("Ошибка добавления данных.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    else
+                    {
+                        MessageBox.Show("Ошибка добавления данных.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
                 }
                 else
                 {
-                    var query = Connection.Query($"UPDATE `Disciplines` SET `Name`= '{NameTB.Text}' WHERE `DisciplineID`= '{_selectedDiscipline.DisciplineId}'");
-                    if (query != null)
+                    _selectedDiscipline.Name = NameTB.Text;
+                    bool isUpdated = _context.Update(_selectedDiscipline);
+                    if (isUpdated)
                     {
                         MessageBox.Show("Успешное изменение данных.", "Успешно", MessageBoxButton.OK, MessageBoxImage.Information);
                     }
-                    else MessageBox.Show("Ошибка изменения данных.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    else
+                    {
+                        MessageBox.Show("Ошибка изменения данных.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
                 }
+                resultsListView.ItemsSource = _context.LoadDisciplines();
                 hiddenPanel.Visibility = Visibility.Hidden;
-                resultsListView.ItemsSource = LoadDiscipline();
-            }
-        }
-
-        private void ClosePanel_Click(object sender, RoutedEventArgs e)
-        {
-            hiddenPanel.Visibility = Visibility.Hidden;
-        }
-
-        private void DisciplineProgramm_Click(object sender, RoutedEventArgs e)
-        {
-            _selectedDiscipline = resultsListView.SelectedItem as Disciplines;
-            if (_selectedDiscipline != null)
-            {
-                this.NavigationService.Navigate(new DisciplineProgramManage(currentUserRole, _selectedDiscipline.DisciplineId));
             }
             else
             {
-                MessageBox.Show("Выберите дисциплину.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Поле Название не может быть пустым.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
     }
