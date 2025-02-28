@@ -61,12 +61,16 @@ namespace YP._02.Stranici
             string query = $"SELECT SUM(Hours) AS TotalHours FROM DisciplinePrograms WHERE DisciplineId = {disciplineId}";
             using (var reader = Connection.Query(query))
             {
-                while (reader.Read())
+                if (reader.Read())
                 {
-                    totalHours += reader.GetInt32(0);
+                    // Проверяем, является ли значение NULL
+                    if (!reader.IsDBNull(0))
+                    {
+                        totalHours = reader.GetInt32(0);
+                    }
                 }
             }
-            return totalHours;
+            return totalHours; // Возвращаем 0, если записей не найдено или значение NULL
         }
 
         private void searchTextBox_GotFocus(object sender, RoutedEventArgs e)
@@ -122,7 +126,7 @@ namespace YP._02.Stranici
             {
                 if (MessageBox.Show("Вы уверены, что хотите удалить дисциплину? Это приведет к удалению всех смежных данных.", "Подтверждение удаления", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                 {
-                    Classes.Connection.Query($"DELETE FROM `Disciplines` WHERE `DisciplineID`= {_selectedDiscipline.DisciplineId}");
+                    Classes.Connection.Query($"DELETE FROM `Disciplines` WHERE `DisciplineId`= {_selectedDiscipline.DisciplineId}");
                     resultsListView.ItemsSource = LoadDiscipline();
                 }
             }
@@ -166,7 +170,7 @@ namespace YP._02.Stranici
             {
                 if (_selectedDiscipline == null)
                 {
-                    var query = Classes.Connection.Query($"INSERT INTO `Disciplines`(`Name`) VALUES ('{NameTB.Text}')");
+                    var query = Classes.Connection.Query($"INSERT INTO `Disciplines`(`Name`,`TotalHours`) VALUES ('{NameTB.Text}')");
                     if (query != null)
                     {
                         MessageBox.Show("Успешное добавления данных.", "Успешно", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -175,7 +179,7 @@ namespace YP._02.Stranici
                 }
                 else
                 {
-                    var query = Connection.Query($"UPDATE `Disciplines` SET `Name`= '{NameTB.Text}' WHERE `DisciplineID`= '{_selectedDiscipline.DisciplineId}'");
+                    var query = Connection.Query($"UPDATE `Disciplines` SET `Name`= '{NameTB.Text}' WHERE `DisciplineId`= '{_selectedDiscipline.DisciplineId}'");
                     if (query != null)
                     {
                         MessageBox.Show("Успешное изменение данных.", "Успешно", MessageBoxButton.OK, MessageBoxImage.Information);

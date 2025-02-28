@@ -35,7 +35,7 @@ namespace YP._02.Stranici
         private List<DisciplinePrograms> LoadDisciplinePrograms()
         {
             List<DisciplinePrograms> programs = new List<DisciplinePrograms>();
-            string query = $"SELECT * FROM `DisciplinePrograms` WHERE DisciplineID = {selectedDisciplineId};";
+            string query = $"SELECT * FROM `DisciplinePrograms` WHERE DisciplineId = {selectedDisciplineId};";
             using (var reader = Connection.Query(query))
             {
                 while (reader.Read())
@@ -125,7 +125,7 @@ namespace YP._02.Stranici
             {
                 if (MessageBox.Show("Вы уверены, что хотите удалить тему? ", "Подтверждение удаления", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                 {
-                    Classes.Connection.Query($"DELETE FROM `DisciplinePrograms` WHERE `ProgramID`= {_selectedPrograms.DisciplineProgramId}");
+                    Classes.Connection.Query($"DELETE FROM `DisciplinePrograms` WHERE `DisciplineProgramId`= {_selectedPrograms.DisciplineProgramId}");
                     resultsListView.ItemsSource = LoadDisciplinePrograms();
                 }
             }
@@ -147,7 +147,7 @@ namespace YP._02.Stranici
             {
                 if (_selectedPrograms == null)
                 {
-                    var query = Connection.Query($"INSERT INTO `DisciplinePrograms`(`DisciplineID`, `Topic`, `Type`, `Hours`) VALUES ({selectedDisciplineId},'{NameTB.Text}','{TypeTB.Text}', {Convert.ToInt32(HoursTB.Text)})");
+                    var query = Connection.Query($"INSERT INTO `DisciplinePrograms`(`DisciplineId`, `Topic`, `Type`, `Hours`) VALUES ({selectedDisciplineId},'{NameTB.Text}','{TypeTB.Text}', {Convert.ToInt32(HoursTB.Text)})");
                     if (query != null)
                     {
                         MessageBox.Show("Успешное добавления данных.", "Успешно", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -156,7 +156,7 @@ namespace YP._02.Stranici
                 }
                 else
                 {
-                    var query = Connection.Query($"UPDATE `DisciplinePrograms` SET `DisciplineID`= {selectedDisciplineId},`Topic`= '{NameTB.Text}',`Type`= '{TypeTB.Text}',`Hours`= {Convert.ToInt32(HoursTB.Text)} WHERE `ProgramID`= {_selectedPrograms.DisciplineProgramId}");
+                    var query = Connection.Query($"UPDATE `DisciplinePrograms` SET `DisciplineId`= {selectedDisciplineId},`Topic`= '{NameTB.Text}',`Type`= '{TypeTB.Text}',`Hours`= {Convert.ToInt32(HoursTB.Text)} WHERE `DisciplineProgramId`= {_selectedPrograms.DisciplineProgramId}");
                     if (query != null)
                     {
                         MessageBox.Show("Успешное изменение данных.", "Успешно", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -170,8 +170,8 @@ namespace YP._02.Stranici
         private bool ValidateForm()
         {
             if (string.IsNullOrWhiteSpace(NameTB.Text) ||
-        string.IsNullOrWhiteSpace(TypeTB.Text) ||
-        string.IsNullOrWhiteSpace(HoursTB.Text))
+                string.IsNullOrWhiteSpace(TypeTB.Text) ||
+                string.IsNullOrWhiteSpace(HoursTB.Text))
             {
                 MessageBox.Show("Все поля обязательны для заполнения.",
                                 "Ошибка",
@@ -180,7 +180,8 @@ namespace YP._02.Stranici
                 return false;
             }
 
-            if (Regex.IsMatch(HoursTB.Text, @"^\d+$"))
+            // Исправлено условие регулярного выражения
+            if (!Regex.IsMatch(HoursTB.Text, @"^\d+$"))
             {
                 MessageBox.Show("Поле Часы должно содержать только целые числа!",
                                 "Ошибка",
