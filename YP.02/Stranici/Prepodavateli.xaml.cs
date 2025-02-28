@@ -162,7 +162,7 @@ namespace YP._02.Stranici
             {
                 if (_selectedInstructor == null)
                 {
-                    var query = Classes.Connection.Query($"INSERT INTO Instructors (Lastname, Firstname, Patronymic, Login, PasswordHash) VALUES ('{LastnameTB.Text}', '{FirstnameTB.Text}', '{PatronymicTB.Text}', '{LoginTB.Text}', '{PasswordTB.Text}');");
+                    var query = Classes.Connection.Query($"INSERT INTO Instructors (Lastname, Firstname, Patronymic, Login, Password) VALUES ('{LastnameTB.Text}', '{FirstnameTB.Text}', '{PatronymicTB.Text}', '{LoginTB.Text}', '{PasswordTB.Text}');");
                     if (query != null)
                     {
                         MessageBox.Show("Успешное добавления данных.", "Успешно", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -171,7 +171,7 @@ namespace YP._02.Stranici
                 }
                 else
                 {
-                    var query = Classes.Connection.Query($"UPDATE Instructors SET Lastname = '{LastnameTB.Text}', Firstname = '{FirstnameTB.Text}', Patronymic = '{PatronymicTB.Text}', Login = '{LoginTB.Text}', PasswordHash = '{PasswordTB.Text}' WHERE InstructorID = {_selectedInstructor.InstructorId};");
+                    var query = Classes.Connection.Query($"UPDATE Instructors SET Lastname = '{LastnameTB.Text}', Firstname = '{FirstnameTB.Text}', Patronymic = '{PatronymicTB.Text}', Login = '{LoginTB.Text}', Password = '{PasswordTB.Text}' WHERE InstructorID = {_selectedInstructor.InstructorId};");
                     if (query != null)
                     {
                         MessageBox.Show("Успешное изменение данных.", "Успешно", MessageBoxButton.OK, MessageBoxImage.Information);

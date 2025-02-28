@@ -61,7 +61,7 @@ namespace YP._02
                     return;
                 }
 
-                var checkAuth = Classes.Connection.Query($"SELECT InstructorID FROM `Instructors` WHERE Login = '{enteredUsername}' AND PasswordHash = '{enteredPassword}';");
+                var checkAuth = Classes.Connection.Query($"SELECT InstructorID FROM `Instructors` WHERE Login = '{enteredUsername}' AND Password = '{enteredPassword}';");
                 if (checkAuth != null && checkAuth.HasRows)
                 {
                     checkAuth.Read();

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,7 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-
+using OfficeOpenXml;
 namespace YP._02.Stranici
 {
     /// <summary>
@@ -27,7 +28,7 @@ namespace YP._02.Stranici
             currentUserRole = userRole;
         }
 
-    
+
 
         private void Exit(object sender, RoutedEventArgs e)
         {
@@ -63,6 +64,38 @@ namespace YP._02.Stranici
         private void DiciplineReport(object sender, RoutedEventArgs e)
         {
             this.NavigationService.Navigate(new Stranici.DisciplineWindow(currentUserRole));
+        }
+
+
+        private void DebtReport(object sender, RoutedEventArgs e)
+        {
+            ExportToExcel("Отчёт по должникам", new string[] { "Студент", "Не сданные работы", "Сданные за неделю" });
+        }
+
+        private void RetakeDirection(object sender, RoutedEventArgs e)
+        {
+            ExportToExcel("Направление на пересдачу", new string[] { "Студент", "Дисциплина", "Дата пересдачи" });
+        }
+
+        private void AttendanceSummary(object sender, RoutedEventArgs e)
+        {
+            ExportToExcel("Сводка посещаемости", new string[] { "Студент", "Дата", "Пропущенные занятия" });
+        }
+
+        private void ExportToExcel(string reportName, string[] headers)
+        {
+            using (var package = new ExcelPackage())
+            {
+                var worksheet = package.Workbook.Worksheets.Add(reportName);
+                for (int i = 0; i < headers.Length; i++)
+                {
+                    worksheet.Cells[1, i + 1].Value = headers[i];
+                }
+
+                string filePath = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), reportName + ".xlsx");
+                File.WriteAllBytes(filePath, package.GetAsByteArray());
+                MessageBox.Show("Файл сохранен на рабочем столе: " + filePath, "Экспорт в Excel", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
         }
     }
 }

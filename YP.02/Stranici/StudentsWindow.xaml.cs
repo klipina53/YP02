@@ -37,19 +37,20 @@ namespace YP._02.Stranici
         private List<Student> LoadStudents()
         {
             List<Student> students = new List<Student>();
-            string query = $"SELECT * FROM `Students` WHERE GroupID = {selectedGroupId}";
+            string query = $"SELECT StudentID, GroupID, Lastname, Firstname, Patronymic, DismissalDate FROM Students WHERE GroupID = {selectedGroupId}";
+
             using (var reader = Connection.Query(query))
             {
                 while (reader.Read())
                 {
                     students.Add(new Student
                     {
-                        StudentId = reader.GetInt32(0),
-                        GroupId = reader.GetInt32(1),
-                        Lastname = reader.GetString(2),
-                        Firstname = reader.GetString(3),
-                        Patronymic = reader.GetString(4),
-                        DismissalDate = reader.IsDBNull(5) ? (DateTime?)null : reader.GetDateTime(5)
+                        StudentId = reader.IsDBNull(0) ? 0 : reader.GetInt32(0), // Проверка на NULL
+                        GroupId = reader.IsDBNull(1) ? 0 : reader.GetInt32(1), // Проверка на NULL
+                        Lastname = reader.IsDBNull(2) ? "Неизвестно" : reader.GetString(2), // Защита от NULL
+                        Firstname = reader.IsDBNull(3) ? "Неизвестно" : reader.GetString(3),
+                        Patronymic = reader.IsDBNull(4) ? null : reader.GetString(4), // Может быть NULL
+                        DismissalDate = reader.IsDBNull(5) ? (DateTime?)null : reader.GetDateTime(5) // Проверка на NULL
                     });
                 }
             }

@@ -42,7 +42,7 @@ namespace YP._02.Stranici
                 {
                     programs.Add(new DisciplinePrograms
                     {
-                        ProgrammId = reader.GetInt32(0),
+                        DisciplineProgramId = reader.GetInt32(0),
                         DisciplineId = reader.GetInt32(1),
                         Topic = reader.GetString(2),
                         Type = reader.GetString(3),
@@ -125,7 +125,7 @@ namespace YP._02.Stranici
             {
                 if (MessageBox.Show("Вы уверены, что хотите удалить тему? ", "Подтверждение удаления", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                 {
-                    Classes.Connection.Query($"DELETE FROM `DisciplinePrograms` WHERE `ProgramID`= {_selectedPrograms.ProgrammId}");
+                    Classes.Connection.Query($"DELETE FROM `DisciplinePrograms` WHERE `ProgramID`= {_selectedPrograms.DisciplineProgramId}");
                     resultsListView.ItemsSource = LoadDisciplinePrograms();
                 }
             }
@@ -156,7 +156,7 @@ namespace YP._02.Stranici
                 }
                 else
                 {
-                    var query = Connection.Query($"UPDATE `DisciplinePrograms` SET `DisciplineID`= {selectedDisciplineId},`Topic`= '{NameTB.Text}',`Type`= '{TypeTB.Text}',`Hours`= {Convert.ToInt32(HoursTB.Text)} WHERE `ProgramID`= {_selectedPrograms.ProgrammId}");
+                    var query = Connection.Query($"UPDATE `DisciplinePrograms` SET `DisciplineID`= {selectedDisciplineId},`Topic`= '{NameTB.Text}',`Type`= '{TypeTB.Text}',`Hours`= {Convert.ToInt32(HoursTB.Text)} WHERE `ProgramID`= {_selectedPrograms.DisciplineProgramId}");
                     if (query != null)
                     {
                         MessageBox.Show("Успешное изменение данных.", "Успешно", MessageBoxButton.OK, MessageBoxImage.Information);
