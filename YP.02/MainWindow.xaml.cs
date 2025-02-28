@@ -128,5 +128,10 @@ namespace YP._02
                 usernameTextBox.Foreground = Brushes.LightGray; 
             }
         }
+
+        private void CheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

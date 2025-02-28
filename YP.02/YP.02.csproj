@@ -131,6 +131,7 @@
     <Compile Include="Classes\Attendance.cs" />
     <Compile Include="Classes\Connection.cs" />
     <Compile Include="Classes\CurrentUser.cs" />
+    <Compile Include="Classes\DisciplineContext.cs" />
     <Compile Include="Classes\Disciplines.cs" />
     <Compile Include="Classes\Groups.cs" />
     <Compile Include="Classes\Instructors.cs" />

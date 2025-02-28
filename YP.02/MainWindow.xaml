@@ -68,7 +68,7 @@
             <Image Margin="0,0,336,163" Source="/Images/LOGIN.png" Stretch="Fill" HorizontalAlignment="Right" Width="84" Height="15" VerticalAlignment="Bottom"/>
             <Button Click="Entrance" Foreground="White" HorizontalAlignment="Right" Height="27" Margin="0,0,258,157" VerticalAlignment="Bottom" Width="239" Background="#80ED4649" BorderBrush="{x:Null}" />
             <Image Margin="0,0,498,249" Source="/Images/icons.png" Stretch="Fill" HorizontalAlignment="Right" Width="28" Height="27" VerticalAlignment="Bottom" />
-            <CheckBox Content="Remember me" HorizontalAlignment="Right" Margin="0,0,419,118" VerticalAlignment="Bottom" Width="107" Foreground="White" FontFamily="Microsoft YaHei" BorderBrush="{x:Null}"/>
+            <CheckBox Content="Remember me" HorizontalAlignment="Right" Margin="0,0,419,118" VerticalAlignment="Bottom" Width="107" Foreground="White" FontFamily="Microsoft YaHei" BorderBrush="{x:Null}" Checked="CheckBox_Checked"/>
         </Grid>
     </Viewbox>
 

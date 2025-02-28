@@ -29,7 +29,8 @@ namespace YP._02.Stranici
         {
             InitializeComponent();
             currentUserRole = userRole;
-            resultsListView.ItemsSource = LoadDiscipline();
+            //resultsListView.ItemsSource = LoadDiscipline();
+            resultsListView.ItemsSource = DisciplineContext.All();
         }
         private List<Disciplines> LoadDiscipline()
         {
