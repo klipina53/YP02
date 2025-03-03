@@ -15,6 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using YP._02.Classes;
+using YP._02.Context;
 
 namespace YP._02.Stranici
 {
@@ -26,36 +27,15 @@ namespace YP._02.Stranici
         private UserRole currentUserRole;
         private int selectedGroupId;
         private Student _selectedStudent;
+        private StudentContext _context = new StudentContext();
 
         public StudentsWindow(UserRole userRole, int selectedGroupId)
         {
             InitializeComponent();
             currentUserRole = userRole;
             this.selectedGroupId = selectedGroupId;
-            resultsListView.ItemsSource = LoadStudents();
+            resultsListView.ItemsSource = _context.LoadStudents(selectedGroupId);
         }
-        private List<Student> LoadStudents()
-        {
-            List<Student> students = new List<Student>();
-            string query = $"SELECT * FROM `Students` WHERE GroupID = {selectedGroupId}";
-            using (var reader = Connection.Query(query))
-            {
-                while (reader.Read())
-                {
-                    students.Add(new Student
-                    {
-                        StudentId = reader.GetInt32(0),
-                        GroupId = reader.GetInt32(1),
-                        Lastname = reader.GetString(2),
-                        Firstname = reader.GetString(3),
-                        Patronymic = reader.GetString(4),
-                        DismissalDate = reader.IsDBNull(5) ? (DateTime?)null : reader.GetDateTime(5)
-                    });
-                }
-            }
-            return students;
-        }
-
 
         private void Back(object sender, RoutedEventArgs e)
         {
@@ -69,7 +49,6 @@ namespace YP._02.Stranici
                     break;
             }
         }
-
 
         private void searchTextBox_GotFocus(object sender, RoutedEventArgs e)
         {
@@ -100,14 +79,14 @@ namespace YP._02.Stranici
 
             if (string.IsNullOrEmpty(searchText))
             {
-                resultsListView.ItemsSource = LoadStudents();
+                resultsListView.ItemsSource = _context.LoadStudents(selectedGroupId);
             }
             else
             {
-                var filteredStudents = LoadStudents()
+                var filteredStudents = _context.LoadStudents(selectedGroupId)
                     .Where(s => s.Lastname.ToLower().Contains(searchText) ||
-                                s.Firstname.ToLower().Contains(searchText) ||
-                                s.Patronymic.ToLower().Contains(searchText))
+                                 s.Firstname.ToLower().Contains(searchText) ||
+                                 s.Patronymic.ToLower().Contains(searchText))
                     .ToList();
                 resultsListView.ItemsSource = filteredStudents;
             }
@@ -137,8 +116,16 @@ namespace YP._02.Stranici
             {
                 if (MessageBox.Show("Вы уверены, что хотите удалить студента?", "Подтверждение удаления", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                 {
-                    Classes.Connection.Query($"DELETE FROM `Students` WHERE `StudentID` = {_selectedStudent.StudentId}");
-                    resultsListView.ItemsSource = LoadStudents();
+                    bool isDeleted = _context.Delete(_selectedStudent.StudentId);
+                    if (isDeleted)
+                    {
+                        MessageBox.Show("Успешное удаление данных.", "Успешно", MessageBoxButton.OK, MessageBoxImage.Information);
+                        resultsListView.ItemsSource = _context.LoadStudents(selectedGroupId);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Ошибка при удалении данных.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
                 }
             }
             else
@@ -170,57 +157,57 @@ namespace YP._02.Stranici
         {
             if (ValidateForm())
             {
-                string dismissalDate = DismissalDateTB.SelectedDate.HasValue
-                    ? $"'{DismissalDateTB.SelectedDate.Value.ToString("yyyy-MM-dd")}'"
-                    : "NULL";
-
                 if (_selectedStudent == null)
                 {
-                    // Добавление нового студента
-                    var query = Connection.Query($"INSERT INTO `Students`(`GroupID`, `LastName`, `FirstName`, `Patronymic`, `DismissalDate`) " +
-                                                $"VALUES ({selectedGroupId}, '{LastnameTB.Text}', '{FirstnameTB.Text}', '{PatronymicTB.Text}', {dismissalDate})");
-                    if (query != null)
+                    var newStudent = new Student
+                    {
+                        GroupId = selectedGroupId,
+                        Lastname = LastnameTB.Text,
+                        Firstname = FirstnameTB.Text,
+                        Patronymic = PatronymicTB.Text,
+                        DismissalDate = DismissalDateTB.SelectedDate
+                    };
+
+                    bool isAdded = _context.Add(newStudent);
+                    if (isAdded)
                     {
                         MessageBox.Show("Успешное добавление данных.", "Успешно", MessageBoxButton.OK, MessageBoxImage.Information);
                     }
                     else
                     {
-                        MessageBox.Show("Ошибка добавления данных.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        MessageBox.Show("Ошибка добавления данных.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                 }
                 else
                 {
-                    var query = Connection.Query($"UPDATE `Students` SET " +
-                                                $"`LastName` = '{LastnameTB.Text}', " +
-                                                $"`FirstName` = '{FirstnameTB.Text}', " +
-                                                $"`Patronymic` = '{PatronymicTB.Text}', " +
-                                                $"`DismissalDate` = {dismissalDate} " +
-                                                $"WHERE `StudentID` = {_selectedStudent.StudentId}");
-                    if (query != null)
+                    _selectedStudent.Lastname = LastnameTB.Text;
+                    _selectedStudent.Firstname = FirstnameTB.Text;
+                    _selectedStudent.Patronymic = PatronymicTB.Text;
+                    _selectedStudent.DismissalDate = DismissalDateTB.SelectedDate;
+
+                    bool isUpdated = _context.Update(_selectedStudent);
+                    if (isUpdated)
                     {
                         MessageBox.Show("Успешное изменение данных.", "Успешно", MessageBoxButton.OK, MessageBoxImage.Information);
                     }
                     else
                     {
-                        MessageBox.Show("Ошибка изменения данных.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        MessageBox.Show("Ошибка изменения данных.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                 }
 
-                // Обновляем список студентов
-                resultsListView.ItemsSource = LoadStudents();
+                resultsListView.ItemsSource = _context.LoadStudents(selectedGroupId);
                 hiddenPanel.Visibility = Visibility.Hidden;
             }
         }
+
         private bool ValidateForm()
         {
             if (string.IsNullOrWhiteSpace(LastnameTB.Text) ||
-        string.IsNullOrWhiteSpace(FirstnameTB.Text) ||
-        string.IsNullOrWhiteSpace(PatronymicTB.Text))
+                string.IsNullOrWhiteSpace(FirstnameTB.Text) ||
+                string.IsNullOrWhiteSpace(PatronymicTB.Text))
             {
-                MessageBox.Show("Все поля обязательны для заполнения.",
-                                "Ошибка",
-                                MessageBoxButton.OK,
-                                MessageBoxImage.Error);
+                MessageBox.Show("Все поля обязательны для заполнения.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                 return false;
             }
 

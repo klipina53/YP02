@@ -175,5 +175,23 @@ namespace YP._02.Stranici
                 MessageBox.Show("Поле Название не может быть пустым.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
+
+        private void ClosePanel_Click(object sender, RoutedEventArgs e)
+        {
+            hiddenPanel.Visibility = Visibility.Hidden;
+        }
+
+        private void DisciplineProgramm_Click(object sender, RoutedEventArgs e)
+        {
+            _selectedDiscipline = resultsListView.SelectedItem as Disciplines;
+            if (_selectedDiscipline != null)
+            {
+                this.NavigationService.Navigate(new DisciplineProgramManage(currentUserRole, _selectedDiscipline.DisciplineId));
+            }
+            else
+            {
+                MessageBox.Show("Выберите дисциплину.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+        }
     }
 }

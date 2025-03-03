@@ -120,6 +120,10 @@ namespace YP._02.Stranici
                     }
                 }
             }
+            else
+            {
+                MessageBox.Show("Выберите тему для удаления.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
         }
 
         private void Back(object sender, RoutedEventArgs e)

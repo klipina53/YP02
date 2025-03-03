@@ -128,7 +128,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Classes\Attendance.cs" />
     <Compile Include="Classes\Connection.cs" />
     <Compile Include="Classes\CurrentUser.cs" />
     <Compile Include="Classes\DisciplinePrograms.cs" />
@@ -139,6 +138,8 @@
     <Compile Include="Context\DisciplineContext.cs" />
     <Compile Include="Context\DisciplineProgramContext.cs" />
     <Compile Include="Context\GroupsContext.cs" />
+    <Compile Include="Context\InstructorsContext.cs" />
+    <Compile Include="Context\StudentContext.cs" />
     <Compile Include="Stranici\DisciplineManage.xaml.cs">
       <DependentUpon>DisciplineManage.xaml</DependentUpon>
     </Compile>

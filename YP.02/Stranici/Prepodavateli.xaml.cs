@@ -14,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using YP._02.Classes;
+using YP._02.Context;
 
 namespace YP._02.Stranici
 {
@@ -24,34 +25,15 @@ namespace YP._02.Stranici
     {
         private UserRole currentUserRole;
         private Instructors _selectedInstructor;
+        private InstructorsContext _context = new InstructorsContext();
+
         public Prepodavateli(UserRole userRole)
         {
             InitializeComponent();
             currentUserRole = userRole;
-            resultsListView.ItemsSource = LoadInstructors();
+            resultsListView.ItemsSource = _context.LoadInstructors();
         }
-        private List<Instructors> LoadInstructors()
-        {
-            List<Instructors> instructors = new List<Instructors>();
 
-            string query = "SELECT * FROM `Instructors`";
-            using (var reader = Connection.Query(query))
-            {
-                while (reader.Read())
-                {
-                    instructors.Add(new Instructors
-                    {
-                        InstructorId = reader.GetInt32(0),
-                        Lastname = reader.GetString(1),
-                        Firstname = reader.GetString(2),
-                        Patronymic = reader.GetString(3),
-                        Login = reader.GetString(4),
-                        Password = reader.GetString(5)
-                    });
-                }
-            }
-            return instructors;
-        }
         private void Back(object sender, RoutedEventArgs e)
         {
             switch (currentUserRole)
@@ -64,6 +46,7 @@ namespace YP._02.Stranici
                     break;
             }
         }
+
         private void searchTextBox_GotFocus(object sender, RoutedEventArgs e)
         {
             if (searchTextBox.Text == "Поиск...")
@@ -93,15 +76,15 @@ namespace YP._02.Stranici
 
             if (string.IsNullOrEmpty(searchText))
             {
-                resultsListView.ItemsSource = LoadInstructors();
+                resultsListView.ItemsSource = _context.LoadInstructors();
             }
             else
             {
-                var filteredInstructors = LoadInstructors()
+                var filteredInstructors = _context.LoadInstructors()
                     .Where(i => i.Lastname.ToLower().Contains(searchText) ||
-                                  i.Firstname.ToLower().Contains(searchText) ||
-                                  i.Patronymic.ToLower().Contains(searchText) ||
-                                  i.Login.ToLower().Contains(searchText))
+                                 i.Firstname.ToLower().Contains(searchText) ||
+                                 i.Patronymic.ToLower().Contains(searchText) ||
+                                 i.Login.ToLower().Contains(searchText))
                     .ToList();
 
                 resultsListView.ItemsSource = filteredInstructors;
@@ -146,8 +129,16 @@ namespace YP._02.Stranici
             {
                 if (MessageBox.Show("Вы уверены, что хотите удалить преподавателя? Это приведет к удалению всех смежных данных.", "Подтверждение удаления", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                 {
-                    Classes.Connection.Query($"DELETE FROM Instructors WHERE InstructorID = {_selectedInstructor.InstructorId}");
-                    resultsListView.ItemsSource = LoadInstructors();
+                    bool isDeleted = _context.Delete(_selectedInstructor.InstructorId);
+                    if (isDeleted)
+                    {
+                        MessageBox.Show("Успешное удаление данных.", "Успешно", MessageBoxButton.OK, MessageBoxImage.Information);
+                        resultsListView.ItemsSource = _context.LoadInstructors();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Ошибка удаления данных.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
                 }
             }
             else
@@ -162,30 +153,56 @@ namespace YP._02.Stranici
             {
                 if (_selectedInstructor == null)
                 {
-                    var query = Classes.Connection.Query($"INSERT INTO Instructors (Lastname, Firstname, Patronymic, Login, PasswordHash) VALUES ('{LastnameTB.Text}', '{FirstnameTB.Text}', '{PatronymicTB.Text}', '{LoginTB.Text}', '{PasswordTB.Text}');");
-                    if (query != null)
+                    var newInstructor = new Instructors
                     {
-                        MessageBox.Show("Успешное добавления данных.", "Успешно", MessageBoxButton.OK, MessageBoxImage.Information);
+                        Lastname = LastnameTB.Text,
+                        Firstname = FirstnameTB.Text,
+                        Patronymic = PatronymicTB.Text,
+                        Login = LoginTB.Text,
+                        Password = PasswordTB.Text
+                    };
+
+                    bool isAdded = _context.Add(newInstructor);
+                    if (isAdded)
+                    {
+                        MessageBox.Show("Успешное добавление данных.", "Успешно", MessageBoxButton.OK, MessageBoxImage.Information);
                     }
-                    else MessageBox.Show("Ошибка добавления данных.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    else
+                    {
+                        MessageBox.Show("Ошибка добавления данных.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
                 }
                 else
                 {
-                    var query = Classes.Connection.Query($"UPDATE Instructors SET Lastname = '{LastnameTB.Text}', Firstname = '{FirstnameTB.Text}', Patronymic = '{PatronymicTB.Text}', Login = '{LoginTB.Text}', PasswordHash = '{PasswordTB.Text}' WHERE InstructorID = {_selectedInstructor.InstructorId};");
-                    if (query != null)
+                    _selectedInstructor.Lastname = LastnameTB.Text;
+                    _selectedInstructor.Firstname = FirstnameTB.Text;
+                    _selectedInstructor.Patronymic = PatronymicTB.Text;
+                    _selectedInstructor.Login = LoginTB.Text;
+                    _selectedInstructor.Password = PasswordTB.Text;
+
+                    bool isUpdated = _context.Update(_selectedInstructor);
+                    if (isUpdated)
                     {
                         MessageBox.Show("Успешное изменение данных.", "Успешно", MessageBoxButton.OK, MessageBoxImage.Information);
                     }
-                    else MessageBox.Show("Ошибка изменения данных.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    else
+                    {
+                        MessageBox.Show("Ошибка изменения данных.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
                 }
+
+                resultsListView.ItemsSource = _context.LoadInstructors();
                 hiddenPanel.Visibility = Visibility.Hidden;
-                resultsListView.ItemsSource = LoadInstructors();
             }
         }
+
         private bool ValidateForm()
         {
-            if (string.IsNullOrWhiteSpace(LastnameTB.Text) || string.IsNullOrWhiteSpace(FirstnameTB.Text) || string.IsNullOrWhiteSpace(PatronymicTB.Text) ||
-                string.IsNullOrWhiteSpace(LoginTB.Text) || string.IsNullOrWhiteSpace(PasswordTB.Text))
+            if (string.IsNullOrWhiteSpace(LastnameTB.Text) ||
+                string.IsNullOrWhiteSpace(FirstnameTB.Text) ||
+                string.IsNullOrWhiteSpace(PatronymicTB.Text) ||
+                string.IsNullOrWhiteSpace(LoginTB.Text) ||
+                string.IsNullOrWhiteSpace(PasswordTB.Text))
             {
                 MessageBox.Show("Все поля обязательны для заполнения.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                 return false;
