@@ -99,7 +99,7 @@ namespace YP._02
         }
 
         private void Password_PasswordChanged(object sender, RoutedEventArgs e)
-        {
+ {
             if (string.IsNullOrEmpty(password.Password))
             {
                 placeholderText.Visibility = Visibility.Visible;

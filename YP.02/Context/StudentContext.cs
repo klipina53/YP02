@@ -20,11 +20,11 @@ namespace YP._02.Context
                     students.Add(new Student
                     {
                         StudentId = reader.GetInt32(0),
-                        GroupId = reader.GetInt32(1),
-                        Lastname = reader.GetString(2),
-                        Firstname = reader.GetString(3),
-                        Patronymic = reader.GetString(4),
-                        DismissalDate = reader.IsDBNull(5) ? (DateTime?)null : reader.GetDateTime(5)
+                        GroupId = reader.GetInt32(5),
+                        Lastname = reader.GetString(1),
+                        Firstname = reader.GetString(2),
+                        Patronymic = reader.GetString(3),
+                        DismissalDate = reader.IsDBNull(4) ? (DateTime?)null : reader.GetDateTime(4)
                     });
                 }
             }

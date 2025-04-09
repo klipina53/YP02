@@ -36,13 +36,19 @@ namespace YP._02.Context
         {
             int totalHours = 0;
             string query = $"SELECT SUM(Hours) AS TotalHours FROM DisciplinePrograms WHERE DisciplineId = {disciplineId}";
+
             using (var reader = Connection.Query(query))
             {
-                while (reader.Read())
+                if (reader.Read())
                 {
-                    totalHours += reader.GetInt32(0);
+                    // Проверяем, является ли значение DBNull перед его получением
+                    if (!reader.IsDBNull(0))
+                    {
+                        totalHours = reader.GetInt32(0);
+                    }
                 }
             }
+
             return totalHours;
         }
 
