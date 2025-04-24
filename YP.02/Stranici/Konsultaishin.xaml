@@ -134,7 +134,7 @@
                         <DatePicker x:Name="DatePicker" />
 
                         <Label Content="ID студента"/>
-                        <TextBox x:Name="StudentIDTextBox" Height="22"/>
+                        <TextBox x:Name="StudentFullName" Height="22"/>
 
                         <Label Content="Сданные практические работы"/>
                         <TextBox x:Name="PracticeSubmittedTextBox" Height="22"/>

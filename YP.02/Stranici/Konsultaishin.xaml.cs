@@ -48,7 +48,7 @@ namespace YP._02.Stranici
             {
                 hiddenPanelTitle.Content = "Редактирование";
                 DatePicker.SelectedDate = selectedConsultation.Date;
-                StudentIDTextBox.Text = selectedConsultation.StudentFullName.ToString();
+                StudentFullName.Text = selectedConsultation.StudentFullName.ToString();
                 PracticeSubmittedTextBox.Text = selectedConsultation.PracticeSubmitted;
                 
                 hiddenPanel.Visibility = Visibility.Visible;
@@ -90,8 +90,8 @@ namespace YP._02.Stranici
             _selectedConsultation = null;
             hiddenPanelTitle.Content = "Добавление";
             DatePicker.SelectedDate = null;
-            StudentIDTextBox.Text = string.Empty;
-            PracticeSubmittedTextBox.Text = string.Empty; // Изменено на текстовое поле
+            StudentFullName.Text = string.Empty; // Обновлено на FullNameTextBox
+            PracticeSubmittedTextBox.Text = string.Empty;
             hiddenPanel.Visibility = Visibility.Visible;
         }
 
@@ -119,7 +119,7 @@ namespace YP._02.Stranici
                 MessageBox.Show("Выберите консультацию для удаления.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
-      
+
 
 
         private void Update_Click(object sender, RoutedEventArgs e)
@@ -129,8 +129,8 @@ namespace YP._02.Stranici
             {
                 hiddenPanelTitle.Content = "Редактирование";
                 DatePicker.SelectedDate = _selectedConsultation.Date;
-                StudentIDTextBox.Text = _selectedConsultation.StudentFullName.ToString();
-                PracticeSubmittedTextBox.Text = _selectedConsultation.PracticeSubmitted; // Изменено на TextBox
+                StudentFullName.Text = _selectedConsultation.StudentFullName; // Обновлено на FullNameTextBox
+                PracticeSubmittedTextBox.Text = _selectedConsultation.PracticeSubmitted;
                 hiddenPanel.Visibility = Visibility.Visible;
             }
             else
@@ -159,14 +159,14 @@ namespace YP._02.Stranici
 
         private void Save_Click(object sender, RoutedEventArgs e)
         {
-            if (DatePicker.SelectedDate != null && int.TryParse(StudentIDTextBox.Text, out int studentId))
+            if (DatePicker.SelectedDate != null && !string.IsNullOrWhiteSpace(StudentFullName.Text))
             {
                 if (_selectedConsultation == null) // Добавление
                 {
                     var newConsultation = new Consultation
                     {
                         Date = DatePicker.SelectedDate.Value,
-                        StudentFullName = GetStudentFullName(studentId), // Получим полное имя
+                        StudentFullName = StudentFullName.Text.Trim(), // Используйте текст из FullNameTextBox
                         PracticeSubmitted = PracticeSubmittedTextBox.Text
                     };
 
@@ -183,7 +183,7 @@ namespace YP._02.Stranici
                 else // Обновление
                 {
                     _selectedConsultation.Date = DatePicker.SelectedDate.Value;
-                    _selectedConsultation.StudentFullName = GetStudentFullName(studentId); // Загружаем ФИО студента
+                    _selectedConsultation.StudentFullName = StudentFullName.Text.Trim(); // Используйте текст из FullNameTextBox
                     _selectedConsultation.PracticeSubmitted = PracticeSubmittedTextBox.Text;
 
                     bool isUpdated = _context.Update(_selectedConsultation);
@@ -206,10 +206,8 @@ namespace YP._02.Stranici
             }
         }
 
-        private string GetStudentFullName(int studentId)
-        {
-            return _context.GetStudentFullName(studentId);
-        }
+
+       
 
     
     }

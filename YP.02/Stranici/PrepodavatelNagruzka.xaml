@@ -130,6 +130,7 @@
                 Width="75" 
                 Height="20" 
                 VerticalAlignment="Bottom" 
+                    Click="Add_Click"
                 Style="{StaticResource RoundButtonStyle}"/>
 
             <Button Content="Удалить"  
@@ -138,6 +139,7 @@
                 VerticalAlignment="Bottom" 
                 HorizontalAlignment="Left" 
                 Width="75" 
+                    Click="Delete_Click"
                 Style="{StaticResource RoundButtonStyle}"/>
 
             <Button Content="Изменить"  
@@ -145,6 +147,7 @@
                 Margin="652,0,0,28" 
                 Width="75" 
                 Height="20" 
+                    Click="Update_Click"
                 VerticalAlignment="Bottom" 
                 Style="{StaticResource RoundButtonStyle}"/>
 

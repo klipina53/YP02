@@ -68,17 +68,17 @@
                       Background="#FFC7C7C7">
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn Header="№" Width="50" DisplayMemberBinding="{Binding Number}"/>
+                        <GridViewColumn Header="№" Width="50" DisplayMemberBinding="{Binding ID }"/>
                         <GridViewColumn Header="Наименование" Width="300" DisplayMemberBinding="{Binding Name}"/>
-                        <GridViewColumn Header="Группа" Width="100" DisplayMemberBinding="{Binding Group}"/>
+                        <GridViewColumn Header="Группа" Width="100" DisplayMemberBinding="{Binding GroupId}"/>
                         <GridViewColumn Header="Количество занятий" Width="130" DisplayMemberBinding="{Binding TotalClasses}"/>
                         <GridViewColumn Header="Проведенное количество часов" Width="200" DisplayMemberBinding="{Binding ConductedHours}"/>
                     </GridView>
                 </ListView.View>
             </ListView>
-            <Button Content="Добавить"  Opacity="0.611" Margin="560,0,0,28" Height="20" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="75" Style="{StaticResource RoundButtonStyle}"/>
-            <Button Content="Удалить"  Opacity="0.611" Margin="740,0,0,28" Height="20" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="75" Style="{StaticResource RoundButtonStyle}"/>
-            <Button Content="Изменить"  Opacity="0.611" HorizontalAlignment="Left" Margin="652,0,0,28" Width="75" Height="20" VerticalAlignment="Bottom" Style="{StaticResource RoundButtonStyle}"/>
+            <Button Content="Добавить"  Opacity="0.611" Margin="560,0,0,28" Height="20" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="75" Style="{StaticResource RoundButtonStyle}" Click="Add_Click"/>
+            <Button Content="Удалить" Opacity="0.611" Margin="740,0,0,28" Height="20" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="75" Style="{StaticResource RoundButtonStyle}" Click="Delete_Click"/>
+            <Button Content="Изменить"  Opacity="0.611" HorizontalAlignment="Left" Margin="652,0,0,28" Width="75" Height="20" VerticalAlignment="Bottom" Style="{StaticResource RoundButtonStyle}" Click="Update_Click"/>
             <Button  HorizontalAlignment="Left" Margin="36,24,0,0" VerticalAlignment="Top" Width="37" Height="30" BorderBrush="{x:Null}" Click="Back">
                 <Button.Background>
                     <ImageBrush ImageSource="..\Images\back.png"/>
@@ -101,7 +101,7 @@
                         <TextBox x:Name="Name"  Height="22"/>
 
                         <Label  Content="Группа"/>
-                        <TextBox x:Name="Group"  Height="22"/>
+                        <TextBox x:Name="GroupId"  Height="22"/>
 
                         <Label  Content="Количество занятий"/>
                         <TextBox x:Name="TotalClasses"  Height="22"/>

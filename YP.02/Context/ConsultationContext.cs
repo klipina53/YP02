@@ -14,10 +14,7 @@ namespace YP._02.Context
         public List<Consultation> LoadConsultations()
         {
             List<Consultation> consultations = new List<Consultation>();
-            string query = @"
-        SELECT c.ConsultationID, c.Date, s.Lastname, s.Firstname, s.Patronymic, c.PracticeSubmitted
-        FROM `Consultations` c
-        JOIN `Students` s ON c.StudentID = s.StudentId";
+            string query = "SELECT ConsultationID, Date, StudentFullName, PracticeSubmitted FROM `Consultations`";
 
             using (var reader = Connection.Query(query))
             {
@@ -25,71 +22,40 @@ namespace YP._02.Context
                 {
                     int consultationId = reader.GetInt32(0);
                     DateTime date = reader.GetDateTime(1);
-                    string lastName = reader.GetString(2);
-                    string firstName = reader.GetString(3);
-                    string patronymic = reader.IsDBNull(4) ? null : reader.GetString(4);
-                    string practiceSubmitted = reader.IsDBNull(5) ? null : reader.GetString(5);
-
-                    string fullName = $"{lastName} {firstName} {(patronymic != null ? patronymic : "")}".Trim();
+                    string studentFullName = reader.GetString(2);
+                    string practiceSubmitted = reader.IsDBNull(3) ? null : reader.GetString(3);
 
                     consultations.Add(new Consultation
                     {
                         ConsultationID = consultationId,
                         Date = date,
-                        StudentFullName = fullName, // Сохраняем полное имя студента
+                        StudentFullName = studentFullName,
                         PracticeSubmitted = practiceSubmitted
                     });
                 }
             }
             return consultations;
         }
-        public string GetStudentFullName(int studentId)
-        {
-            string query = "SELECT Lastname, Firstname, Patronymic FROM Students WHERE StudentId = @studentId";
-                using (var reader = Connection.Query(query))
-                {
-                    if (reader.Read())
-                    {
-                        string lastName = reader.GetString(0);
-                        string firstName = reader.GetString(1);
-                        string patronymic = reader.IsDBNull(2) ? string.Empty : reader.GetString(2);
-
-                        return $"{lastName} {firstName} {patronymic}".Trim();
-                    }
-                }
-            
-            return string.Empty; // Возврат пустой строки, если студент не найден
-        }
 
         public bool Add(Consultation consultation)
         {
-            string query = "INSERT INTO `Consultations` (`Date`, `StudentID`, `PracticeSubmitted`) VALUES (@date, @studentID, @practiceSubmitted)";
-
-          
-                var result = Connection.Query(query);
-               return result != null;
-            
-
+            string query = $"INSERT INTO `Consultations` (`Date`, `StudentFullName`, `PracticeSubmitted`) VALUES ('{consultation.Date:yyyy-MM-dd HH:mm:ss}', '{consultation.StudentFullName}', '{consultation.PracticeSubmitted}')";
+            var result = Connection.Query(query);
+            return result != null;
         }
 
         public bool Update(Consultation consultation)
         {
-            string query = $"UPDATE `Consultations` SET `Date` = '{consultation.Date:yyyy-MM-dd HH:mm:ss}', `StudentID` = {consultation.StudentFullName}, `PracticeSubmitted` = {consultation.PracticeSubmitted} WHERE `ConsultationID` = {consultation.ConsultationID}";
-
-
+            string query = $"UPDATE `Consultations` SET `Date` = '{consultation.Date:yyyy-MM-dd HH:mm:ss}', `StudentFullName` = '{consultation.StudentFullName}', `PracticeSubmitted` = '{consultation.PracticeSubmitted}' WHERE `ConsultationID` = {consultation.ConsultationID}";
             var result = Connection.Query(query);
-                return result != null;
-            
+            return result != null;
         }
 
         public bool Delete(int consultationId)
         {
             string query = $"DELETE FROM `Consultations` WHERE `ConsultationID` = {consultationId}";
-
             var result = Connection.Query(query);
             return result != null;
-
         }
     }
 }
-

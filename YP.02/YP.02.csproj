@@ -137,15 +137,16 @@
     <Compile Include="Classes\Groups.cs" />
     <Compile Include="Classes\InstructorLoads.cs" />
     <Compile Include="Classes\Instructors.cs" />
+    <Compile Include="Classes\Lessons.cs" />
     <Compile Include="Classes\Student.cs" />
     <Compile Include="Classes\Zaniyatie.cs" />
     <Compile Include="Context\ConsultationContext.cs" />
     <Compile Include="Context\DisciplineContext.cs" />
     <Compile Include="Context\DisciplineProgramContext.cs" />
-    <Compile Include="Context\GradesContext.cs" />
     <Compile Include="Context\GroupsContext.cs" />
     <Compile Include="Context\InstructorLoadsContext.cs" />
     <Compile Include="Context\InstructorsContext.cs" />
+    <Compile Include="Context\LessonsContext.cs" />
     <Compile Include="Context\StudentContext.cs" />
     <Compile Include="Context\ZaniyatieContext.cs" />
     <Compile Include="Stranici\DisciplineManage.xaml.cs">
