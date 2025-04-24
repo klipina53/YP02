@@ -10,25 +10,16 @@ namespace YP._02.Context
 {
     public class ZaniyatieContext
     {
-        private readonly string _connectionString;
-
-        public ZaniyatieContext(string connectionString)
-        {
-            _connectionString = connectionString;
-        }
+        
 
         public List<Zaniyatie> LoadZaniyatia()
         {
             List<Zaniyatie> zaniyatia = new List<Zaniyatie>();
             string query = "SELECT * FROM `Zaniyatie`";
 
-            using (var connection = new MySqlConnection(_connectionString)) // Используется MySqlConnection или другой подходящий для вашей БД
+            using (var reader = Connection.Query(query))
             {
-                connection.Open();
-                using (var command = new MySqlCommand(query, connection))
-                {
-                    using (var reader = command.ExecuteReader())
-                    {
+               
                         while (reader.Read())
                         {
                             int id = reader.GetInt32(0);
@@ -44,8 +35,8 @@ namespace YP._02.Context
                                 Obyasnitelnaya = obyasnitelnaya
                             });
                         }
-                    }
-                }
+                    
+                
             }
             return zaniyatia;
         }
@@ -54,52 +45,23 @@ namespace YP._02.Context
         {
             string query = $"INSERT INTO `Zaniyatie` (`ZaniyatieName`, `MinutesMissed`, `Obyasnitelnaya`) VALUES (@ZaniyatieName, @MinutesMissed, @Obyasnitelnaya)";
 
-            using (var connection = new MySqlConnection(_connectionString))
-            {
-                connection.Open();
-                using (var command = new MySqlCommand(query, connection))
-                {
-                    command.Parameters.AddWithValue("@ZaniyatieName", zaniyatie.ZaniyatieName);
-                    command.Parameters.AddWithValue("@MinutesMissed", zaniyatie.MinutesMissed);
-                    command.Parameters.AddWithValue("@Obyasnitelnaya", (object)zaniyatie.Obyasnitelnaya ?? DBNull.Value);
-
-                    return command.ExecuteNonQuery() > 0;
-                }
-            }
+            var result = Connection.Query(query);
+            return result != null;
         }
 
         public bool Update(Zaniyatie zaniyatie)
         {
             string query = $"UPDATE `Zaniyatie` SET `ZaniyatieName` = @ZaniyatieName, `MinutesMissed` = @MinutesMissed, `Obyasnitelnaya` = @Obyasnitelnaya WHERE `Id` = @Id";
-
-            using (var connection = new MySqlConnection(_connectionString))
-            {
-                connection.Open();
-                using (var command = new MySqlCommand(query, connection))
-                {
-                    command.Parameters.AddWithValue("@ZaniyatieName", zaniyatie.ZaniyatieName);
-                    command.Parameters.AddWithValue("@MinutesMissed", zaniyatie.MinutesMissed);
-                    command.Parameters.AddWithValue("@Obyasnitelnaya", (object)zaniyatie.Obyasnitelnaya ?? DBNull.Value);
-                    command.Parameters.AddWithValue("@Id", zaniyatie.Id);
-
-                    return command.ExecuteNonQuery() > 0;
-                }
-            }
+            var result = Connection.Query(query);
+            return result != null;
         }
 
         public bool Delete(int id)
         {
             string query = $"DELETE FROM `Zaniyatie` WHERE `Id` = @Id";
 
-            using (var connection = new MySqlConnection(_connectionString))
-            {
-                connection.Open();
-                using (var command = new MySqlCommand(query, connection))
-                {
-                    command.Parameters.AddWithValue("@Id", id);
-                    return command.ExecuteNonQuery() > 0;
-                }
-            }
+            var result = Connection.Query(query);
+            return result != null;
         }
     }
 }

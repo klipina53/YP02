@@ -63,7 +63,7 @@
                     </GridView>
                 </ListView.View>
             </ListView>
-            <Button Content="Добавить"  Opacity="0.611" HorizontalAlignment="Left" Margin="565,0,0,28" Width="75" Height="20" VerticalAlignment="Bottom">
+            <Button Content="Добавить" Click="Add_Click"  Opacity="0.611" HorizontalAlignment="Left" Margin="565,0,0,28" Width="75" Height="20" VerticalAlignment="Bottom">
                 <Button.Style>
                     <Style TargetType="Button">
                         <Setter Property="Template">
@@ -83,7 +83,7 @@
                     </Style>
                 </Button.Style>
             </Button>
-            <Button Content="Удалить"  Opacity="0.611" Margin="740,0,0,28" Height="20" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="75">
+            <Button Content="Удалить" Click="Delete_Click"  Opacity="0.611" Margin="740,0,0,28" Height="20" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="75">
                 <Button.Style>
                     <Style TargetType="Button">
                         <Setter Property="Template">
@@ -103,7 +103,7 @@
                     </Style>
                 </Button.Style>
             </Button>
-            <Button Content="Изменить"  Opacity="0.611" HorizontalAlignment="Left" Margin="652,0,0,28" Width="75" Height="20" VerticalAlignment="Bottom">
+            <Button Content="Изменить" Click="Update_Click"  Opacity="0.611" HorizontalAlignment="Left" Margin="652,0,0,28" Width="75" Height="20" VerticalAlignment="Bottom">
                 <Button.Style>
                     <Style TargetType="Button">
                         <Setter Property="Template">

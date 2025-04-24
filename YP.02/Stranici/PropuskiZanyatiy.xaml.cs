@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,30 +27,28 @@ namespace YP._02.Stranici
     {
         private UserRole currentUserRole;
         private Zaniyatie _selectedZaniyatie;
-        private ZaniyatieContext _context ;
+        private ZaniyatieContext _context = new ZaniyatieContext();
 
         public PropuskiZanyatiy(UserRole userRole)
         {
             InitializeComponent();
-            this.currentUserRole = userRole;
+            currentUserRole = userRole;
             resultsListView.ItemsSource = _context.LoadZaniyatia();
-            string connectionString = ConfigurationManager.ConnectionStrings["YourConnectionStringName"].ConnectionString;
-            _context = new ZaniyatieContext(connectionString); // Исправлено
-
-            resultsListView.ItemsSource = _context.LoadZaniyatia();
-        
         }
-        private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (resultsListView.SelectedItem is Zaniyatie selectedZaniyatie)
-            {
-                hiddenPanelTitle.Content = "Редактирование";
-                PropuskiZaniyatie.Text = selectedZaniyatie.ZaniyatieName;
-                Propuskimin.Text = selectedZaniyatie.MinutesMissed.ToString();
 
-                hiddenPanel.Visibility = Visibility.Visible;
+        private void Back(object sender, RoutedEventArgs e)
+        {
+            switch (currentUserRole)
+            {
+                case UserRole.Admin:
+                    this.NavigationService.Navigate(new HomePageAdministration(currentUserRole));
+                    break;
+                case UserRole.Teacher:
+                    this.NavigationService.Navigate(new HomePage(currentUserRole));
+                    break;
             }
         }
+
         private void searchTextBox_GotFocus(object sender, RoutedEventArgs e)
         {
             if (searchTextBox.Text == "Поиск...")
@@ -65,6 +65,11 @@ namespace YP._02.Stranici
                 searchTextBox.Text = "Поиск...";
                 searchTextBox.Foreground = Brushes.LightGray;
             }
+        }
+
+        private void searchTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            searchTextBox.Foreground = Brushes.Black;
         }
 
         private void SearchTextBox_KeyDown(object sender, KeyEventArgs e)
@@ -84,9 +89,9 @@ namespace YP._02.Stranici
             }
         }
 
-        private void searchTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        private void ClosePanel_Click(object sender, RoutedEventArgs e)
         {
-            searchTextBox.Foreground = Brushes.Black;
+            hiddenPanel.Visibility = Visibility.Hidden;
         }
 
         private void Add_Click(object sender, RoutedEventArgs e)
@@ -101,6 +106,7 @@ namespace YP._02.Stranici
         private void Delete_Click(object sender, RoutedEventArgs e)
         {
             _selectedZaniyatie = resultsListView.SelectedItem as Zaniyatie;
+
             if (_selectedZaniyatie != null)
             {
                 if (MessageBox.Show("Вы уверены, что хотите удалить занятие?", "Подтверждение удаления", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
@@ -126,6 +132,7 @@ namespace YP._02.Stranici
         private void Update_Click(object sender, RoutedEventArgs e)
         {
             _selectedZaniyatie = resultsListView.SelectedItem as Zaniyatie;
+
             if (_selectedZaniyatie != null)
             {
                 hiddenPanelTitle.Content = "Редактирование";
@@ -137,24 +144,6 @@ namespace YP._02.Stranici
             {
                 MessageBox.Show("Выберите занятие для редактирования.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
-        }
-
-        private void Back(object sender, RoutedEventArgs e)
-        {
-            switch (currentUserRole)
-            {
-                case UserRole.Admin:
-                    this.NavigationService.Navigate(new HomePageAdministration(currentUserRole));
-                    break;
-                case UserRole.Teacher:
-                    this.NavigationService.Navigate(new HomePage(currentUserRole));
-                    break;
-            }
-        }
-
-        private void ClosePanel_Click(object sender, RoutedEventArgs e)
-        {
-            hiddenPanel.Visibility = Visibility.Hidden;
         }
 
         private void add_Click(object sender, RoutedEventArgs e)
@@ -203,11 +192,49 @@ namespace YP._02.Stranici
                 MessageBox.Show("Пожалуйста, убедитесь, что вводимые значения корректны.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
-
+        private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (resultsListView.SelectedItem is Zaniyatie selectedZaniyatie)
+            {
+                hiddenPanelTitle.Content = "Редактирование";
+                PropuskiZaniyatie.Text = selectedZaniyatie.ZaniyatieName;
+                Propuskimin.Text = selectedZaniyatie.MinutesMissed.ToString();
+                hiddenPanel.Visibility = Visibility.Visible;
+            }
+        }
         private void PropuskiObyasnitelnaya_Click(object sender, RoutedEventArgs e)
         {
-            // Здесь необходимо добавить логику для загрузки PDF-файла
+            // Проверяем, выбрано ли занятие
+            if (_selectedZaniyatie != null && _selectedZaniyatie.Obyasnitelnaya != null && _selectedZaniyatie.Obyasnitelnaya.Length > 0)
+            {
+                // Определите временный путь для сохранения PDF-файла
+                string tempFilePath = System.IO.Path.Combine(System.IO.Path.GetTempPath(), "Obyasnitelnaya.pdf");
+
+                // Сохранить массив байтов в файл
+                try
+                {
+                    File.WriteAllBytes(tempFilePath, _selectedZaniyatie.Obyasnitelnaya);
+
+                    // Открытие PDF файла
+                    var process = new Process();
+                    process.StartInfo.FileName = "AcroRd32.exe"; // Убедитесь, что путь к Adobe Reader установлен правильно
+                    process.StartInfo.Arguments = $"\"{tempFilePath}\"";
+                    process.Start();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Ошибка при открытии PDF-файла: {ex.Message}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Выберите занятие с прикрепленным PDF-файлом.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
         }
+
+
+
     }
+
 }
 
