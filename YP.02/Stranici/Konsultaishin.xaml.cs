@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Remoting.Contexts;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -12,6 +13,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using YP._02.Classes;
+using YP._02.Context;
 
 namespace YP._02.Stranici
 {
@@ -21,11 +24,119 @@ namespace YP._02.Stranici
     public partial class Konsultaishin : Page
     {
         private UserRole currentUserRole;
+        private Consultation _selectedConsultation;
+        private ConsultationContext _context = new ConsultationContext();
 
         public Konsultaishin(UserRole userRole)
         {
             InitializeComponent();
-            currentUserRole = userRole;
+            this.currentUserRole = userRole;
+            resultsListView.ItemsSource = _context.LoadConsultations();
+        }
+
+        private void searchTextBox_GotFocus(object sender, RoutedEventArgs e)
+        {
+            if (searchTextBox.Text == "Поиск...")
+            {
+                searchTextBox.Text = string.Empty;
+                searchTextBox.Foreground = Brushes.White;
+            }
+        }
+         private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (resultsListView.SelectedItem is Consultation selectedConsultation)
+            {
+                hiddenPanelTitle.Content = "Редактирование";
+                DatePicker.SelectedDate = selectedConsultation.Date;
+                StudentIDTextBox.Text = selectedConsultation.StudentFullName.ToString();
+                PracticeSubmittedTextBox.Text = selectedConsultation.PracticeSubmitted;
+                
+                hiddenPanel.Visibility = Visibility.Visible;
+            }
+        }
+
+        private void searchTextBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(searchTextBox.Text))
+            {
+                searchTextBox.Text = "Поиск...";
+                searchTextBox.Foreground = Brushes.LightGray;
+            }
+        }
+
+        private void SearchTextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            string searchText = searchTextBox.Text.ToLower();
+
+            if (string.IsNullOrEmpty(searchText))
+            {
+                resultsListView.ItemsSource = _context.LoadConsultations();
+            }
+            else
+            {
+                var filteredConsultations = _context.LoadConsultations()
+                    .Where(i => i.Date.ToString().Contains(searchText));
+                resultsListView.ItemsSource = filteredConsultations;
+            }
+        }
+
+        private void searchTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            searchTextBox.Foreground = Brushes.Black;
+        }
+
+        private void Add_Click(object sender, RoutedEventArgs e)
+        {
+            _selectedConsultation = null;
+            hiddenPanelTitle.Content = "Добавление";
+            DatePicker.SelectedDate = null;
+            StudentIDTextBox.Text = string.Empty;
+            PracticeSubmittedTextBox.Text = string.Empty; // Изменено на текстовое поле
+            hiddenPanel.Visibility = Visibility.Visible;
+        }
+
+        private void Delete_Click(object sender, RoutedEventArgs e)
+        {
+            _selectedConsultation = resultsListView.SelectedItem as Consultation;
+            if (_selectedConsultation != null)
+            {
+                if (MessageBox.Show("Вы уверены, что хотите удалить консультацию?", "Подтверждение удаления", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                {
+                    bool isDeleted = _context.Delete(_selectedConsultation.ConsultationID);
+                    if (isDeleted)
+                    {
+                        MessageBox.Show("Успешное удаление данных.", "Успешно", MessageBoxButton.OK, MessageBoxImage.Information);
+                        resultsListView.ItemsSource = _context.LoadConsultations();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Ошибка при удалении данных.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("Выберите консультацию для удаления.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+        }
+      
+
+
+        private void Update_Click(object sender, RoutedEventArgs e)
+        {
+            _selectedConsultation = resultsListView.SelectedItem as Consultation;
+            if (_selectedConsultation != null)
+            {
+                hiddenPanelTitle.Content = "Редактирование";
+                DatePicker.SelectedDate = _selectedConsultation.Date;
+                StudentIDTextBox.Text = _selectedConsultation.StudentFullName.ToString();
+                PracticeSubmittedTextBox.Text = _selectedConsultation.PracticeSubmitted; // Изменено на TextBox
+                hiddenPanel.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                MessageBox.Show("Выберите консультацию для редактирования.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
         }
 
         private void Back(object sender, RoutedEventArgs e)
@@ -41,48 +152,65 @@ namespace YP._02.Stranici
             }
         }
 
-        private void searchTextBox_GotFocus(object sender, RoutedEventArgs e)
-        {
-            if (searchTextBox.Text == "Поиск...")
-            {
-                searchTextBox.Text = "";
-                searchTextBox.Foreground = Brushes.White;
-            }
-        }
-
-        private void searchTextBox_LostFocus(object sender, RoutedEventArgs e)
-        {
-            if (string.IsNullOrWhiteSpace(searchTextBox.Text))
-            {
-                searchTextBox.Text = "Поиск...";
-                searchTextBox.Foreground = Brushes.LightGray;
-            }
-        }
-
-        private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-        }
-
-        private void searchTextBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-
-        }
-
-        private void SearchTextBox_KeyDown(object sender, KeyEventArgs e)
-        {
-
-        }
-
-        private void add_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
         private void ClosePanel_Click(object sender, RoutedEventArgs e)
         {
-
+            hiddenPanel.Visibility = Visibility.Hidden;
         }
+
+        private void Save_Click(object sender, RoutedEventArgs e)
+        {
+            if (DatePicker.SelectedDate != null && int.TryParse(StudentIDTextBox.Text, out int studentId))
+            {
+                if (_selectedConsultation == null) // Добавление
+                {
+                    var newConsultation = new Consultation
+                    {
+                        Date = DatePicker.SelectedDate.Value,
+                        StudentFullName = GetStudentFullName(studentId), // Получим полное имя
+                        PracticeSubmitted = PracticeSubmittedTextBox.Text
+                    };
+
+                    bool isAdded = _context.Add(newConsultation);
+                    if (isAdded)
+                    {
+                        MessageBox.Show("Успешное добавление данных.", "Успешно", MessageBoxButton.OK, MessageBoxImage.Information);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Ошибка добавления данных.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    }
+                }
+                else // Обновление
+                {
+                    _selectedConsultation.Date = DatePicker.SelectedDate.Value;
+                    _selectedConsultation.StudentFullName = GetStudentFullName(studentId); // Загружаем ФИО студента
+                    _selectedConsultation.PracticeSubmitted = PracticeSubmittedTextBox.Text;
+
+                    bool isUpdated = _context.Update(_selectedConsultation);
+                    if (isUpdated)
+                    {
+                        MessageBox.Show("Успешное изменение данных.", "Успешно", MessageBoxButton.OK, MessageBoxImage.Information);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Ошибка изменения данных.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    }
+                }
+
+                hiddenPanel.Visibility = Visibility.Hidden;
+                resultsListView.ItemsSource = _context.LoadConsultations();
+            }
+            else
+            {
+                MessageBox.Show("Пожалуйста, заполните все поля.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+        }
+
+        private string GetStudentFullName(int studentId)
+        {
+            return _context.GetStudentFullName(studentId);
+        }
+
+    
     }
 }
-

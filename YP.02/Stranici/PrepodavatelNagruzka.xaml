@@ -41,82 +41,82 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <Image Source="..\Images\poisk.png" 
-                       Width="20" 
-                       Height="20" 
-                       VerticalAlignment="Center" 
-                       HorizontalAlignment="Left" 
-                       Margin="5,10,0,0"/>
+                   Width="20" 
+                   Height="20" 
+                   VerticalAlignment="Center" 
+                   HorizontalAlignment="Left" 
+                   Margin="5,10,0,0"/>
                 <TextBox x:Name="searchTextBox"
-                         Height="20"
-                         FontFamily="Microsoft YaHei"
-                         Grid.Column="1"
-                         VerticalAlignment="Center"
-                         HorizontalAlignment="Stretch"
-                         Text="Поиск..."
-                         BorderBrush="{x:Null}"
-                         GotFocus="searchTextBox_GotFocus"
-                         LostFocus="searchTextBox_LostFocus"
-                         KeyDown="SearchTextBox_KeyDown" 
-                         TextChanged="searchTextBox_TextChanged"
-                         Opacity="0.73"
-                         Margin="0,10,0,0"/>
+                     Height="20"
+                     FontFamily="Microsoft YaHei"
+                     Grid.Column="1"
+                     VerticalAlignment="Center"
+                     HorizontalAlignment="Stretch"
+                     Text="Поиск..."
+                     BorderBrush="{x:Null}"
+                     GotFocus="searchTextBox_GotFocus"
+                     LostFocus="searchTextBox_LostFocus"
+                     KeyDown="SearchTextBox_KeyDown" 
+                     TextChanged="searchTextBox_TextChanged"
+                     Opacity="0.73"
+                     Margin="0,10,0,0"/>
             </Grid>
             <ListView x:Name="resultsListView"  
-                      Margin="0,89,0,72" 
-                      Opacity="0.611" 
-                      Background="#FFC7C7C7" 
-                      SelectionChanged="ListView_SelectionChanged" 
-                      HorizontalAlignment="Center" 
-                      Width="813">
+                  Margin="0,89,0,72" 
+                  Opacity="0.611" 
+                  Background="#FFC7C7C7" 
+                  SelectionChanged="ListView_SelectionChanged" 
+                  HorizontalAlignment="Center" 
+                  Width="813">
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn Header="№" Width="50" DisplayMemberBinding="{Binding Number}"/>
-                        <GridViewColumn Header="Дисциплина" Width="150">
+                        <GridViewColumn Header="№" Width="50" DisplayMemberBinding="{Binding LoadID}"/>
+                        <GridViewColumn Header="Дисциплина" Width="115">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding Discipline}" TextWrapping="Wrap" />
+                                    <TextBlock Text="{Binding DisciplineID}" TextWrapping="Wrap" />
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
                         <GridViewColumn Header="Группа" Width="70">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding Group}" TextWrapping="Wrap" />
+                                    <TextBlock Text="{Binding GroupID}" TextWrapping="Wrap" />
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        <GridViewColumn Header="Количество часов&#xD;&#xA;         лекций" Width="105">
+                        <GridViewColumn Header="Количество часов&#xD;&#xA;         лекций" Width="110">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding lekcii}" TextWrapping="Wrap" />
+                                    <TextBlock Text="{Binding LectureHours}" TextWrapping="Wrap" />
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        <GridViewColumn Header="Количество часов&#xA; для практических&#xA;         занятий" Width="106">
+                        <GridViewColumn Header="Количество часов&#xA; для практических&#xA;         занятий" Width="110">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding praktiki}" TextWrapping="Wrap" />
+                                    <TextBlock Text="{Binding PracticalHours}" TextWrapping="Wrap" />
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
                         <GridViewColumn Header="Количество часов&#xD;&#xA; для консультаций" Width="110">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding konsultacii}" TextWrapping="Wrap" />
+                                    <TextBlock Text="{Binding ConsultationHours}" TextWrapping="Wrap" />
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
                         <GridViewColumn Header="Количество часов&#xA;    для курсового&#xA;         проекта" Width="110">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding KP}" TextWrapping="Wrap" />
+                                    <TextBlock Text="{Binding ProjectHours}" TextWrapping="Wrap" />
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
                         <GridViewColumn Header="Количество часов&#xA;     для экзамена" Width="110">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding ekzamen}" TextWrapping="Wrap" />
+                                    <TextBlock Text="{Binding ExamHours}" TextWrapping="Wrap" />
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
@@ -124,58 +124,107 @@
                 </ListView.View>
             </ListView>
 
-            <Button Content="Добавить"  Opacity="0.611" HorizontalAlignment="Left" Margin="565,0,0,28" Width="75" Height="20" VerticalAlignment="Bottom" Style="{StaticResource RoundButtonStyle}"/>
-            <Button Content="Удалить"  Opacity="0.611" Margin="740,0,0,28" Height="20" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="75" Style="{StaticResource RoundButtonStyle}"/>
-            <Button Content="Изменить"  Opacity="0.611" HorizontalAlignment="Left" Margin="652,0,0,28" Width="75" Height="20" VerticalAlignment="Bottom" Style="{StaticResource RoundButtonStyle}"/>
-            <Button HorizontalAlignment="Left" Margin="36,24,0,0" VerticalAlignment="Top" Width="37" Height="30" BorderBrush="{x:Null}" Click="Back">
+            <Button Content="Добавить" 
+                HorizontalAlignment="Left" 
+                Margin="565,0,0,28" 
+                Width="75" 
+                Height="20" 
+                VerticalAlignment="Bottom" 
+                Style="{StaticResource RoundButtonStyle}"/>
+
+            <Button Content="Удалить"  
+                Margin="740,0,0,28" 
+                Height="20" 
+                VerticalAlignment="Bottom" 
+                HorizontalAlignment="Left" 
+                Width="75" 
+                Style="{StaticResource RoundButtonStyle}"/>
+
+            <Button Content="Изменить"  
+                HorizontalAlignment="Left" 
+                Margin="652,0,0,28" 
+                Width="75" 
+                Height="20" 
+                VerticalAlignment="Bottom" 
+                Style="{StaticResource RoundButtonStyle}"/>
+
+            <Button HorizontalAlignment="Left" 
+                Margin="36,24,0,0" 
+                VerticalAlignment="Top" 
+                Width="37" 
+                Height="30" 
+                BorderBrush="{x:Null}" 
+                Click="Back">
                 <Button.Background>
                     <ImageBrush ImageSource="..\Images\back.png"/>
                 </Button.Background>
             </Button>
-            <Grid x:Name="hiddenPanel" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Panel.ZIndex="1" Visibility="Hidden">
 
-                <Grid Background="White" Panel.ZIndex="2" MinWidth="300" MinHeight="300" VerticalAlignment="Center" HorizontalAlignment="Center" Height="413" Margin="266,29,253,26" Width="314">
-
+            <Grid x:Name="hiddenPanel" 
+              VerticalAlignment="Stretch" 
+              HorizontalAlignment="Stretch" 
+              Panel.ZIndex="1" 
+              Visibility="Hidden">
+                <Grid Background="White" 
+                  Panel.ZIndex="2" 
+                  MinWidth="300" 
+                  MinHeight="300" 
+                  VerticalAlignment="Center" 
+                  HorizontalAlignment="Center" 
+                  Height="413" 
+                  Margin="266,29,253,26" 
+                  Width="314">
                     <StackPanel Margin="10" Orientation="Vertical">
 
-                        <Grid VerticalAlignment="Top" HorizontalAlignment="Stretch">
-
-                            <Label x:Name="hiddenPanelTitle"  Content="Добавление" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                            <Button  Content="X" VerticalAlignment="Center" HorizontalAlignment="Right" Click="ClosePanel_Click" Margin="0,3" Width="21"/>
-
+                        <Grid VerticalAlignment="Top" 
+                          HorizontalAlignment="Stretch">
+                            <Label x:Name="hiddenPanelTitle"  
+                               Content="Добавление" 
+                               VerticalAlignment="Center" 
+                               HorizontalAlignment="Left"/>
+                            <Button Content="X" 
+                                VerticalAlignment="Center" 
+                                HorizontalAlignment="Right" 
+                                Click="ClosePanel_Click" 
+                                Margin="0,3" 
+                                Width="21"/>
                         </Grid>
 
-                        <Label  Content="Дисциплина"/>
-                        <TextBox x:Name="Discipline"  Height="22"/>
+                        <!-- Правильное использование Label без вложенности -->
+                        <Label Content="Дисциплина"/>
+                        <ComboBox x:Name="DisciplineComboBox" Height="22" />
 
-                        <Label  Content="Группа"/>
-                        <TextBox x:Name="Group"  Height="22"/>
+                        <Label Content="Группа"/>
+                        <ComboBox x:Name="GroupComboBox" Height="22" />
 
-                        <Label  Content="Количество часов лекций"/>
-                        <TextBox x:Name="lekcii" Height="22"/>
+                        <Label Content="Количество часов лекций"/>
+                        <TextBox x:Name="LectureHoursTextBox" Height="22"/>
 
-                        <Label  Content="Количество часов для практических занятий"/>
-                        <TextBox x:Name="praktiki" Height="22"/>
+                        <Label Content="Количество часов для практических занятий"/>
+                        <TextBox x:Name="PracticalHoursTextBox" Height="22"/>
 
-                        <Label  Content="Количество часов для консультаций"/>
-                        <TextBox x:Name="konsultacii" Height="22"/>
+                        <Label Content="Количество часов для консультаций"/>
+                        <TextBox x:Name="ConsultationHoursTextBox" Height="22"/>
 
-                        <Label  Content="Количество часов для курсового проекта"/>
-                        <TextBox x:Name="KP" Height="22"/>
+                        <Label Content="Количество часов для курсового проекта"/>
+                        <TextBox x:Name="ProjectHoursTextBox" Height="22"/>
 
-                        <Label  Content="Количество часов для экзамена"/>
-                        <TextBox x:Name="ekzamen" Height="22"/>
+                        <Label Content="Количество часов для экзамена"/>
+                        <TextBox x:Name="ExamHoursTextBox" Height="22"/>
 
-
-                        <Button x:Name="hiddenPanelButton" Content="Добавить" Margin="0 10"  Click="Save_Click"/>
-
+                        <Button x:Name="hiddenPanelButton" 
+                            Content="Добавить" 
+                            Margin="0 10"  
+                            Click="Save_Click"/>
                     </StackPanel>
-
                 </Grid>
 
-                <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="Black" Opacity="0.4"/>
-
+                <Grid VerticalAlignment="Stretch" 
+                  HorizontalAlignment="Stretch" 
+                  Background="Black" 
+                  Opacity="0.4"/>
             </Grid>
         </Grid>
     </Viewbox>
+
 </Page>

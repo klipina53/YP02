@@ -56,9 +56,9 @@
                 </ListView.Resources>
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn Header="№" Width="50" DisplayMemberBinding="{Binding Number}"/>
-                        <GridViewColumn Header="Занятие" Width="300" DisplayMemberBinding="{Binding Zaniyatie}"/>
-                        <GridViewColumn Header="Коичество минут пропущенно" Width="265" DisplayMemberBinding="{Binding min}"/>
+                        <GridViewColumn Header="№" Width="50" DisplayMemberBinding="{Binding Id}"/>
+                        <GridViewColumn Header="Занятие" Width="300" DisplayMemberBinding="{Binding ZaniyatieName}"/>
+                        <GridViewColumn Header="Коичество минут пропущенно" Width="265" DisplayMemberBinding="{Binding MinutesMissed}"/>
                         <GridViewColumn Header="Объяснительная" Width="170" DisplayMemberBinding="{Binding Obyasnitelnaya}"/>
                     </GridView>
                 </ListView.View>
