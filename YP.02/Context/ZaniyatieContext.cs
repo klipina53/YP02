@@ -43,10 +43,16 @@ namespace YP._02.Context
 
         public bool Add(Zaniyatie zaniyatie)
         {
-            string query = $"INSERT INTO `Zaniyatie` (`ZaniyatieName`, `MinutesMissed`, `Obyasnitelnaya`) VALUES ('{zaniyatie.ZaniyatieName}', '{zaniyatie.MinutesMissed}', '{zaniyatie.Obyasnitelnaya}')";
+            string query = "INSERT INTO `Zaniyatie` (`ZaniyatieName`, `MinutesMissed`, `Obyasnitelnaya`) VALUES (@name, @minutes, @obyasnitelnaya)";
 
-            var result = Connection.Query(query);
-            return result != null;
+            var parameters = new
+            {
+                name = zaniyatie.ZaniyatieName,
+                minutes = zaniyatie.MinutesMissed,
+                obyasnitelnaya = (object)zaniyatie.Obyasnitelnaya ?? DBNull.Value
+            };
+
+            var result = Connection.Query(query); return result != null;
         }
 
         public bool Update(Zaniyatie zaniyatie)

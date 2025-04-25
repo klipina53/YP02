@@ -148,12 +148,15 @@ namespace YP._02.Stranici
                     {
                         ZaniyatieName = PropuskiZaniyatie.Text,
                         MinutesMissed = minutesMissed,
-                        Obyasnitelnaya = null 
+                        Obyasnitelnaya = null
                     };
                     bool isAdded = _context.Add(newZaniyatie);
                     if (isAdded)
                     {
                         MessageBox.Show("Успешное добавление данных.", "Успешно", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                        // Обновляем источник данных для ListView
+                        resultsListView.ItemsSource = _context.LoadZaniyatia();
                     }
                     else
                     {
@@ -169,6 +172,9 @@ namespace YP._02.Stranici
                     if (isUpdated)
                     {
                         MessageBox.Show("Успешное изменение данных.", "Успешно", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                        // Обновляем источник данных для ListView
+                        resultsListView.ItemsSource = _context.LoadZaniyatia();
                     }
                     else
                     {
@@ -176,13 +182,13 @@ namespace YP._02.Stranici
                     }
                 }
                 hiddenPanel.Visibility = Visibility.Hidden;
-                resultsListView.ItemsSource = _context.LoadZaniyatia();
             }
             else
             {
                 MessageBox.Show("Пожалуйста, убедитесь, что вводимые значения корректны.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
+
         private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             _selectedZaniyatie = resultsListView.SelectedItem as Zaniyatie;
