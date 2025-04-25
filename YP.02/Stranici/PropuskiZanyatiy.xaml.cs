@@ -136,7 +136,7 @@ namespace YP._02.Stranici
             if (_selectedZaniyatie != null)
             {
                 hiddenPanelTitle.Content = "Редактирование";
-                PropuskiZaniyatie.Text = "";
+                PropuskiZaniyatie.Text = _selectedZaniyatie.ZaniyatieName; ;
                 Propuskimin.Text = _selectedZaniyatie.MinutesMissed.ToString();
                 hiddenPanel.Visibility = Visibility.Visible;
             }

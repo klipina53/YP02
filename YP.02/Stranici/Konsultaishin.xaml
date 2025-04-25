@@ -55,7 +55,6 @@
                         <GridViewColumn Header="№" Width="50" DisplayMemberBinding="{Binding ConsultationID}"/>
                         <GridViewColumn Header="Дата проведения консультации для группы" Width="180" DisplayMemberBinding="{Binding Date}"/>
                         <GridViewColumn Header="ФИО Студента" Width="280" DisplayMemberBinding="{Binding StudentFullName}"/>
-
                         <GridViewColumn Header="Сданные практические работы" Width="275" DisplayMemberBinding="{Binding PracticeSubmitted}"/>
                     </GridView>
                 </ListView.View>
@@ -64,7 +63,7 @@
             <Button Content="Добавить" 
                 Opacity="0.611" 
                 HorizontalAlignment="Left" 
-                Margin="565,0,0,28" 
+                Margin="460,0,0,28" 
                 Width="75" 
                 Height="20" 
                 VerticalAlignment="Bottom" 
@@ -82,11 +81,20 @@
             <Button Content="Изменить" 
                 Opacity="0.611" 
                 HorizontalAlignment="Left" 
-                Margin="652,0,0,28" 
+                Margin="550,0,0,28" 
                 Width="75" 
                 Height="20" 
                 VerticalAlignment="Bottom" 
                 Click="Update_Click"/>
+
+            <Button Content="Отчет" 
+                Opacity="0.611" 
+                HorizontalAlignment="Left" 
+                Margin="640,0,0,28" 
+                Width="90" 
+                Height="20" 
+                VerticalAlignment="Bottom" 
+                Click="GenerateReport_Click"/>
 
             <Button HorizontalAlignment="Left" 
                 Margin="36,24,0,0" 
@@ -133,7 +141,7 @@
                         <Label Content="Дата проведения консультации для группы"/>
                         <DatePicker x:Name="DatePicker" />
 
-                        <Label Content="ID студента"/>
+                        <Label Content="ФИО студента"/>
                         <TextBox x:Name="StudentFullName" Height="22"/>
 
                         <Label Content="Сданные практические работы"/>
@@ -154,5 +162,4 @@
             </Grid>
         </Grid>
     </Viewbox>
-
 </Page>
