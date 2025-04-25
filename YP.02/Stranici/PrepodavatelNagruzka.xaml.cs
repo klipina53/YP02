@@ -97,7 +97,7 @@ namespace YP._02.Stranici
                 // Ищем соответствующий элемент в ComboBox по GroupID
                 GroupComboBox.SelectedItem = GroupComboBox.Items
                     .OfType<Groups>()
-                    .FirstOrDefault(g => g.GroupId == _selectedPrepodavatel.GroupID);
+                    .FirstOrDefault(g => g.GroupID == _selectedPrepodavatel.GroupID);
 
                 LectureHoursTextBox.Text = _selectedPrepodavatel.LectureHours?.ToString() ?? "";
                 PracticalHoursTextBox.Text = _selectedPrepodavatel.PracticalHours?.ToString() ?? "";
@@ -162,7 +162,7 @@ namespace YP._02.Stranici
                 // Ищем соответствующий элемент в ComboBox по GroupID
                 GroupComboBox.SelectedItem = GroupComboBox.Items
                     .OfType<Groups>()
-                    .FirstOrDefault(g => g.GroupId == _selectedPrepodavatel.GroupID);
+                    .FirstOrDefault(g => g.GroupID == _selectedPrepodavatel.GroupID);
 
                 LectureHoursTextBox.Text = _selectedPrepodavatel.LectureHours?.ToString() ?? "";
                 PracticalHoursTextBox.Text = _selectedPrepodavatel.PracticalHours?.ToString() ?? "";
@@ -225,7 +225,7 @@ namespace YP._02.Stranici
                 var newPrepodavatel = new InstructorLoads
                 {
                     DisciplineID = selectedDiscipline.DisciplineId,
-                    GroupID = selectedGroup.GroupId,
+                    GroupID = selectedGroup.GroupID,
                     LectureHours = lectureHours,
                     PracticalHours = practicalHours,
                     ConsultationHours = consultationHours,
@@ -245,7 +245,7 @@ namespace YP._02.Stranici
             else 
             {
                 _selectedPrepodavatel.DisciplineID = selectedDiscipline.DisciplineId;
-                _selectedPrepodavatel.GroupID = selectedGroup.GroupId;
+                _selectedPrepodavatel.GroupID = selectedGroup.GroupID;
                 _selectedPrepodavatel.LectureHours = lectureHours;
                 _selectedPrepodavatel.PracticalHours = practicalHours;
                 _selectedPrepodavatel.ConsultationHours = consultationHours;

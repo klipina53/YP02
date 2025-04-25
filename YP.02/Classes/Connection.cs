@@ -9,7 +9,7 @@ namespace YP._02.Classes
 {
     public class Connection
     {
-        private static readonly string connectionString = "server=127.0.0.1;port=3307;database= electronic_journal;user=root;pwd=;";
+        private static readonly string connectionString = "server=127.0.0.1;port=3306;database= electronic_journal;user=root;pwd=;";
         public static MySqlDataReader Query(string query)
         {
             MySqlConnection connection = new MySqlConnection(connectionString);

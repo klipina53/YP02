@@ -17,7 +17,7 @@ namespace YP._02.Context
                             il.LectureHours, il.PracticalHours, il.ConsultationHours, il.ProjectHours, il.ExamHours
                             FROM InstructorLoads il
                             LEFT JOIN Disciplines d ON il.DisciplineID = d.DisciplineID
-                            LEFT JOIN Groups g ON il.GroupID = g.GroupID";
+                            LEFT JOIN `Groups` g ON il.GroupID = g.GroupID"; 
 
             using (var reader = Connection.Query(query))
             {
@@ -117,7 +117,7 @@ namespace YP._02.Context
         public List<Groups> LoadGroups()
         {
             List<Groups> groups = new List<Groups>();
-            string query = "SELECT GroupID, Name FROM Groups";
+            string query = "SELECT GroupID, Name FROM `Groups`";
 
             using (var reader = Connection.Query(query))
             {
@@ -125,7 +125,7 @@ namespace YP._02.Context
                 {
                     groups.Add(new Classes.Groups
                     {
-                        GroupId = reader.GetInt32(0),
+                        GroupID  = reader.GetInt32(0),
                         Name = reader.GetString(1)
                     });
                 }

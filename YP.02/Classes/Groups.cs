@@ -8,7 +8,7 @@ namespace YP._02.Classes
 {
     public class Groups
     {
-        public int GroupId { get; set; }
+        public int GroupID { get; set; }
         public string Name { get; set; }
     }
 }

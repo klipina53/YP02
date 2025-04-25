@@ -61,14 +61,14 @@ namespace YP._02.Context
 
         public bool Update(Disciplines discipline)
         {
-            string query = $"UPDATE `Disciplines` SET `Name`= '{discipline.Name}' WHERE `DisciplineID`= {discipline.DisciplineId}";
+            string query = $"UPDATE `Disciplines` SET `Name`= '{discipline.Name}' WHERE `DisciplineId`= {discipline.DisciplineId}";
             var result = Connection.Query(query);
             return result != null;
         }
 
         public bool Delete(int disciplineId)
         {
-            string query = $"DELETE FROM `Disciplines` WHERE `DisciplineID`= {disciplineId}";
+            string query = $"DELETE FROM `Disciplines` WHERE `DisciplineId`= {disciplineId}";
             var result = Connection.Query(query);
             return result != null;
         }

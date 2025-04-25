@@ -85,7 +85,7 @@ namespace YP._02.Stranici
             {
                 if (MessageBox.Show("Вы уверены, что хотите удалить группу? Это приведет к удалению всех смежных данных.", "Подтверждение удаления", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                 {
-                    bool isDeleted = _context.Delete(_selectedGroup.GroupId);
+                    bool isDeleted = _context.Delete(_selectedGroup.GroupID);
                     if (isDeleted)
                     {
                         MessageBox.Show("Успешное удаление данных.", "Успешно", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -123,7 +123,7 @@ namespace YP._02.Stranici
             _selectedGroup = resultsListView.SelectedItem as Groups;
             if (_selectedGroup != null)
             {
-                this.NavigationService.Navigate(new StudentsWindow(currentUserRole, _selectedGroup.GroupId));
+                this.NavigationService.Navigate(new StudentsWindow(currentUserRole, _selectedGroup.GroupID));
             }
             else
             {
