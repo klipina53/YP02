@@ -15,7 +15,6 @@ namespace YP._02.Classes
             public string GroupId { get; set; } // Идентификатор группы, может быть null
             public int? TotalClasses { get; set; } // Общее количество занятий, может быть null
             public int? ConductedHours { get; set; } // Проведенное количество часов, может быть null
-            public int DisciplineId { get; set; } // Идентификатор дисциплины, к которой относится занятие
         }
 
 

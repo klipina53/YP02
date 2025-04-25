@@ -47,7 +47,7 @@
                   SelectionChanged="ListView_SelectionChanged">
                 <ListView.Resources>
                     <Style TargetType="ListViewItem">
-                        <Setter Property="Foreground" Value="White"/>
+                        <Setter Property="Foreground" Value="Black"/>
                     </Style>
                 </ListView.Resources>
                 <ListView.View>

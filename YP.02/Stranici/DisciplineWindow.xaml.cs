@@ -28,17 +28,12 @@ namespace YP._02.Stranici
         private LessonsContext _context = new LessonsContext();
         private int _currentDisciplineId; // Для хранения ID выбранной дисциплины
 
-        public DisciplineWindow(UserRole userRole, int disciplineId)
+        public DisciplineWindow(UserRole currentUserRole/*, int disciplineId*/)
         {
             InitializeComponent();
-            currentUserRole = userRole;
-            _currentDisciplineId = disciplineId;
-            resultsListView.ItemsSource = _context.LoadLessons(disciplineId); // Загрузка уроков
-        }
-
-        public DisciplineWindow(UserRole currentUserRole)
-        {
             this.currentUserRole = currentUserRole;
+            //this._currentDisciplineId = disciplineId;
+            //resultsListView.ItemsSource = _context.LoadLessons(disciplineId); // Загрузка уроков
         }
 
         private void searchTextBox_GotFocus(object sender, RoutedEventArgs e)

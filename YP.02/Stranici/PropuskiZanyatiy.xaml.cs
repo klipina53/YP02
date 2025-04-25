@@ -136,7 +136,7 @@ namespace YP._02.Stranici
             if (_selectedZaniyatie != null)
             {
                 hiddenPanelTitle.Content = "Редактирование";
-                PropuskiZaniyatie.Text = _selectedZaniyatie.ZaniyatieName;
+                PropuskiZaniyatie.Text = "";
                 Propuskimin.Text = _selectedZaniyatie.MinutesMissed.ToString();
                 hiddenPanel.Visibility = Visibility.Visible;
             }
@@ -146,7 +146,7 @@ namespace YP._02.Stranici
             }
         }
 
-        private void add_Click(object sender, RoutedEventArgs e)
+        private void Save_Click(object sender, RoutedEventArgs e)
         {
             if (!string.IsNullOrWhiteSpace(PropuskiZaniyatie.Text) &&
                 int.TryParse(Propuskimin.Text, out int minutesMissed))
@@ -157,7 +157,7 @@ namespace YP._02.Stranici
                     {
                         ZaniyatieName = PropuskiZaniyatie.Text,
                         MinutesMissed = minutesMissed,
-                        Obyasnitelnaya = null // Здесь можно добавить логику для загрузки PDF
+                        Obyasnitelnaya = null 
                     };
                     bool isAdded = _context.Add(newZaniyatie);
                     if (isAdded)
@@ -194,6 +194,7 @@ namespace YP._02.Stranici
         }
         private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            _selectedZaniyatie = resultsListView.SelectedItem as Zaniyatie;
             if (resultsListView.SelectedItem is Zaniyatie selectedZaniyatie)
             {
                 hiddenPanelTitle.Content = "Редактирование";
@@ -202,20 +203,35 @@ namespace YP._02.Stranici
                 hiddenPanel.Visibility = Visibility.Visible;
             }
         }
+        private void  SelectPdfButton_Click(object sender, RoutedEventArgs e)
+        {
+            var openFileDialog = new Microsoft.Win32.OpenFileDialog
+            {
+                Filter = "PDF Files (*.pdf)|*.pdf",
+                Title = "Выберите объяснительную"
+            };
+
+            if (openFileDialog.ShowDialog() == true)
+            {
+                byte[] pdfData = File.ReadAllBytes(openFileDialog.FileName);
+                if (_selectedZaniyatie == null)
+                {
+                    _selectedZaniyatie = new Zaniyatie();
+                }
+                _selectedZaniyatie.Obyasnitelnaya = pdfData;
+                MessageBox.Show("PDF файл успешно загружен.", "Успешно", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+        }
         private void PropuskiObyasnitelnaya_Click(object sender, RoutedEventArgs e)
         {
-            // Проверяем, выбрано ли занятие
             if (_selectedZaniyatie != null && _selectedZaniyatie.Obyasnitelnaya != null && _selectedZaniyatie.Obyasnitelnaya.Length > 0)
             {
-                // Определите временный путь для сохранения PDF-файла
                 string tempFilePath = System.IO.Path.Combine(System.IO.Path.GetTempPath(), "Obyasnitelnaya.pdf");
 
-                // Сохранить массив байтов в файл
                 try
                 {
                     File.WriteAllBytes(tempFilePath, _selectedZaniyatie.Obyasnitelnaya);
 
-                    // Открытие PDF файла
                     var process = new Process();
                     process.StartInfo.FileName = "AcroRd32.exe"; // Убедитесь, что путь к Adobe Reader установлен правильно
                     process.StartInfo.Arguments = $"\"{tempFilePath}\"";

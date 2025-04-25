@@ -14,7 +14,7 @@ namespace YP._02.Context
 
         public List<Zaniyatie> LoadZaniyatia()
         {
-            List<Zaniyatie> zaniyatia = new List<Zaniyatie>();
+            List<Zaniyatie> zaniyatie = new List<Zaniyatie>();
             string query = "SELECT * FROM `Zaniyatie`";
 
             using (var reader = Connection.Query(query))
@@ -27,7 +27,7 @@ namespace YP._02.Context
                             int minutesMissed = reader.GetInt32(2);
                             byte[] obyasnitelnaya = reader.IsDBNull(3) ? null : (byte[])reader[3];
 
-                            zaniyatia.Add(new Zaniyatie
+                            zaniyatie.Add(new Zaniyatie
                             {
                                 Id = id,
                                 ZaniyatieName = zaniyatieName,
@@ -38,12 +38,12 @@ namespace YP._02.Context
                     
                 
             }
-            return zaniyatia;
+            return zaniyatie;
         }
 
         public bool Add(Zaniyatie zaniyatie)
         {
-            string query = $"INSERT INTO `Zaniyatie` (`ZaniyatieName`, `MinutesMissed`, `Obyasnitelnaya`) VALUES (@ZaniyatieName, @MinutesMissed, @Obyasnitelnaya)";
+            string query = $"INSERT INTO `Zaniyatie` (`ZaniyatieName`, `MinutesMissed`, `Obyasnitelnaya`) VALUES ('{zaniyatie.ZaniyatieName}', '{zaniyatie.MinutesMissed}', '{zaniyatie.Obyasnitelnaya}')";
 
             var result = Connection.Query(query);
             return result != null;
@@ -51,14 +51,14 @@ namespace YP._02.Context
 
         public bool Update(Zaniyatie zaniyatie)
         {
-            string query = $"UPDATE `Zaniyatie` SET `ZaniyatieName` = @ZaniyatieName, `MinutesMissed` = @MinutesMissed, `Obyasnitelnaya` = @Obyasnitelnaya WHERE `Id` = @Id";
+            string query = $"UPDATE `Zaniyatie` SET `ZaniyatieName` = '{zaniyatie.ZaniyatieName}', `MinutesMissed` = '{zaniyatie.MinutesMissed}', `Obyasnitelnaya` = '{zaniyatie.Obyasnitelnaya}' WHERE `Id` = '{zaniyatie.Id}'";
             var result = Connection.Query(query);
             return result != null;
         }
 
         public bool Delete(int id)
         {
-            string query = $"DELETE FROM `Zaniyatie` WHERE `Id` = @Id";
+            string query = $"DELETE FROM `Zaniyatie` WHERE `Id` = {id}";
 
             var result = Connection.Query(query);
             return result != null;
