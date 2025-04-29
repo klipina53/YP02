@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using YP._02.Classes;
 using System.Data;
-using MySql.Data.MySqlClient;
 using System.Data.SqlClient;
 namespace YP._02.Context
 {

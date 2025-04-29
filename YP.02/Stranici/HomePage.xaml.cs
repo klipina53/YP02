@@ -65,5 +65,10 @@ namespace YP._02.Stranici
         {
             this.NavigationService.Navigate(new Stranici.DisciplineWindow(currentUserRole));
         }
+
+        private void Mark(object sender, RoutedEventArgs e)
+        {
+            this.NavigationService.Navigate(new Markss(currentUserRole));
+        }
     }
 }

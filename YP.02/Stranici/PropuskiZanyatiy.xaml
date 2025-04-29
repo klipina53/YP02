@@ -7,7 +7,7 @@
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="PropuskiZanyatiy">
-
+  
     <Page.Background>
         <ImageBrush ImageSource="..\Images\fon.jpg" />
     </Page.Background>
@@ -16,39 +16,37 @@
         <Grid Height="468" Width="833">
 
             <Grid Margin="638,24,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="159">
-
                 <Grid.ColumnDefinitions>
-
                     <ColumnDefinition Width="30"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <Image Source="..\Images\poisk.png" 
-                   Width="20" 
-                   Height="20" 
-                   VerticalAlignment="Center" 
-                   HorizontalAlignment="Left" 
-                   Margin="5,10,0,0"/>
+                       Width="20" 
+                       Height="20" 
+                       VerticalAlignment="Center" 
+                       HorizontalAlignment="Left" 
+                       Margin="5,10,0,0"/>
                 <TextBox x:Name="searchTextBox"
-                   Height="20"
-                        FontFamily="Microsoft YaHei"
-                   Grid.Column="1"
-                   VerticalAlignment="Center"
-                   HorizontalAlignment="Stretch"
-                   Text="Поиск..."
-                   BorderBrush="{x:Null}"
-                   GotFocus="searchTextBox_GotFocus"
-                   LostFocus="searchTextBox_LostFocus"
-                   KeyDown="SearchTextBox_KeyDown" 
-                   TextChanged="searchTextBox_TextChanged"
-                   Opacity="0.73"
-                   Margin="0,10,0,0"/>
+                         Height="20"
+                         FontFamily="Microsoft YaHei"
+                         Grid.Column="1"
+                         VerticalAlignment="Center"
+                         HorizontalAlignment="Stretch"
+                         Text="Поиск..."
+                         BorderBrush="{x:Null}"
+                         GotFocus="searchTextBox_GotFocus"
+                         LostFocus="searchTextBox_LostFocus"
+                         KeyDown="SearchTextBox_KeyDown" 
+                         TextChanged="searchTextBox_TextChanged"
+                         Opacity="0.73"
+                         Margin="0,10,0,0"/>
             </Grid>
             <ListView x:Name="resultsListView" 
-                    Foreground="White" 
-                    Margin="26,89,18,72" 
-                    Opacity="0.611" 
-                    Background="#FFC7C7C7" 
-                    SelectionChanged="ListView_SelectionChanged">
+                      Foreground="White" 
+                      Margin="26,89,18,72" 
+                      Opacity="0.611" 
+                      Background="#FFC7C7C7" 
+                      SelectionChanged="ListView_SelectionChanged">
                 <ListView.Resources>
                     <Style TargetType="ListViewItem">
                         <Setter Property="Foreground" Value="Black"/>
@@ -57,72 +55,21 @@
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Header="№" Width="50" DisplayMemberBinding="{Binding Id}"/>
-                        <GridViewColumn Header="Занятие" Width="300" DisplayMemberBinding="{Binding ZaniyatieName}"/>
-                        <GridViewColumn Header="Коичество минут пропущенно" Width="265" DisplayMemberBinding="{Binding MinutesMissed}"/>
-                        <GridViewColumn Header="Объяснительная" Width="170" DisplayMemberBinding="{Binding Obyasnitelnaya}"/>
+                        <GridViewColumn Header="Занятие" Width="300" DisplayMemberBinding="{Binding Name}"/>
+                        <GridViewColumn Header="Количество минут пропущено" Width="265" DisplayMemberBinding="{Binding MinutesMissed}"/>
+                        <GridViewColumn Header="Объяснительная" Width="170">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBox Text="{Binding Obyasnitelnaya}" />
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
                     </GridView>
                 </ListView.View>
             </ListView>
-            <Button Content="Добавить" Click="Add_Click"  Opacity="0.611" HorizontalAlignment="Left" Margin="565,0,0,28" Width="75" Height="20" VerticalAlignment="Bottom">
-                <Button.Style>
-                    <Style TargetType="Button">
-                        <Setter Property="Template">
-                            <Setter.Value>
-                                <ControlTemplate TargetType="Button">
-                                    <Border Background="{TemplateBinding Background}"
-  BorderBrush="{TemplateBinding BorderBrush}"
-  BorderThickness="{TemplateBinding BorderThickness}"
-  CornerRadius="10">
-                                        <!-- Добавляем CornerRadius -->
-                                        <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
-                                    </Border>
-                                </ControlTemplate>
-                            </Setter.Value>
-                        </Setter>
-                    </Style>
-                </Button.Style>
-            </Button>
-            <Button Content="Удалить" Click="Delete_Click"  Opacity="0.611" Margin="740,0,0,28" Height="20" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="75">
-                <Button.Style>
-                    <Style TargetType="Button">
-                        <Setter Property="Template">
-                            <Setter.Value>
-                                <ControlTemplate TargetType="Button">
-                                    <Border Background="{TemplateBinding Background}"
-  BorderBrush="{TemplateBinding BorderBrush}"
-  BorderThickness="{TemplateBinding BorderThickness}"
-  CornerRadius="10">
-                                        <!-- Добавляем CornerRadius -->
-                                        <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
-                                    </Border>
-                                </ControlTemplate>
-                            </Setter.Value>
-                        </Setter>
-                    </Style>
-                </Button.Style>
-            </Button>
-            <Button Content="Изменить" Click="Update_Click"  Opacity="0.611" HorizontalAlignment="Left" Margin="652,0,0,28" Width="75" Height="20" VerticalAlignment="Bottom">
-                <Button.Style>
-                    <Style TargetType="Button">
-                        <Setter Property="Template">
-                            <Setter.Value>
-                                <ControlTemplate TargetType="Button">
-                                    <Border Background="{TemplateBinding Background}"
-  BorderBrush="{TemplateBinding BorderBrush}"
-  BorderThickness="{TemplateBinding BorderThickness}"
-  CornerRadius="10">
-                                        <!-- Добавляем CornerRadius -->
-                                        <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
-                                    </Border>
-                                </ControlTemplate>
-                            </Setter.Value>
-                        </Setter>
-                    </Style>
-                </Button.Style>
-            </Button>
+            <Button Content="Добавить" Click="Add_Click"  Opacity="0.611" HorizontalAlignment="Left" Margin="565,0,0,28" Width="75" Height="20" VerticalAlignment="Bottom"/>
+            <Button Content="Удалить" Click="Delete_Click"  Opacity="0.611" Margin="740,0,0,28" Height="20" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="75"/>
+            <Button Content="Изменить" Click="Update_Click"  Opacity="0.611" HorizontalAlignment="Left" Margin="652,0,0,28" Width="75" Height="20" VerticalAlignment="Bottom"/>
             <Button  HorizontalAlignment="Left" Margin="36,24,0,0" VerticalAlignment="Top" Width="37" Height="30" BorderBrush="{x:Null}" Click="Back">
                 <Button.Background>
                     <ImageBrush ImageSource="..\Images\back.png"/>
@@ -130,37 +77,25 @@
             </Button>
 
             <Grid x:Name="hiddenPanel" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Panel.ZIndex="1" Visibility="Hidden">
-
                 <Grid Background="White" Panel.ZIndex="2" MinWidth="200" MinHeight="200" VerticalAlignment="Center" HorizontalAlignment="Center" Height="229" Margin="266,107,240,132" Width="327">
-
                     <StackPanel Margin="10" Orientation="Vertical">
-
                         <Grid VerticalAlignment="Top" HorizontalAlignment="Stretch">
-
-                            <Label x:Name="hiddenPanelTitle"  Content="Добавление" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                            <Button  Content="X" VerticalAlignment="Center" HorizontalAlignment="Right" Click="ClosePanel_Click" Margin="0,3" Width="21"/>
-
+                            <Label x:Name="hiddenPanelTitle" Content="Добавление" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                            <Button Content="X" VerticalAlignment="Center" HorizontalAlignment="Right" Click="ClosePanel_Click" Margin="0,3" Width="21"/>
                         </Grid>
-
-                        <Label  Content="Занятие"/>
-                        <TextBox x:Name="PropuskiZaniyatie"  Height="22"/>
-
-                        <Label  Content="Коичество минут пропущенно"/>
-                        <TextBox x:Name="Propuskimin"  Height="22"/>
-
-                        <Label  Content="Объяснительная"/>
-                        <Button Content="PDF" Click="SelectPdfButton_Click" x:Name="PropuskiObyasnitelnaya" Height="22" Margin="0,0,193,0"/>
-
-                        <Button x:Name="hiddenPanelButton" Content="Добавить" Margin="0 10"  Click="Save_Click" Height="22"/>
-
+                        <Label Content="Занятие"/>
+                        <TextBox x:Name="PropuskiZaniyatie" Height="22"/>
+                        <Label Content="Количество минут пропущенно"/>
+                        <TextBox x:Name="Propuskimin" Height="22"/>
+                        <Label Content="Объяснительная"/>
+                        <CheckBox Content="Есть объяснительная?" x:Name="hasExplanationCheckBox" Height="22"/>
+                        <Button x:Name="hiddenPanelButton" Content="Добавить" Margin="0 10" Click="Save_Click" Height="22"/>
                     </StackPanel>
-
                 </Grid>
-
                 <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="Black" Opacity="0.4"/>
-
             </Grid>
 
         </Grid>
     </Viewbox>
 </Page>
+

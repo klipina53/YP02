@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -19,12 +19,14 @@ namespace YP._02.Stranici
         private UserRole currentUserRole;
         private Zaniyatie _selectedZaniyatie;
         private ZaniyatieContext _context = new ZaniyatieContext();
+        private ObservableCollection<Zaniyatie> _zaniyatiaList;
 
         public PropuskiZanyatiy(UserRole userRole)
         {
             InitializeComponent();
             currentUserRole = userRole;
-            resultsListView.ItemsSource = _context.LoadZaniyatia();
+            _zaniyatiaList = new ObservableCollection<Zaniyatie>(_context.LoadZaniyatia());
+            resultsListView.ItemsSource = _zaniyatiaList;
         }
 
         private void Back(object sender, RoutedEventArgs e)
@@ -69,14 +71,16 @@ namespace YP._02.Stranici
 
             if (string.IsNullOrEmpty(searchText) || searchText == "поиск...")
             {
-                resultsListView.ItemsSource = _context.LoadZaniyatia();
+                resultsListView.ItemsSource = _zaniyatiaList;
             }
             else
             {
-                var filteredZaniyatia = _context.LoadZaniyatia()
-                    .Where(i => i.ZaniyatieName.ToLower().Contains(searchText) ||
-                                i.MinutesMissed.ToString().Contains(searchText));
-                resultsListView.ItemsSource = filteredZaniyatia;
+                var filteredZaniyatia = _zaniyatiaList
+                    .Where(i => i.Name.ToLower().Contains(searchText) ||
+                                i.MinutesMissed.ToString().Contains(searchText))
+                    .ToList();
+
+                resultsListView.ItemsSource = new ObservableCollection<Zaniyatie>(filteredZaniyatia);
             }
         }
 
@@ -91,6 +95,7 @@ namespace YP._02.Stranici
             hiddenPanelTitle.Content = "Добавление";
             PropuskiZaniyatie.Text = "";
             Propuskimin.Text = "";
+            hasExplanationCheckBox.IsChecked = false; // Обнуляем чек-бокс для объяснительной
             hiddenPanel.Visibility = Visibility.Visible;
         }
 
@@ -106,7 +111,7 @@ namespace YP._02.Stranici
                     if (isDeleted)
                     {
                         MessageBox.Show("Успешное удаление данных.", "Успешно", MessageBoxButton.OK, MessageBoxImage.Information);
-                        resultsListView.ItemsSource = _context.LoadZaniyatia();
+                        _zaniyatiaList.Remove(_selectedZaniyatie);
                     }
                     else
                     {
@@ -127,8 +132,9 @@ namespace YP._02.Stranici
             if (_selectedZaniyatie != null)
             {
                 hiddenPanelTitle.Content = "Редактирование";
-                PropuskiZaniyatie.Text = _selectedZaniyatie.ZaniyatieName; ;
+                PropuskiZaniyatie.Text = _selectedZaniyatie.Name;
                 Propuskimin.Text = _selectedZaniyatie.MinutesMissed.ToString();
+                hasExplanationCheckBox.IsChecked = !string.IsNullOrEmpty(_selectedZaniyatie.ExplanationText); // Проверка наличия объяснительной
                 hiddenPanel.Visibility = Visibility.Visible;
             }
             else
@@ -146,17 +152,15 @@ namespace YP._02.Stranici
                 {
                     var newZaniyatie = new Zaniyatie
                     {
-                        ZaniyatieName = PropuskiZaniyatie.Text,
+                        Name = PropuskiZaniyatie.Text,
                         MinutesMissed = minutesMissed,
-                        Obyasnitelnaya = null
+                        ExplanationText = hasExplanationCheckBox.IsChecked == true ? "Есть объяснительная" : "Нет объяснительной" // Установка текста объяснительной
                     };
                     bool isAdded = _context.Add(newZaniyatie);
                     if (isAdded)
                     {
                         MessageBox.Show("Успешное добавление данных.", "Успешно", MessageBoxButton.OK, MessageBoxImage.Information);
-
-                        // Обновляем источник данных для ListView
-                        resultsListView.ItemsSource = _context.LoadZaniyatia();
+                        _zaniyatiaList.Add(newZaniyatie);
                     }
                     else
                     {
@@ -165,16 +169,14 @@ namespace YP._02.Stranici
                 }
                 else // Обновление существующей записи
                 {
-                    _selectedZaniyatie.ZaniyatieName = PropuskiZaniyatie.Text;
+                    _selectedZaniyatie.Name = PropuskiZaniyatie.Text;
                     _selectedZaniyatie.MinutesMissed = minutesMissed;
+                    _selectedZaniyatie.ExplanationText = hasExplanationCheckBox.IsChecked == true ? "Есть объяснительная" : "Нет объяснительной"; // Обновление текста объяснительной
 
                     bool isUpdated = _context.Update(_selectedZaniyatie);
                     if (isUpdated)
                     {
                         MessageBox.Show("Успешное изменение данных.", "Успешно", MessageBoxButton.OK, MessageBoxImage.Information);
-
-                        // Обновляем источник данных для ListView
-                        resultsListView.ItemsSource = _context.LoadZaniyatia();
                     }
                     else
                     {
@@ -192,62 +194,17 @@ namespace YP._02.Stranici
         private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             _selectedZaniyatie = resultsListView.SelectedItem as Zaniyatie;
-            if (resultsListView.SelectedItem is Zaniyatie selectedZaniyatie)
+            if (_selectedZaniyatie != null)
             {
                 hiddenPanelTitle.Content = "Редактирование";
-                PropuskiZaniyatie.Text = selectedZaniyatie.ZaniyatieName;
-                Propuskimin.Text = selectedZaniyatie.MinutesMissed.ToString();
+                PropuskiZaniyatie.Text = _selectedZaniyatie.Name;
+                Propuskimin.Text = _selectedZaniyatie.MinutesMissed.ToString();
+                hasExplanationCheckBox.IsChecked = !string.IsNullOrEmpty(_selectedZaniyatie.ExplanationText); // Проверка наличия объяснительной
                 hiddenPanel.Visibility = Visibility.Visible;
             }
         }
-        private void  SelectPdfButton_Click(object sender, RoutedEventArgs e)
-        {
-            var openFileDialog = new Microsoft.Win32.OpenFileDialog
-            {
-                Filter = "PDF Files (*.pdf)|*.pdf",
-                Title = "Выберите объяснительную"
-            };
-
-            if (openFileDialog.ShowDialog() == true)
-            {
-                byte[] pdfData = File.ReadAllBytes(openFileDialog.FileName);
-                if (_selectedZaniyatie == null)
-                {
-                    _selectedZaniyatie = new Zaniyatie();
-                }
-                _selectedZaniyatie.Obyasnitelnaya = pdfData;
-                MessageBox.Show("PDF файл успешно загружен.", "Успешно", MessageBoxButton.OK, MessageBoxImage.Information);
-            }
-        }
-        private void PropuskiObyasnitelnaya_Click(object sender, RoutedEventArgs e)
-        {
-            if (_selectedZaniyatie != null && _selectedZaniyatie.Obyasnitelnaya != null && _selectedZaniyatie.Obyasnitelnaya.Length > 0)
-            {
-                string tempFilePath = System.IO.Path.Combine(System.IO.Path.GetTempPath(), "Obyasnitelnaya.pdf");
-
-                try
-                {
-                    File.WriteAllBytes(tempFilePath, _selectedZaniyatie.Obyasnitelnaya);
-
-                    var process = new Process();
-                    process.StartInfo.FileName = "AcroRd32.exe"; // Убедитесь, что путь к Adobe Reader установлен правильно
-                    process.StartInfo.Arguments = $"\"{tempFilePath}\"";
-                    process.Start();
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show($"Ошибка при открытии PDF-файла: {ex.Message}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
-                }
-            }
-            else
-            {
-                MessageBox.Show("Выберите занятие с прикрепленным PDF-файлом.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
-            }
-        }
-
-
-
     }
-
 }
+
+
 

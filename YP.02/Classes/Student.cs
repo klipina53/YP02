@@ -14,5 +14,6 @@ namespace YP._02.Classes
         public string Firstname { get; set; }
         public string Patronymic { get; set; }
         public DateTime? DismissalDate { get; set; }
+        public string FullName => $"{Firstname} {Lastname} {Patronymic}".Trim();
     }
 }

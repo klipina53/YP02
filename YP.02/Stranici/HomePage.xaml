@@ -6,7 +6,7 @@
       xmlns:local="clr-namespace:YP._02.Stranici"
       mc:Ignorable="d" 
       Title="HomePage" >
-    
+
     <Page.Background>
         <ImageBrush ImageSource="..\Images\fon.jpg" Stretch="UniformToFill"/>
     </Page.Background>
@@ -38,12 +38,12 @@
                     <ImageBrush ImageSource="..\Images\image 9 (1).png"/>
                 </Button.Background>
             </Button>
-            <Button Content="Студенты" Foreground="White" Height="96" Margin="65,260,590,0" VerticalAlignment="Top" Click="Students" BorderBrush="{x:Null}">
+            <Button Content="Студенты" Foreground="White" Height="96" Margin="31,260,624,0" VerticalAlignment="Top" Click="Students" BorderBrush="{x:Null}">
                 <Button.Background>
                     <ImageBrush ImageSource="..\Images\image 9 (1).png"/>
                 </Button.Background>
             </Button>
-            <Button Content="     Отчетность&#xD;&#xA; по дисциплине" HorizontalAlignment="Center" Foreground="White" Height="96" Margin="0,260,0,0" VerticalAlignment="Top" Width="146" Click="DiciplineReport" BorderBrush="{x:Null}">
+            <Button Content="     Отчетность&#xD;&#xA; по дисциплине" HorizontalAlignment="Left" Foreground="White" Height="96" Margin="212,260,0,0" VerticalAlignment="Top" Width="146" Click="DiciplineReport" BorderBrush="{x:Null}">
                 <Button.Background>
                     <ImageBrush ImageSource="..\Images\image 9 (1).png"/>
                 </Button.Background>
@@ -53,7 +53,7 @@
                     <ImageBrush ImageSource="..\Images\image 9 (1).png"/>
                 </Button.Background>
             </Button>
-            <Button Content="Консультации" Foreground="White" Height="96" Margin="600,260,65,0" VerticalAlignment="Top" Click="Konsultacii" BorderBrush="{x:Null}">
+            <Button Content="Консультации" Foreground="White" Height="96" Margin="451,260,214,0" VerticalAlignment="Top" Click="Konsultacii" BorderBrush="{x:Null}">
                 <Button.Background>
                     <ImageBrush ImageSource="..\Images\image 9 (1).png"/>
                 </Button.Background>
@@ -61,6 +61,11 @@
             <Button Content="Пропуски занятий" HorizontalAlignment="Center" Foreground="White" Height="96" Margin="0,106,0,0" VerticalAlignment="Top" Width="145" Click="Propuski" BorderBrush="{x:Null}">
                 <Button.Background>
                     <ImageBrush ImageSource="..\Images\image 9 (1).png"/>
+                </Button.Background>
+            </Button>
+            <Button Content="Оценки" Foreground="White" Height="96" Margin="655,255,10,0" VerticalAlignment="Top" Click="Mark" BorderBrush="{x:Null}">
+                <Button.Background>
+                    <ImageBrush ImageSource="/Images/image 9 (1).png"/>
                 </Button.Background>
             </Button>
 
