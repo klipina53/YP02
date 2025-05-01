@@ -18,5 +18,24 @@ namespace YP._02.Classes
             return command.ExecuteReader();
 
         }
+
+        public static int Execute(string sql, Dictionary<string, object> parameters = null)
+        {
+            using (var conn = new MySqlConnection(connectionString))
+            {
+                conn.Open();
+                using (var cmd = new MySqlCommand(sql, conn))
+                {
+                    if (parameters != null)
+                    {
+                        foreach (var kv in parameters)
+                        {
+                            cmd.Parameters.AddWithValue(kv.Key, kv.Value ?? DBNull.Value);
+                        }
+                    }
+                    return cmd.ExecuteNonQuery();
+                }
+            }
+        }
     }
 }

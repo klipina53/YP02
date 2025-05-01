@@ -96,6 +96,7 @@ namespace YP._02.Stranici
             PropuskiZaniyatie.Text = "";
             Propuskimin.Text = "";
             hasExplanationCheckBox.IsChecked = false; // Обнуляем чек-бокс для объяснительной
+            hiddenPanelButton.Content = "Добавить";
             hiddenPanel.Visibility = Visibility.Visible;
         }
 
@@ -134,14 +135,19 @@ namespace YP._02.Stranici
                 hiddenPanelTitle.Content = "Редактирование";
                 PropuskiZaniyatie.Text = _selectedZaniyatie.Name;
                 Propuskimin.Text = _selectedZaniyatie.MinutesMissed.ToString();
-                hasExplanationCheckBox.IsChecked = !string.IsNullOrEmpty(_selectedZaniyatie.ExplanationText); // Проверка наличия объяснительной
+
+                hasExplanationCheckBox.IsChecked =
+                    _selectedZaniyatie.ExplanationText == "Есть объяснительная";
+                hiddenPanelButton.Content = "Сохранить";
                 hiddenPanel.Visibility = Visibility.Visible;
             }
             else
             {
-                MessageBox.Show("Выберите занятие для редактирования.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Выберите занятие для редактирования.", "Ошибка",
+                                MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
+
 
         private void Save_Click(object sender, RoutedEventArgs e)
         {
@@ -184,6 +190,9 @@ namespace YP._02.Stranici
                     }
                 }
                 hiddenPanel.Visibility = Visibility.Hidden;
+                _zaniyatiaList.Clear();
+                foreach (var item in _context.LoadZaniyatia())
+                    _zaniyatiaList.Add(item);
             }
             else
             {
@@ -199,10 +208,14 @@ namespace YP._02.Stranici
                 hiddenPanelTitle.Content = "Редактирование";
                 PropuskiZaniyatie.Text = _selectedZaniyatie.Name;
                 Propuskimin.Text = _selectedZaniyatie.MinutesMissed.ToString();
-                hasExplanationCheckBox.IsChecked = !string.IsNullOrEmpty(_selectedZaniyatie.ExplanationText); // Проверка наличия объяснительной
+
+                hasExplanationCheckBox.IsChecked =
+                    _selectedZaniyatie.ExplanationText == "Есть объяснительная";
+                hiddenPanelButton.Content = "Сохранить";
                 hiddenPanel.Visibility = Visibility.Visible;
             }
         }
+
     }
 }
 

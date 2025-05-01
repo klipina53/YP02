@@ -7,7 +7,7 @@
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="PropuskiZanyatiy">
-  
+
     <Page.Background>
         <ImageBrush ImageSource="..\Images\fon.jpg" />
     </Page.Background>
@@ -57,13 +57,8 @@
                         <GridViewColumn Header="№" Width="50" DisplayMemberBinding="{Binding Id}"/>
                         <GridViewColumn Header="Занятие" Width="300" DisplayMemberBinding="{Binding Name}"/>
                         <GridViewColumn Header="Количество минут пропущено" Width="265" DisplayMemberBinding="{Binding MinutesMissed}"/>
-                        <GridViewColumn Header="Объяснительная" Width="170">
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <TextBox Text="{Binding Obyasnitelnaya}" />
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
+                        <GridViewColumn Header="Объяснительная" Width="170" 
+                DisplayMemberBinding="{Binding ExplanationText}" />
                     </GridView>
                 </ListView.View>
             </ListView>
@@ -98,4 +93,3 @@
         </Grid>
     </Viewbox>
 </Page>
-

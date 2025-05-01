@@ -38,42 +38,61 @@ namespace YP._02.Context
 
         public bool Add(Zaniyatie zaniyatie)
         {
-            string query = "INSERT INTO `Zaniyatie` (`ZaniyatieName`, `MinutesMissed`, `Obyasnitelnaya`) VALUES (@name, @minutes, @explanationText)";
+            const string sql = @"
+        INSERT INTO `Zaniyatie`
+            (`Name`, `MinutesMissed`, `ExplanationText`)
+        VALUES
+            (@name, @minutes, @explanationText);
+    ";
 
-            var parameters = new
+            var parameters = new Dictionary<string, object>
             {
-                name = zaniyatie.Name,
-                minutes = zaniyatie.MinutesMissed,
-                explanationText = zaniyatie.ExplanationText ?? (object)DBNull.Value // Объяснительная как текст
+                ["@name"] = zaniyatie.Name,
+                ["@minutes"] = zaniyatie.MinutesMissed,
+                ["@explanationText"] = (object)zaniyatie.ExplanationText ?? DBNull.Value
             };
 
-            var result = Connection.Query(query);
-            return result != null;
+            int rowsAffected = Connection.Execute(sql, parameters);
+            return rowsAffected > 0;
         }
 
         public bool Update(Zaniyatie zaniyatie)
         {
-            string query = "UPDATE `Zaniyatie` SET `ZaniyatieName` = @name, `MinutesMissed` = @minutes, `Obyasnitelnaya` = @explanationText WHERE `Id` = @id";
+            const string sql = @"
+        UPDATE `Zaniyatie`
+        SET
+            `Name`            = @name,
+            `MinutesMissed`   = @minutes,
+            `ExplanationText` = @explanationText
+        WHERE `Id` = @id;
+    ";
 
-            var parameters = new
+            var parameters = new Dictionary<string, object>
             {
-                id = zaniyatie.Id,
-                name = zaniyatie.Name,
-                minutes = zaniyatie.MinutesMissed,
-                explanationText = zaniyatie.ExplanationText // Объяснительная как текст
+                ["@id"] = zaniyatie.Id,
+                ["@name"] = zaniyatie.Name,
+                ["@minutes"] = zaniyatie.MinutesMissed,
+                ["@explanationText"] = (object)zaniyatie.ExplanationText ?? DBNull.Value
             };
-            var result = Connection.Query(query);
-            return result != null;
+
+            int rowsAffected = Connection.Execute(sql, parameters);
+            return rowsAffected > 0;
         }
 
         public bool Delete(int id)
         {
-            string query = "DELETE FROM `Zaniyatie` WHERE `Id` = @id";
-
-            var parameters = new { id };
-            var result = Connection.Query(query);
-            return result != null;
+            const string sql = @"
+        DELETE FROM `Zaniyatie`
+        WHERE `Id` = @id;
+    ";
+            var parameters = new Dictionary<string, object>
+            {
+                ["@id"] = id
+            };
+            int rowsAffected = Connection.Execute(sql, parameters);
+            return rowsAffected > 0;
         }
+
     }
 }
 
