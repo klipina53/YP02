@@ -4,8 +4,11 @@ using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
+using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using Microsoft.Win32;
 using YP._02.Classes;
 using YP._02.Context;
 
@@ -213,6 +216,102 @@ namespace YP._02.Stranici
                     _selectedZaniyatie.ExplanationText == "Есть объяснительная";
                 hiddenPanelButton.Content = "Сохранить";
                 hiddenPanel.Visibility = Visibility.Visible;
+            }
+        }
+
+        // Порог минут для направления на пересдачу
+        private const int RetakeThresholdMinutes = 90;
+
+        public PropuskiZanyatiy(UserRole userRole)
+        {
+            InitializeComponent();
+            // ваш существующий код…
+
+            // Добавляем кнопку «Отчёт на пересдачу»
+            var btnRetakeReport = new Button
+            {
+                Content = "Отчёт: на пересдачу",
+                Margin = new Thickness(5),
+                HorizontalAlignment = HorizontalAlignment.Left
+            };
+            btnRetakeReport.Click += GenerateRetakeReport_Click;
+            // Предположим, что у вас есть панель с названием toolbarPanel
+            toolbarPanel.Children.Add(btnRetakeReport);
+        }
+
+        private void GenerateRetakeReport_Click(object sender, RoutedEventArgs e)
+        {
+            // 1) собираем все пропуски, подлежащие пересдаче:
+            //    либо без объяснительной, либо превышают порог
+            var items = _context.LoadZaniyatia()
+                .Where(z => z.ExplanationText == "Нет объяснительной"
+                         || z.MinutesMissed >= RetakeThresholdMinutes)
+                .ToList();
+
+            // 2) строим FlowDocument
+            var doc = new FlowDocument
+            {
+                PagePadding = new Thickness(40),
+                ColumnWidth = double.PositiveInfinity
+            };
+            // Заголовок
+            doc.Blocks.Add(new Paragraph(new Run("Направления на пересдачу"))
+            {
+                FontSize = 22,
+                FontWeight = FontWeights.Bold,
+                TextAlignment = TextAlignment.Center,
+                Margin = new Thickness(0, 0, 0, 20)
+            });
+
+            // Таблица: Название, Минут пропуска, Объяснительная
+            var table = new Table();
+            for (int i = 0; i < 3; i++)
+                table.Columns.Add(new TableColumn());
+            // Шапка
+            var header = new TableRow();
+            header.Cells.Add(new TableCell(new Paragraph(new Run("Занятие"))) { FontWeight = FontWeights.Bold });
+            header.Cells.Add(new TableCell(new Paragraph(new Run("Мин. пропусков"))) { FontWeight = FontWeights.Bold });
+            header.Cells.Add(new TableCell(new Paragraph(new Run("Объяснительная"))) { FontWeight = FontWeights.Bold });
+            var headGroup = new TableRowGroup();
+            headGroup.Rows.Add(header);
+            table.RowGroups.Add(headGroup);
+            // Данные
+            var bodyGroup = new TableRowGroup();
+            foreach (var z in items)
+            {
+                var row = new TableRow();
+                row.Cells.Add(new TableCell(new Paragraph(new Run(z.Name))));
+                row.Cells.Add(new TableCell(new Paragraph(new Run(z.MinutesMissed.ToString()))));
+                row.Cells.Add(new TableCell(new Paragraph(new Run(z.ExplanationText))));
+                bodyGroup.Rows.Add(row);
+            }
+            table.RowGroups.Add(bodyGroup);
+            doc.Blocks.Add(table);
+
+            // 3) печать или сохранение
+            var printDlg = new PrintDialog();
+            if (printDlg.ShowDialog() == true)
+            {
+                printDlg.PrintDocument(((IDocumentPaginatorSource)doc).DocumentPaginator,
+                                       "Направления на пересдачу");
+            }
+            else
+            {
+                var saveDlg = new SaveFileDialog
+                {
+                    Filter = "XPS Document (*.xps)|*.xps",
+                    FileName = "RetakeReport.xps"
+                };
+                if (saveDlg.ShowDialog() == true)
+                {
+                    using (var xpsDoc = new XpsDocument(saveDlg.FileName, FileAccess.ReadWrite))
+                    {
+                        var writer = XpsDocument.CreateXpsDocumentWriter(xpsDoc);
+                        writer.Write(((IDocumentPaginatorSource)doc).DocumentPaginator);
+                    }
+                    MessageBox.Show($"Отчёт сохранён: {saveDlg.FileName}",
+                                    "Готово", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
             }
         }
 
